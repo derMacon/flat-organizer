@@ -1,0 +1,5 @@
+com\example\restservice\RestServiceApplication.class
+com\example\restservice\GreetingController.class
+com\example\restservice\Greeting.class
+com\example\restservice\Item.class
+com\example\restservice\TestClass.class
