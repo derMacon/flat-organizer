@@ -3,6 +3,8 @@ import 'item.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+const String server_ip = "10.0.2.2";
+
 void main() {
   runApp(MaterialApp(
     home: ItemList(),
@@ -22,9 +24,9 @@ class _ItemListState extends State<ItemList> {
   /**
    * Sends Post request to server using json syntax
    */
-  Future<void> sendPost() async {
-    var url = "http://10.0.2.2:8080/post";
-    var body = json.encode({"name": "send name", "count": "8", "requester": "send requester"});
+  Future<void> sendPost(Map<String, dynamic> data) async {
+    var url = "http://" + server_ip + ":8080/post";
+    var body = json.encode(data);
     Map<String,String> headers = {
       'Content-type' : 'application/json',
       'Accept': 'application/json',
@@ -39,9 +41,15 @@ class _ItemListState extends State<ItemList> {
   @override
   void initState() {
     super.initState();
-    print('initState function ran');
     updateList();
-    sendPost();
+
+    Map<String, dynamic> data = {
+      "name": "send name",
+      "count": 8,
+      "requester": "send requester"
+    };
+
+    sendPost(data);
   }
 
   /**
@@ -59,7 +67,7 @@ class _ItemListState extends State<ItemList> {
    * Fetch items from endpoint
    */
   Future<List<Item>> getData() async {
-    http.Response response = await http.get("http://10.0.2.2:8080/greeting");
+    http.Response response = await http.get("http://" + server_ip + ":8080/greeting");
     var parsed = jsonDecode(response.body);
     List<Item> item_lst =
         (parsed as List).map((data) => new Item.fromJson(data)).toList();
