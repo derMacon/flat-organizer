@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="ISO-8859-1">
@@ -13,6 +13,7 @@
     <hr/>
     <div id="welcome">
         <p><a href="/welcome" class="text-primary">noSecurity endpoint</a></p>
+        <p th:text="${msg}" />
     </div>
 </div>
 </body>
