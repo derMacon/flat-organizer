@@ -1,4 +1,4 @@
-package com.dermacon.securewebapp;
+package com.dermacon.securewebapp.data;
 
 
 import javax.persistence.Column;

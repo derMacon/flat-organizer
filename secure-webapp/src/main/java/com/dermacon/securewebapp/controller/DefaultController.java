@@ -1,5 +1,7 @@
-package com.dermacon.securewebapp;
+package com.dermacon.securewebapp.controller;
 
+import com.dermacon.securewebapp.data.User;
+import com.dermacon.securewebapp.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

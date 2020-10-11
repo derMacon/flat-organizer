@@ -1,5 +1,7 @@
-package com.dermacon.securewebapp;
+package com.dermacon.securewebapp.security.user;
 
+import com.dermacon.securewebapp.data.User;
+import com.dermacon.securewebapp.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
