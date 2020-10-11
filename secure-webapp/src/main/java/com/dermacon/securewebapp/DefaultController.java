@@ -1,15 +1,21 @@
 package com.dermacon.securewebapp;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import java.util.List;
+
+@RestController
 public class DefaultController {
 
+    @Autowired
+    UserRepository userRepository;
+
     @RequestMapping("/")
-    public String index() {
-        return "index";
+    public List<User> index() {
+        return (List<User>) userRepository.findAll();
+//        return "index";
     }
 
     @RequestMapping("/noSecurity")
