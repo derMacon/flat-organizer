@@ -37,7 +37,8 @@ public class DefaultController {
 
     @ModelAttribute
     public void addAttributes(Model model) {
-        model.addAttribute("msg", "Welcome to the Netherlands!");
+        List<User> users = (List<User>)userRepository.findAll();
+        model.addAttribute("users", users);
     }
 
 }

@@ -13,7 +13,10 @@
     <hr/>
     <div id="welcome">
         <p><a href="/welcome" class="text-primary">noSecurity endpoint</a></p>
-        <p th:text="${msg}" />
+        <c:forEach items="${users}" var="user">
+            ${user.username}
+        </c:forEach>
+        <p th:text="${users}" />
     </div>
 </div>
 </body>
