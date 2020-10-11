@@ -13,12 +13,9 @@ public class User {
     @GeneratedValue
     private long id;
 
-//    @NotEmpty(message = "username is required")
     @Column(unique = true)
     private String username;
 
-
-//    @NotEmpty(message = "password is required")
     private String password;
 
     protected User() {}
