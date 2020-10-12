@@ -28,6 +28,7 @@ CREATE TABLE flatmate (
 
 CREATE TABLE item (
   item_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  item_count INT(6) UNSIGNED NOT NULL,
   flatmate_id INT(6) UNSIGNED NOT NULL,
   FOREIGN KEY (flatmate_id) REFERENCES flatmate (flatmate_id),
   item_name VARCHAR(500) NOT NULL
@@ -35,6 +36,7 @@ CREATE TABLE item (
 
 INSERT INTO user (user_id, username, password) VALUES (1, "user1", "password");
 INSERT INTO user (user_id, username, password) VALUES (2, "user2", "password");
+INSERT INTO user (user_id, username, password) VALUES (20, "a", "p");
 
 INSERT INTO room (room_id, level, kitchen_id, toilet_id) VALUES (3, 0, 0, 0);
 INSERT INTO room (room_id, level, kitchen_id, toilet_id) VALUES (4, 1, 1, 1);
@@ -45,6 +47,6 @@ VALUES (5, 1, 3, "firstname u1", "lastname u1", '2018-10-20');
 INSERT INTO flatmate (flatmate_id, user_id, room_id, firstname, lastname, birthday)
 VALUES (6, 2, 4, "firstname u2", "lastname u2", '2018-10-20');
 
-INSERT INTO item (item_id, flatmate_id, item_name) VALUES (7, 5, "product 1");
-INSERT INTO item (item_id, flatmate_id, item_name) VALUES (8, 5, "product 2");
+INSERT INTO item (item_id, item_count, flatmate_id, item_name) VALUES (7, 5, 5, "product 1");
+INSERT INTO item (item_id, item_count, flatmate_id, item_name) VALUES (8, 5, 5, "product 2");
 

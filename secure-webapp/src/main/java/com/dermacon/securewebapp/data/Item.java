@@ -11,8 +11,9 @@ public class Item {
     @GeneratedValue
     private long item_id;
 
-    private String item_name;
+    private int item_count;
 
+    private String item_name;
 
     private int flatmate_id;
 
@@ -22,6 +23,15 @@ public class Item {
         this.item_name = item_name;
         this.flatmate_id = flatmate_id;
     }
+
+    public int getItem_count() {
+        return item_count;
+    }
+
+    public void setItem_count(int item_count) {
+        this.item_count = item_count;
+    }
+
 
     public long getItem_id() {
         return item_id;

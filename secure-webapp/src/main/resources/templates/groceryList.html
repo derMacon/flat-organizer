@@ -48,6 +48,7 @@
 <!--            </tr>-->
             <tr th:each="item : ${saved_items}">
                 <td><span th:text="${item.item_name}"> item name </span></td>
+                <td><span th:text="${item.item_count}"> item name </span></td>
                 <td><span th:text="${item.flatmate_id}"> flatmate id </span></td>
             </tr>
             </tbody>
@@ -64,10 +65,11 @@
             <form action="#" th:action="@{/groceryList}" method="post" th:object="${item}">
                 <label>name:</label>
                 <input type="text" th:field="*{item_name}" /><br/>
+                <input type="text" th:field="*{item_count}" /><br/>
 
                 <br/>
 
-                <button type="submit">Register</button>
+                <button type="submit">add item</button>
             </form>
         </div>
 
