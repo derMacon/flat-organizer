@@ -1,6 +1,7 @@
 package com.dermacon.securewebapp.controller;
 
 import com.dermacon.securewebapp.data.Item;
+import com.dermacon.securewebapp.data.ItemRepository;
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -20,6 +22,9 @@ public class DefaultController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    ItemRepository itemRepository;
 
     @RequestMapping("/")
     public String index(@ModelAttribute("currUser") User user) {
@@ -56,6 +61,9 @@ public class DefaultController {
         Item item = new Item();
         model.addAttribute("item", item);
 
+        Iterable<Item> saved_items = itemRepository.findAll();
+        model.addAttribute("saved_items", saved_items);
+
         return "groceryList";
     }
 
@@ -63,6 +71,14 @@ public class DefaultController {
 
     @PostMapping("/groceryList")
     public String submitForm(@ModelAttribute("item") Item item) {
+        User currUser = (User) SecurityContextHolder.getContext()
+        .getAuthentication().getPrincipal();
+
+        int id = (int)currUser.getUser_id();
+        item.setFlatmate_id(id);
+
+        itemRepository.save(new Item("test input", 3));
+
         System.out.println(item);
         return "groceryList";
     }

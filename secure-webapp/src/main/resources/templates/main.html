@@ -15,16 +15,20 @@
 
         <nav class="navigation">
             <ul class="navigation__list navigation__list--inline">
-                <li class="navigation__item"><a href="/" class="is-active">Home</a></li>
+                <li
+                        class="navigation__item"><a href="/" class="is-active">Home
+                </a></li>
                 <li class="navigation__item"><a href="/groceryList">Einkaufsliste</a></li>
                 <li class="navigation__item"><a href="/noSecurity">noSecurity endpoint</a></li>
-                <li class="navigation__item"><a href="#">Contact</a></li>
+                <li class="navigation__item"><a href="/information">Information</a></li>
             </ul>
         </nav>
 
     </div>
 
 </header>
+
+<!--<div th:insert="fragments/header :: header"></div>-->
 
 <main class="main">
 
@@ -40,5 +44,6 @@
     </div>
 
 </main>
+<div th:insert="fragments/footer :: footer"></div>
 </body>
 </html>

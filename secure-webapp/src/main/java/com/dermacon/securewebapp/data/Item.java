@@ -9,49 +9,50 @@ public class Item {
 
     @Id
     @GeneratedValue
-    private long id;
+    private long item_id;
 
-    private String productName;
+    private String item_name;
 
-    private int productCount;
+
+    private int flatmate_id;
 
     public Item() {}
 
-    public Item(String productName, int productCount) {
-        this.productName = productName;
-        this.productCount = productCount;
+    public Item(String item_name, int flatmate_id) {
+        this.item_name = item_name;
+        this.flatmate_id = flatmate_id;
     }
 
-    public long getId() {
-        return id;
+    public long getItem_id() {
+        return item_id;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setItem_id(long item_id) {
+        this.item_id = item_id;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getItem_name() {
+        return item_name;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setItem_name(String item_name) {
+        this.item_name = item_name;
     }
 
-    public int getProductCount() {
-        return productCount;
+    public int getFlatmate_id() {
+        return flatmate_id;
     }
 
-    public void setProductCount(int productCount) {
-        this.productCount = productCount;
+    public void setFlatmate_id(int flatmate_id) {
+        this.flatmate_id = flatmate_id;
     }
 
     @Override
     public String toString() {
         return "Item{" +
-                "id=" + id +
-                ", productName='" + productName + '\'' +
-                ", productCount=" + productCount +
+                "item_id=" + item_id +
+                ", item_name='" + item_name + '\'' +
+                ", flatmate_id=" + flatmate_id +
                 '}';
     }
 }
