@@ -13,8 +13,8 @@
     <hr/>
     <div id="welcome">
         <p><a href="/welcome" class="text-primary">noSecurity endpoint</a></p>
-        <tr th:each="student: ${users}">
-            <td th:text="${student.id}" />
+        <tr th:each="student: ${user}">
+            <td th:text="${student.user_id}" />
             <td th:text="${student.username}" />
         </tr>
         <td th:text="${currUser}" />
