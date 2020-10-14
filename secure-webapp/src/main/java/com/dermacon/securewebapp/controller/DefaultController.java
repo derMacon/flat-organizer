@@ -1,5 +1,7 @@
 package com.dermacon.securewebapp.controller;
 
+import com.dermacon.securewebapp.data.Flatmate;
+import com.dermacon.securewebapp.data.FlatmateRepository;
 import com.dermacon.securewebapp.data.Item;
 import com.dermacon.securewebapp.data.ItemRepository;
 import com.dermacon.securewebapp.data.User;
@@ -25,6 +27,9 @@ public class DefaultController {
 
     @Autowired
     ItemRepository itemRepository;
+
+    @Autowired
+    FlatmateRepository flatmateRepository;
 
     @RequestMapping("/")
     public String index(@ModelAttribute("currUser") User user) {
@@ -71,14 +76,25 @@ public class DefaultController {
 
     @PostMapping("/groceryList")
     public String submitForm(@ModelAttribute("item") Item item) {
-        User currUser = (User) SecurityContextHolder.getContext()
-        .getAuthentication().getPrincipal();
+        // for some reason the id is always 0
+        String user_name = ((User) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal()).getUsername();
+
+        User user = userRepository.findByUsername(user_name);
 
         // set flatmate in item
 
-//        itemRepository.save(new Item("test input", 3));
+//        Flatmate fm = userRepository.findByUser_id(currUser.getUser_id());
+//        currUser.setUser_id(1);
 
-        System.out.println(currUser);
+        System.out.println("user id: " + user.getUser_id());
+        Flatmate fm = flatmateRepository.findByUser(user);
+
+//        itemRepository.save(new Item(2, "new product", fm));
+
+        System.out.println(user);
         return "groceryList";
     }
 

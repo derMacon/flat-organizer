@@ -1,5 +1,6 @@
 package com.dermacon.securewebapp.data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,11 +24,11 @@ public class Flatmate {
     @Temporal(TemporalType.DATE)
     private Date birthday;
 
-    @OneToOne
+    @OneToOne(cascade= CascadeType.ALL)
     @JoinColumn(name="room_id")
     private Room room;
 
-    @OneToOne
+    @OneToOne(cascade= CascadeType.ALL)
     @JoinColumn(name="user_id")
     private User user;
 
@@ -87,5 +88,17 @@ public class Flatmate {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Flatmate{" +
+                "flatmate_id=" + flatmate_id +
+                ", firstname='" + firstname + '\'' +
+                ", surname='" + surname + '\'' +
+                ", birthday=" + birthday +
+                ", room=" + room +
+                ", user=" + user +
+                '}';
     }
 }

@@ -1,5 +1,6 @@
 package com.dermacon.securewebapp.data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,7 +18,7 @@ public class Item {
 
     private String item_name;
 
-    @ManyToOne
+    @ManyToOne(cascade= CascadeType.ALL)
     @JoinColumn(name = "flatmate_id")
     private Flatmate flatmate;
 
