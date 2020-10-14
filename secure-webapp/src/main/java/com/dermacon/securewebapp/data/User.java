@@ -19,7 +19,8 @@ public class User {
 
     private String password;
 
-    protected User() {}
+    protected User() {
+    }
 
     public User(String username, String password) {
         this.username = username;

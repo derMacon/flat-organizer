@@ -26,20 +26,27 @@ public class GroceryListController {
     @Autowired
     FlatmateRepository flatmateRepository;
 
+
+    @GetMapping("/groceryList")
+    public String showForm(Model model) {
+        Item item = new Item();
+        model.addAttribute("item", item);
+
+        Iterable<Item> saved_items = itemRepository.findAll();
+        model.addAttribute("saved_items", saved_items);
+
+        for (Item currItem : saved_items) {
+            System.out.print(item + ", ");
+        }
+
+        return "groceryList";
+    }
+
+
     @PostMapping("/groceryList")
     public String submitForm(@ModelAttribute("item") Item item) {
-        // for some reason the id is always 0
-        String user_name = ((User) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal()).getUsername();
-
-        User user = userRepository.findByUsername(user_name);
-
         // set flatmate in item
-
-//        Flatmate fm = userRepository.findByUser_id(currUser.getUser_id());
-//        currUser.setUser_id(1);
+        User user = getLoggedInUser();
 
         System.out.println("user id: " + user.getUser_id());
         Flatmate fm = flatmateRepository.findByUser(user);
@@ -52,17 +59,14 @@ public class GroceryListController {
     }
 
 
+    private User getLoggedInUser() {
+        // for some reason the id is always 0
+        String user_name = ((User) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal()).getUsername();
 
-
-    @GetMapping("/groceryList")
-    public String showForm(Model model) {
-        Item item = new Item();
-        model.addAttribute("item", item);
-
-        Iterable<Item> saved_items = itemRepository.findAll();
-        model.addAttribute("saved_items", saved_items);
-
-        return "groceryList";
+        return userRepository.findByUsername(user_name);
     }
 
 

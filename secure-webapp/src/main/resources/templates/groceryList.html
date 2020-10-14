@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <title>title</title>
-    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body>
 
@@ -16,7 +16,7 @@
         <nav class="navigation">
             <ul class="navigation__list navigation__list--inline">
                 <li
-                        class="navigation__item"><a href="/" class="is-active">Home
+                        class="navigation__item"><a class="is-active" href="/">Home
                 </a></li>
                 <li class="navigation__item"><a href="/groceryList">Einkaufsliste</a></li>
                 <li class="navigation__item"><a href="/noSecurity">noSecurity endpoint</a></li>
@@ -38,34 +38,30 @@
         <table>
             <thead>
             <tr>
-                <th> Artikel </th>
-                <th> Mitbewohner </th>
+                <th>Artikel</th>
+                <th>Anzahl</th>
+                <th>Mitbewohner</th>
             </tr>
             </thead>
             <tbody>
-<!--            <tr th:if="${saved_items.empty}">-->
-<!--                <td colspan="2"> No Books Available </td>-->
-<!--            </tr>-->
+            <!--            <tr th:if="${saved_items.empty}">-->
+            <!--                <td colspan="2"> No Books Available </td>-->
+            <!--            </tr>-->
             <tr th:each="item : ${saved_items}">
                 <td><span th:text="${item.item_name}"> item name </span></td>
                 <td><span th:text="${item.item_count}"> item name </span></td>
-                <td><span th:text="${item.flatmate}"> flatmate id </span></td>
+                <td><span th:text="${item.flatmate.getFirstname()}"> flatmate id </span></td>
             </tr>
             </tbody>
         </table>
 
 
-
-
-
-
-
         <div align="center">
             <h1>neues Produkt hinzufuegen</h1>
-            <form action="#" th:action="@{/groceryList}" method="post" th:object="${item}">
+            <form action="#" method="post" th:action="@{/groceryList}" th:object="${item}">
                 <label>name:</label>
-                <input type="text" th:field="*{item_name}" /><br/>
-                <input type="text" th:field="*{item_count}" /><br/>
+                <input th:field="*{item_name}" type="text"/><br/>
+                <input th:field="*{item_count}" type="text"/><br/>
 
                 <br/>
 

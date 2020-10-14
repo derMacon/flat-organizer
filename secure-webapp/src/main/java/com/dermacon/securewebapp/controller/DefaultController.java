@@ -1,22 +1,14 @@
 package com.dermacon.securewebapp.controller;
 
-import com.dermacon.securewebapp.data.Flatmate;
-import com.dermacon.securewebapp.data.FlatmateRepository;
-import com.dermacon.securewebapp.data.Item;
-import com.dermacon.securewebapp.data.ItemRepository;
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -49,14 +41,11 @@ public class DefaultController {
 
     @ModelAttribute
     public void addAttributes(Model model) {
-        List<User> users = (List<User>)userRepository.findAll();
+        List<User> users = (List<User>) userRepository.findAll();
 //        List<User> users = new LinkedList<>();
 
         model.addAttribute("users", users);
     }
-
-
-
 
 
 }

@@ -19,11 +19,12 @@ public class Item {
 
     private String item_name;
 
-    @ManyToOne(cascade= CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "flatmate_id")
     private Flatmate flatmate;
 
-    public Item() {}
+    public Item() {
+    }
 
     public Item(int item_count, String item_name, Flatmate flatmate_id) {
         this.item_count = item_count;
@@ -61,5 +62,15 @@ public class Item {
 
     public void setFlatmate(Flatmate flatmate) {
         this.flatmate = flatmate;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "item_id=" + item_id +
+                ", item_count=" + item_count +
+                ", item_name='" + item_name + '\'' +
+                ", flatmate=" + flatmate +
+                '}';
     }
 }

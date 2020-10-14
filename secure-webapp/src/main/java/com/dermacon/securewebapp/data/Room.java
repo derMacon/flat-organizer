@@ -15,7 +15,8 @@ public class Room {
     private int level;
     private String room_description;
 
-    Room() {}
+    Room() {
+    }
 
     public Room(int level, String room_description) {
         this.level = level;
