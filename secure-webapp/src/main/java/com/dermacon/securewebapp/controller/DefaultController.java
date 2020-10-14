@@ -74,12 +74,11 @@ public class DefaultController {
         User currUser = (User) SecurityContextHolder.getContext()
         .getAuthentication().getPrincipal();
 
-        int id = (int)currUser.getUser_id();
-        item.setFlatmate_id(id);
+        // set flatmate in item
 
-        itemRepository.save(new Item("test input", 3));
+//        itemRepository.save(new Item("test input", 3));
 
-        System.out.println(item);
+        System.out.println(currUser);
         return "groceryList";
     }
 

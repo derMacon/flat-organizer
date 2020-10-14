@@ -3,6 +3,8 @@ package com.dermacon.securewebapp.data;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Item {
@@ -15,13 +17,24 @@ public class Item {
 
     private String item_name;
 
-    private int flatmate_id;
+    @ManyToOne
+    @JoinColumn(name = "flatmate_id")
+    private Flatmate flatmate;
 
     public Item() {}
 
-    public Item(String item_name, int flatmate_id) {
+    public Item(int item_count, String item_name, Flatmate flatmate_id) {
+        this.item_count = item_count;
         this.item_name = item_name;
-        this.flatmate_id = flatmate_id;
+        this.flatmate = flatmate_id;
+    }
+
+    public long getItem_id() {
+        return item_id;
+    }
+
+    public void setItem_id(long item_id) {
+        this.item_id = item_id;
     }
 
     public int getItem_count() {
@@ -32,15 +45,6 @@ public class Item {
         this.item_count = item_count;
     }
 
-
-    public long getItem_id() {
-        return item_id;
-    }
-
-    public void setItem_id(long item_id) {
-        this.item_id = item_id;
-    }
-
     public String getItem_name() {
         return item_name;
     }
@@ -49,20 +53,11 @@ public class Item {
         this.item_name = item_name;
     }
 
-    public int getFlatmate_id() {
-        return flatmate_id;
+    public Flatmate getFlatmate() {
+        return flatmate;
     }
 
-    public void setFlatmate_id(int flatmate_id) {
-        this.flatmate_id = flatmate_id;
-    }
-
-    @Override
-    public String toString() {
-        return "Item{" +
-                "item_id=" + item_id +
-                ", item_name='" + item_name + '\'' +
-                ", flatmate_id=" + flatmate_id +
-                '}';
+    public void setFlatmate(Flatmate flatmate) {
+        this.flatmate = flatmate;
     }
 }
