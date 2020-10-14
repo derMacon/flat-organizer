@@ -91,10 +91,11 @@ public class DefaultController {
 
         System.out.println("user id: " + user.getUser_id());
         Flatmate fm = flatmateRepository.findByUser(user);
+        Item new_item = new Item(2, "new product", fm);
 
-//        itemRepository.save(new Item(2, "new product", fm));
+        itemRepository.save(new_item);
 
-        System.out.println(user);
+        System.out.println(fm);
         return "groceryList";
     }
 

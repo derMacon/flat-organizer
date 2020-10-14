@@ -3,6 +3,7 @@ package com.dermacon.securewebapp.data;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -11,7 +12,7 @@ import javax.persistence.ManyToOne;
 public class Item {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long item_id;
 
     private int item_count;
