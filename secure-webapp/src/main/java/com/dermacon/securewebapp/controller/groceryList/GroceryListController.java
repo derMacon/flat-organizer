@@ -13,7 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -43,21 +46,21 @@ public class GroceryListController {
         Iterable<Item> saved_items = itemRepository.findAll();
         model.addAttribute("saved_items", saved_items);
 
-        List<SelectableItem> selectableItems = new LinkedList<>();
-        for (Item currItem : saved_items) {
-            selectableItems.add(new SelectableItem(currItem, false));
+//        List<SelectableItem> selectableItems = new LinkedList<>();
+//        for (Item currItem : saved_items) {
+//            selectableItems.add(new SelectableItem(currItem, false));
+//
+//        }
 
-        }
-
-        model.addAttribute("selectable_items", selectableItems);
+        model.addAttribute("selected_items", new SelectedItemContainer());
 
         return "groceryList";
     }
 
     @PostMapping("/groceryList/removeFromList")
-    public String removeItems(@ModelAttribute("selectable_items") Iterable<Item> items_selected) {
+    public String removeItems(@ModelAttribute("selectable_items") SelectedItemContainer selectedItems) {
 
-        for (Item currItem : items_selected) {
+        for (Item currItem : selectedItems.getCheckedItems()) {
             System.out.print(currItem + ", ");
         }
 
@@ -87,6 +90,42 @@ public class GroceryListController {
 
         return userRepository.findByUsername(user_name);
     }
+
+
+
+    @RequestMapping(value = "/showForm", method= RequestMethod.GET)
+    public String showFormSO(Model model) {
+        List<String> allItems = new ArrayList<String>();
+        allItems.add("value1");
+        allItems.add("value2");
+        allItems.add("value3");
+        model.addAttribute("allItems", allItems);
+
+        Foo foo = new Foo();
+        List<String> checkedItems = new ArrayList<String>();
+        // value1 will be checked by default.
+        checkedItems.add("value1");
+        foo.setCheckedItems(checkedItems);
+        model.addAttribute("foo", foo);
+
+
+        return "general";
+
+    }
+
+    @RequestMapping(value = "/processForm", method=RequestMethod.POST)
+    public String processForm(@ModelAttribute(value="foo") Foo foo) {
+        // Get value of checked item.
+        List<String> checkedItems = foo.getCheckedItems();
+
+        for (String curr : checkedItems) {
+            System.out.println(curr);
+        }
+
+
+        return "redirect:/groceryList";
+    }
+
 
 
 }

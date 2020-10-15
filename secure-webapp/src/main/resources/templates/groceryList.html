@@ -34,32 +34,52 @@
 
     <div class="grid">
 
-        <table>
-            <thead>
-            <tr>
-                <th>Artikel</th>
-                <th>Anzahl</th>
-                <th>Mitbewohner</th>
-                <th>Im Einkaufswagen</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!--            <tr th:if="${saved_items.empty}">-->
-            <!--                <td colspan="2"> No Books Available </td>-->
-            <!--            </tr>-->
-            <tr th:each="currItem : ${selectable_items}">
-                <td><span th:text="${currItem.getItem().getItem_name()}"> item name </span></td>
-                <td><span th:text="${currItem.getItem().item_count}"> item name </span></td>
-                <td><span th:text="${currItem.getItem().flatmate.getFirstname()}"> flatmate id </span></td>
 
-                <td>
-                    <input type="checkbox" name="shopping_state"
-                           th:value="${currItem.isSelected()}"/>
-                </td>
+<!--        <form action="#" method="post" th:action="@{/groceryList/removeFromList}"-->
+<!--              th:object="${selectable_items}">-->
+<!--            <table>-->
+<!--                <thead>-->
+<!--                <tr>-->
+<!--                    <th>Artikel</th>-->
+<!--                    <th>Anzahl</th>-->
+<!--                    <th>Mitbewohner</th>-->
+<!--                    <th>Im Einkaufswagen</th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--                &lt;!&ndash;            <tr th:if="${saved_items.empty}">&ndash;&gt;-->
+<!--                &lt;!&ndash;                <td colspan="2"> No Books Available </td>&ndash;&gt;-->
+<!--                &lt;!&ndash;            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                <tr th:each="currItem : ${selectable_items}">&ndash;&gt;-->
+<!--                <tr th:each="currItem : ${selectable_items}">-->
+<!--                    <td><span th:text="${currItem.getItem().getItem_name()}"> item name </span></td>-->
+<!--                    <td><span th:text="${currItem.getItem().item_count}"> item name </span></td>-->
+<!--                    <td><span th:text="${currItem.getItem().flatmate.getFirstname()}"> flatmate id </span></td>-->
 
-            </tr>
-            </tbody>
-        </table>
+<!--                    <td>-->
+<!--                        <input type="checkbox" name="shopping_state"-->
+<!--                               th:field="*{}"-->
+<!--                               th:value="${currItem.isSelected()}"/>-->
+<!--                    </td>-->
+<!--                </tr>-->
+
+<!--                <button type="submit">Selektierte Artikel entfernen</button>-->
+<!--                </tbody>-->
+<!--            </table>-->
+<!--        </form>-->
+
+
+        <form action="#" th:action="@{/groceryList/removeFromList}" th:object="${selected_items}" method="post">
+            <div th:each="item : ${saved_items}">
+                <input type="checkbox" th:field="*{checkedItems}" th:value="${item}" />
+                <label th:text="${item.getItem_name()}">example</label>
+            </div>
+            <input type="submit" />
+        </form>
+
+
+
+
 
         <div align="center">
             <h1>neues Produkt hinzufuegen</h1>

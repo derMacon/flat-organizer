@@ -12,6 +12,18 @@
 <aside>
     <div>This is a sidebar</div>
 </aside>
+
+
+<form action="#" th:action="@{/processForm}" th:object="${foo}" method="post">
+    <div th:each="item : ${allItems}">
+        <input type="checkbox" th:field="*{checkedItems}" th:value="${item}" />
+        <label th:text="${item}">example</label>
+    </div>
+    <input type="submit" />
+</form>
+
+
+
 <div class="another">This is another sidebar</div>
 <footer th:fragment="footer">
     <a th:href="@{/fragments}">Fragments Index</a> |
