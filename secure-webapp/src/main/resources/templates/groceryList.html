@@ -34,27 +34,32 @@
 
     <div class="grid">
 
-
         <table>
             <thead>
             <tr>
                 <th>Artikel</th>
                 <th>Anzahl</th>
                 <th>Mitbewohner</th>
+                <th>Im Einkaufswagen</th>
             </tr>
             </thead>
             <tbody>
             <!--            <tr th:if="${saved_items.empty}">-->
             <!--                <td colspan="2"> No Books Available </td>-->
             <!--            </tr>-->
-            <tr th:each="item : ${saved_items}">
-                <td><span th:text="${item.item_name}"> item name </span></td>
-                <td><span th:text="${item.item_count}"> item name </span></td>
-                <td><span th:text="${item.flatmate.getFirstname()}"> flatmate id </span></td>
+            <tr th:each="currItem : ${selectable_items}">
+                <td><span th:text="${currItem.getItem().getItem_name()}"> item name </span></td>
+                <td><span th:text="${currItem.getItem().item_count}"> item name </span></td>
+                <td><span th:text="${currItem.getItem().flatmate.getFirstname()}"> flatmate id </span></td>
+
+                <td>
+                    <input type="checkbox" name="shopping_state"
+                           th:value="${currItem.isSelected()}"/>
+                </td>
+
             </tr>
             </tbody>
         </table>
-
 
         <div align="center">
             <h1>neues Produkt hinzufuegen</h1>
