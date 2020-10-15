@@ -35,9 +35,9 @@ public class GroceryListController {
         Iterable<Item> saved_items = itemRepository.findAll();
         model.addAttribute("saved_items", saved_items);
 
-        for (Item currItem : saved_items) {
-            System.out.print(item + ", ");
-        }
+//        for (Item currItem : saved_items) {
+//            System.out.print(currItem + ", ");
+//        }
 
         return "groceryList";
     }
@@ -46,16 +46,13 @@ public class GroceryListController {
     @PostMapping("/groceryList")
     public String submitForm(@ModelAttribute("item") Item item) {
         // set flatmate in item
-        User user = getLoggedInUser();
+        User currUser = getLoggedInUser();
+        Flatmate loggedInFlatmate = flatmateRepository.findByUser(currUser);
 
-        System.out.println("user id: " + user.getUser_id());
-        Flatmate fm = flatmateRepository.findByUser(user);
-        Item new_item = new Item(2, "new product", fm);
+        item.setFlatmate(loggedInFlatmate);
+        itemRepository.save(item);
 
-        itemRepository.save(new_item);
-
-        System.out.println(fm);
-        return "groceryList";
+        return "redirect:/groceryList";
     }
 
 
