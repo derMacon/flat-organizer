@@ -17,25 +17,20 @@ import java.util.Date;
 public class Flatmate {
 
     @Id
-    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long flatmateId;
 
-    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     private String firstname;
     @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     private String surname;
 
-    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     @Temporal(TemporalType.DATE)
     private Date birthday;
 
-    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;

@@ -14,18 +14,14 @@ import javax.persistence.ManyToOne;
 public class Item {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     private long itemId;
 
-    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     private int item_count;
 
-    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     private String item_name;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     @JoinColumn(name = "flatmate_id", nullable = true)
     private Flatmate flatmate;
 

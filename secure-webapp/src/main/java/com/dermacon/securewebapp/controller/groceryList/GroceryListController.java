@@ -16,14 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
 @Controller
 public class GroceryListController {
-
-    private final int ITEM_ID_FLD = 0;
 
     @Autowired
     ItemRepository itemRepository;
@@ -35,56 +32,59 @@ public class GroceryListController {
     FlatmateRepository flatmateRepository;
 
 
-    private User getLoggedInUser() {
-        // for some reason the id is always 0
-        String user_name = ((User) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal()).getUsername();
-
-        return userRepository.findByUsername(user_name);
-    }
-
-
-
+    /**
+     * Initializes model with
+     * - item instance that will overwritten when a new item will be added
+     * - all items that were previously selected
+     * - selected items which were clicked with the checkboxes
+     * @param model model provided by the framework
+     * @return grocery list thymeleaf template
+     */
     @RequestMapping(value = "/groceryList", method= RequestMethod.GET)
-    public String showFormSO(Model model) {
+    public String initGroceryList(Model model) {
         // adding item which will be set in the thymeleaf form and used
         // and overwritten when a new item will be added
-        Item item = new Item();
-        model.addAttribute("item", item);
+        model.addAttribute("item", new Item());
 
-        Iterable<Item> items = itemRepository.findAll();
-        model.addAttribute("allItems", items);
-
-        SelectedItems selectedItems = new SelectedItems();
-        List<Long> checkedItems = new ArrayList<>();
-        // value1 will be checked by default.
-//        checkedItems.add("value1");
-        selectedItems.setCheckedItems(checkedItems);
-        model.addAttribute("selectedItems", selectedItems);
+        model.addAttribute("allItems", itemRepository.findAll());
+        model.addAttribute("selectedItems", new SelectedItems());
 
         return "groceryList";
     }
 
+    /**
+     * Removes the selected items from the database
+     * @param selectedItems object which holds a list of item ids which should be deleted
+     * @return grocery list thymeleaf template
+     */
     @RequestMapping(value = "/processForm", method=RequestMethod.POST)
-    public String processForm(@ModelAttribute(value="selectedItems") SelectedItems selectedItems) {
-        // Get value of checked item.
+    public String processCheckboxForm(@ModelAttribute(value="selectedItems") SelectedItems selectedItems) {
+
         List<Long> checkedItems = selectedItems.getCheckedItems();
 
-
         for (Long curr : checkedItems) {
-            System.out.println(curr);
             Item item = itemRepository.findByItemId(curr);
+            System.out.println("removing item entity: " + item);
+
+            // remove associated flatmate before deleting entity
             item.setFlatmate(null);
-            itemRepository.deleteByItemId(curr);
+
+            // delete entity from database
+            itemRepository.delete(item);
         }
 
         return "redirect:/groceryList";
     }
 
+    /**
+     * Adds a new Item to the database. The reference to the
+     * current user will also be appended to the item entity
+     * itself
+     * @param item item provided by the html form
+     * @return grocery list thymeleaf template
+     */
     @PostMapping("/groceryList")
-    public String submitForm(@ModelAttribute("item") Item item) {
+    public String addNewItem(@ModelAttribute("item") Item item) {
         // set flatmate in item
         User currUser = getLoggedInUser();
         Flatmate loggedInFlatmate = flatmateRepository.findByUser(currUser);
@@ -95,6 +95,18 @@ public class GroceryListController {
         return "redirect:/groceryList";
     }
 
+    /**
+     * Determines the currently logged in user
+     * @return the currently logged in user
+     */
+    private User getLoggedInUser() {
+        // for some reason the id is always 0
+        String user_name = ((User) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal()).getUsername();
 
+        return userRepository.findByUsername(user_name);
+    }
 
 }
