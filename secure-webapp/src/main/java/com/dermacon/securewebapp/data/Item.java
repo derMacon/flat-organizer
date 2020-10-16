@@ -1,5 +1,7 @@
 package com.dermacon.securewebapp.data;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,14 +15,18 @@ public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long item_id;
+    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
+    private long itemId;
 
+    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     private int item_count;
 
+    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     private String item_name;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "flatmate_id")
+    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
+    @JoinColumn(name = "flatmate_id", nullable = true)
     private Flatmate flatmate;
 
     public Item() {
@@ -32,12 +38,12 @@ public class Item {
         this.flatmate = flatmate_id;
     }
 
-    public long getItem_id() {
-        return item_id;
+    public long getItemId() {
+        return itemId;
     }
 
-    public void setItem_id(long item_id) {
-        this.item_id = item_id;
+    public void setItemId(long itemId) {
+        this.itemId = itemId;
     }
 
     public int getItem_count() {
@@ -67,7 +73,7 @@ public class Item {
     @Override
     public String toString() {
         return "Item{" +
-                "item_id=" + item_id +
+                "item_id=" + itemId +
                 ", item_count=" + item_count +
                 ", item_name='" + item_name + '\'' +
                 ", flatmate=" + flatmate +

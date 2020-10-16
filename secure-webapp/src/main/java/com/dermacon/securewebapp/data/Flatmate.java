@@ -1,5 +1,7 @@
 package com.dermacon.securewebapp.data;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,19 +17,25 @@ import java.util.Date;
 public class Flatmate {
 
     @Id
+    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long flatmate_id;
+    private long flatmateId;
 
+    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     private String firstname;
+    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     private String surname;
 
+    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     @Temporal(TemporalType.DATE)
     private Date birthday;
 
+    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id")
     private Room room;
 
+    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
@@ -43,12 +51,12 @@ public class Flatmate {
         this.user = user;
     }
 
-    public long getFlatmate_id() {
-        return flatmate_id;
+    public long getFlatmateId() {
+        return flatmateId;
     }
 
-    public void setFlatmate_id(long flatmate_id) {
-        this.flatmate_id = flatmate_id;
+    public void setFlatmateId(long flatmateId) {
+        this.flatmateId = flatmateId;
     }
 
     public String getFirstname() {
@@ -94,7 +102,7 @@ public class Flatmate {
     @Override
     public String toString() {
         return "Flatmate{" +
-                "flatmate_id=" + flatmate_id +
+                "flatmate_id=" + flatmateId +
                 ", firstname='" + firstname + '\'' +
                 ", surname='" + surname + '\'' +
                 ", birthday=" + birthday +

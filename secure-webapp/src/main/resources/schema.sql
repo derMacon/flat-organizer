@@ -30,7 +30,7 @@ CREATE TABLE flatmate (
 CREATE TABLE item (
   item_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   item_count INT(6) UNSIGNED NOT NULL,
-  flatmate_id INT(6) UNSIGNED NOT NULL,
+  flatmate_id INT(6) UNSIGNED,
   FOREIGN KEY (flatmate_id) REFERENCES flatmate (flatmate_id),
   item_name VARCHAR(500) NOT NULL
 );
@@ -50,6 +50,9 @@ VALUES (5, 1, 3, "firstname u1", "surname u1", '2018-10-20');
 INSERT INTO flatmate (flatmate_id, user_id, room_id, firstname, surname, birthday)
 VALUES (6, 2, 4, "firstname u2", "surname u2", '2018-10-20');
 
-INSERT INTO item (item_id, item_count, flatmate_id, item_name) VALUES (7, 5, 5, "product 1");
-INSERT INTO item (item_id, item_count, flatmate_id, item_name) VALUES (8, 5, 5, "product 2");
+INSERT INTO flatmate (flatmate_id, user_id, room_id, firstname, surname, birthday)
+VALUES (7, 20, 4, "firstname short u", "surname short u", '2018-10-20');
+
+INSERT INTO item (item_id, item_count, flatmate_id, item_name) VALUES (8, 5, 5, "product 1");
+INSERT INTO item (item_id, item_count, flatmate_id, item_name) VALUES (9, 5, 5, "product 2");
 

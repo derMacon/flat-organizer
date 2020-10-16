@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional
 @Controller
 public class GroceryListController {
 
@@ -70,8 +72,15 @@ public class GroceryListController {
         // Get value of checked item.
         List<Long> checkedItems = selectedItems.getCheckedItems();
 
+
         for (Long curr : checkedItems) {
             System.out.println(curr);
+//            flatmateRepository.
+            Item item = itemRepository.findByItemId(curr);
+            item.setFlatmate(null);
+//            flatmateRepository.deleteByFlatmateId(item.getFlatmate().getFlatmateId());
+
+            itemRepository.deleteByItemId(curr);
         }
 
         return "redirect:/groceryList";

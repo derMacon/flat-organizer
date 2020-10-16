@@ -4,4 +4,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface FlatmateRepository extends CrudRepository<Flatmate, Long> {
     Flatmate findByUser(User user);
+    void deleteByFlatmateId(Long id);
 }
