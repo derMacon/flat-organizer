@@ -95,11 +95,9 @@ public class GroceryListController {
 
     @RequestMapping(value = "/showForm", method= RequestMethod.GET)
     public String showFormSO(Model model) {
-        List<String> allItems = new ArrayList<String>();
-        allItems.add("value1");
-        allItems.add("value2");
-        allItems.add("value3");
-        model.addAttribute("allItems", allItems);
+        List<Item> allItems = new ArrayList<>();
+        Iterable<Item> items = itemRepository.findAll();
+        model.addAttribute("allItems", items);
 
         Foo foo = new Foo();
         List<String> checkedItems = new ArrayList<String>();
