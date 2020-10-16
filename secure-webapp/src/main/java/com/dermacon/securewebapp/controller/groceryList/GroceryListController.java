@@ -21,6 +21,8 @@ import java.util.List;
 @Controller
 public class GroceryListController {
 
+    private final int ITEM_ID_FLD = 0;
+
     @Autowired
     ItemRepository itemRepository;
 
@@ -71,7 +73,6 @@ public class GroceryListController {
         for (String curr : checkedItems) {
             System.out.println(curr);
         }
-
 
         return "redirect:/groceryList";
     }
