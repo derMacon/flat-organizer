@@ -41,6 +41,19 @@
 </form>
 
 
+<div align="center">
+    <h1>neues Produkt hinzufuegen</h1>
+    <form action="#" method="post" th:action="@{/groceryList}" th:object="${item}">
+        <label>name:</label>
+        <input th:field="*{item_name}" type="text"/><br/>
+        <input th:field="*{item_count}" type="text"/><br/>
+
+        <br/>
+
+        <button type="submit">add item</button>
+    </form>
+</div>
+
 <div class="another">This is another sidebar</div>
 <footer th:fragment="footer">
     <a th:href="@{/fragments}">Fragments Index</a> |

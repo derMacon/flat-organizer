@@ -1,5 +1,6 @@
 package com.dermacon.securewebapp.controller.groceryList;
 
+import com.dermacon.securewebapp.data.Flatmate;
 import com.dermacon.securewebapp.data.FlatmateRepository;
 import com.dermacon.securewebapp.data.Item;
 import com.dermacon.securewebapp.data.ItemRepository;
@@ -10,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -43,6 +45,11 @@ public class GroceryListController {
 
     @RequestMapping(value = "/groceryList", method= RequestMethod.GET)
     public String showFormSO(Model model) {
+        // adding item which will be set in the thymeleaf form and used
+        // and overwritten when a new item will be added
+        Item item = new Item();
+        model.addAttribute("item", item);
+
         Iterable<Item> items = itemRepository.findAll();
         model.addAttribute("allItems", items);
 
@@ -65,6 +72,18 @@ public class GroceryListController {
             System.out.println(curr);
         }
 
+
+        return "redirect:/groceryList";
+    }
+
+    @PostMapping("/groceryList")
+    public String submitForm(@ModelAttribute("item") Item item) {
+        // set flatmate in item
+        User currUser = getLoggedInUser();
+        Flatmate loggedInFlatmate = flatmateRepository.findByUser(currUser);
+
+        item.setFlatmate(loggedInFlatmate);
+        itemRepository.save(item);
 
         return "redirect:/groceryList";
     }
