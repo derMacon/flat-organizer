@@ -2,7 +2,7 @@ package com.dermacon.securewebapp.controller.groceryList;
 
 import java.util.List;
 
-public class Foo {
+public class SelectedItems {
     private List<String> checkedItems;
 
     public List<String> getCheckedItems() {

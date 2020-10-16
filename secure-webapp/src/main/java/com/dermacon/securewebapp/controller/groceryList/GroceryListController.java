@@ -1,6 +1,5 @@
 package com.dermacon.securewebapp.controller.groceryList;
 
-import com.dermacon.securewebapp.data.Flatmate;
 import com.dermacon.securewebapp.data.FlatmateRepository;
 import com.dermacon.securewebapp.data.Item;
 import com.dermacon.securewebapp.data.ItemRepository;
@@ -10,16 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -52,20 +46,20 @@ public class GroceryListController {
         Iterable<Item> items = itemRepository.findAll();
         model.addAttribute("allItems", items);
 
-        Foo foo = new Foo();
+        SelectedItems selectedItems = new SelectedItems();
         List<String> checkedItems = new ArrayList<>();
         // value1 will be checked by default.
         checkedItems.add("value1");
-        foo.setCheckedItems(checkedItems);
-        model.addAttribute("foo", foo);
+        selectedItems.setCheckedItems(checkedItems);
+        model.addAttribute("selectedItems", selectedItems);
 
-        return "general";
+        return "groceryList";
     }
 
     @RequestMapping(value = "/processForm", method=RequestMethod.POST)
-    public String processForm(@ModelAttribute(value="foo") Foo foo) {
+    public String processForm(@ModelAttribute(value="selectedItems") SelectedItems selectedItems) {
         // Get value of checked item.
-        List<String> checkedItems = foo.getCheckedItems();
+        List<String> checkedItems = selectedItems.getCheckedItems();
 
         for (String curr : checkedItems) {
             System.out.println(curr);
