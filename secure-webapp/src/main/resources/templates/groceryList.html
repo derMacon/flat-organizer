@@ -1,66 +1,95 @@
-<!DOCTYPE HTML>
+<!--source: https://codepen.io/marcobiedermann/pen/gReMQy-->
+
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="headerfiles">
-    <meta charset="UTF-8"/>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+    <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}"/>
+
 </head>
 <body>
-<div th:fragment="header">
-    <h1>Thymeleaf Fragments sample</h1>
-</div>
-<p>Go to the next page to see fragments in action</p>
-<aside>
-    <div>This is a sidebar</div>
-</aside>
+
+<header class="header sticky sticky--top js-header">
+
+    <div class="grid">
+
+        <nav class="navigation">
+            <ul class="navigation__list navigation__list--inline">
+                <li
+                        class="navigation__item"><a class="is-active" href="/">Home
+                </a></li>
+                <li
+                        class="navigation__item"><a href="/flat-organizer/groceryList">Einkaufsliste
+                </a></li>
+                <li class="navigation__item"><a href="/flat-organizer/noSecurity">noSecurity endpoint</a></li>
+                <li
+                        class="navigation__item"><a href="/flat-organizer/minutes">Protokoll
+                </a></li>
+                <li class="navigation__item"><a href="/flat-organizer/information">Information</a></li>
+            </ul>
+        </nav>
+
+    </div>
+
+</header>
+
+<!--<div th:insert="fragments/header :: header"></div>-->
+
+<main class="main">
+
+    <div class="grid">
+
+        <h1>Artikel</h1>
+
+        <p>Um neue Artikel in die Einkausliste zu packen trage den Namen und die Menge in das
+            folgende Textfeld ein.</p>
+
+        <div align="center">
+            <h1>neues Produkt hinzufuegen</h1>
+            <form action="#" method="post" th:action="@{/groceryList}" th:object="${item}">
+                <label>name:</label>
+                <input th:field="*{item_name}" type="text"/><br/>
+                <input th:field="*{item_count}" type="text"/><br/>
+
+                <br/>
+
+                <button type="submit">add item</button>
+            </form>
+        </div>
 
 
-<form action="#" method="post" th:action="@{/processForm}" th:object="${selectedItems}">
+        <form action="#" method="post" th:action="@{/processForm}" th:object="${selectedItems}">
 
-        <table>
-            <thead>
-            <tr>
-                <th>Artikel</th>
-                <th>Anzahl</th>
-                <th>Mitbewohner</th>
-                <th>Im Einkaufswagen</th>
-            </tr>
-            </thead>
-            <tbody>
+            <table>
+                <thead>
+                <tr>
+                    <th>Artikel</th>
+                    <th>Anzahl</th>
+                    <th>Mitbewohner</th>
+                    <th>Im Einkaufswagen</th>
+                </tr>
+                </thead>
+                <tbody>
 
-            <tr th:each="item : ${allItems}">
-                <td><input th:field="*{checkedItems}" th:value="${item.itemId}"
-                           type="checkbox"/></td>
-                <td><span th:text="${item.item_name}"> item name </span></td>
-                <td><span th:text="${item.item_count}"> item count </span></td>
-                <td><span th:text="${item.flatmate.firstname}"> flatmate name </span></td>
+                <tr th:if="${allItems.empty}">
+                    <td colspan="3"> Keine Produkte in der Einkaufsliste! </td>
+                </tr>
 
-            </tr>
-<!--            <input th:field="*{checkedItems}" th:value="${item}" type="checkbox"/>-->
-<!--            <label th:text="${item}">example</label>-->
-        </table>
-    <input type="submit"/>
-</form>
+                <tr th:each="item : ${allItems}">
+                    <td><input th:field="*{checkedItems}" th:value="${item.itemId}"
+                               type="checkbox"/></td>
+                    <td><span th:text="${item.item_name}"> item name </span></td>
+                    <td><span th:text="${item.item_count}"> item count </span></td>
+                    <td><span th:text="${item.flatmate.firstname}"> flatmate name </span></td>
+                </tr>
+            </table>
+            <input type="submit"/>
+        </form>
 
+    </div>
 
-<div align="center">
-    <h1>neues Produkt hinzufuegen</h1>
-    <form action="#" method="post" th:action="@{/groceryList}" th:object="${item}">
-        <label>name:</label>
-        <input th:field="*{item_name}" type="text"/><br/>
-        <input th:field="*{item_count}" type="text"/><br/>
-
-        <br/>
-
-        <button type="submit">add item</button>
-    </form>
-</div>
-
-<div class="another">This is another sidebar</div>
-<footer th:fragment="footer">
-    <a th:href="@{/fragments}">Fragments Index</a> |
-    <a th:href="@{/markup}">Markup inclussion</a> |
-    <a th:href="@{/params}">Fragment params</a> |
-    <a th:href="@{/other}">Other</a>
-</footer>
+</main>
+<div th:insert="fragments/footer :: footer"></div>
 </body>
 </html>
