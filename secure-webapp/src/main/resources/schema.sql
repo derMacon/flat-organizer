@@ -35,6 +35,15 @@ CREATE TABLE item (
   item_name VARCHAR(500) NOT NULL
 );
 
+CREATE TABLE task (
+  taskId INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  description VARCHAR(5000) NOT NULL,
+  responsibleFlatmate INT(6) UNSIGNED,
+  FOREIGN KEY (responsibleFlatmate) REFERENCES  (flatmate_id),
+  status BIT,
+  publishingDate DATE NOT NULL
+);
+
 INSERT INTO user (user_id, username, password) VALUES (1, "user1", "password");
 INSERT INTO user (user_id, username, password) VALUES (2, "user2", "password");
 INSERT INTO user (user_id, username, password) VALUES (20, "u", "p");
