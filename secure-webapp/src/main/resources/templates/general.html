@@ -14,14 +14,31 @@
 </aside>
 
 
-<form action="#" th:action="@{/processForm}" th:object="${foo}" method="post">
-    <div th:each="item : ${allItems}">
-        <input type="checkbox" th:field="*{checkedItems}" th:value="${item}" />
-        <label th:text="${item}">example</label>
-    </div>
-    <input type="submit" />
-</form>
+<form action="#" method="post" th:action="@{/processForm}" th:object="${foo}">
 
+        <table>
+            <thead>
+            <tr>
+                <th>Artikel</th>
+                <th>Anzahl</th>
+                <th>Mitbewohner</th>
+                <th>Im Einkaufswagen</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="item : ${allItems}">
+                <td><input th:field="*{checkedItems}" th:value="${item}" type="checkbox"/></td>
+                <td><span th:text="${item.item_name}"> item name </span></td>
+                <td><span th:text="${item.item_count}"> item count </span></td>
+                <td><span th:text="${item.flatmate.firstname}"> flatmate name </span></td>
+
+            </tr>
+<!--            <input th:field="*{checkedItems}" th:value="${item}" type="checkbox"/>-->
+<!--            <label th:text="${item}">example</label>-->
+        </table>
+    <input type="submit"/>
+</form>
 
 
 <div class="another">This is another sidebar</div>
