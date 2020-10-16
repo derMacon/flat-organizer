@@ -28,7 +28,8 @@
             <tbody>
 
             <tr th:each="item : ${allItems}">
-                <td><input th:field="*{checkedItems}" th:value="${item}" type="checkbox"/></td>
+                <td><input th:field="*{checkedItems}" th:value="${item.item_id}"
+                           type="checkbox"/></td>
                 <td><span th:text="${item.item_name}"> item name </span></td>
                 <td><span th:text="${item.item_count}"> item count </span></td>
                 <td><span th:text="${item.flatmate.firstname}"> flatmate name </span></td>

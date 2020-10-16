@@ -56,9 +56,9 @@ public class GroceryListController {
         model.addAttribute("allItems", items);
 
         SelectedItems selectedItems = new SelectedItems();
-        List<String> checkedItems = new ArrayList<>();
+        List<Long> checkedItems = new ArrayList<>();
         // value1 will be checked by default.
-        checkedItems.add("value1");
+//        checkedItems.add("value1");
         selectedItems.setCheckedItems(checkedItems);
         model.addAttribute("selectedItems", selectedItems);
 
@@ -68,9 +68,9 @@ public class GroceryListController {
     @RequestMapping(value = "/processForm", method=RequestMethod.POST)
     public String processForm(@ModelAttribute(value="selectedItems") SelectedItems selectedItems) {
         // Get value of checked item.
-        List<String> checkedItems = selectedItems.getCheckedItems();
+        List<Long> checkedItems = selectedItems.getCheckedItems();
 
-        for (String curr : checkedItems) {
+        for (Long curr : checkedItems) {
             System.out.println(curr);
         }
 
