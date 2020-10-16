@@ -75,11 +75,8 @@ public class GroceryListController {
 
         for (Long curr : checkedItems) {
             System.out.println(curr);
-//            flatmateRepository.
             Item item = itemRepository.findByItemId(curr);
             item.setFlatmate(null);
-//            flatmateRepository.deleteByFlatmateId(item.getFlatmate().getFlatmateId());
-
             itemRepository.deleteByItemId(curr);
         }
 
