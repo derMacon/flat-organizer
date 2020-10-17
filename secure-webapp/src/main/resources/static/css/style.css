@@ -123,6 +123,12 @@ p {
 
 
 
+
+
+/* ------------------ table -----------------------*/
+
+/*https://codepen.io/sethabbott/pen/gdpzF*/
+
 table {
     border: 1px #a39485 solid;
     font-size: .9em;
@@ -158,46 +164,93 @@ a {
 }
 
 @media all and (max-width: 768px) {
+/*@media all and (max-width: 400px) {*/
 
-    table, thead, tbody, th, td, tr {
-        display: block;
+    .grid {
+        width: 95%;
     }
-
-    th {
-        text-align: right;
-    }
-
-    table {
-        position: relative;
-        padding-bottom: 0;
-        border: none;
-        box-shadow: 0 0 10px rgba(0,0,0,.2);
-    }
-
-    thead {
-        float: left;
-        white-space: nowrap;
-    }
-
-    tbody {
-        overflow-x: auto;
-        overflow-y: hidden;
-        position: relative;
-        white-space: nowrap;
-    }
-
-    tr {
-        display: inline-block;
-        vertical-align: top;
-    }
-
-    th {
-        border-bottom: 1px solid #a39485;
-    }
-
-    td {
-        border-bottom: 1px solid #e5e5e5;
-    }
-
 
 }
+
+#itemSubmitBtn {
+    border: 1px #a39485 solid;
+    box-shadow: 0 2px 5px rgba(0,0,0,.25);
+    background: #383838;
+    border-radius: 5px;
+    transition-duration: 0.3s;
+    color: white;
+}
+
+#itemSubmitBtn:hover {
+    transform: scale(1.02);
+}
+
+
+
+
+/* ---------------------- input field --------------------------*/
+input{
+    width:100%;
+    border:2px solid #aaa;
+    border-radius:4px;
+    margin:8px 0;
+    outline:none;
+    padding:8px;
+    box-sizing:border-box;
+    transition:.3s;
+}
+
+input:focus{
+    border-color:black;
+    box-shadow:0 0 3px 0 black;
+}
+
+#itemFormContainer {
+    overlow: hidden;
+    width: 300px;
+    /*height: */
+    /*border: 1px solid red;*/
+
+    padding-top: 10px;
+    padding-right: 25px;
+    padding-bottom: 10px;
+    padding-left: 25px;
+
+    border: 1px #a39485 solid;
+    /*font-size: .9em;*/
+    box-shadow: 0 2px 5px rgba(0,0,0,.25);
+    background: #383838;
+    border-radius: 5px;
+    transition-duration: 0.3s;
+}
+
+#itemFormContainer:hover {
+    transform: scale(1.02);
+}
+
+#secondLineSubmit {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+
+#itemName{
+    display: inline-block;
+    /*width: 300px;*/
+}
+
+#itemCnt{
+    vertical-align: top;
+    display: inline-block;
+    width: 100px;
+    height: 30px;
+}
+
+#itemSubmin {
+    /*width: */
+    height: 30px;
+}
+
+
+
