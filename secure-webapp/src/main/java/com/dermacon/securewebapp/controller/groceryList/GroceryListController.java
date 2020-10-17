@@ -88,15 +88,24 @@ public class GroceryListController {
         // set flatmate in item
         User currUser = getLoggedInUser();
         Flatmate loggedInFlatmate = flatmateRepository.findByUser(currUser);
-
-//        Item old = itemRepository.find
-
-//        if ()
-
         item.setFlatmate(loggedInFlatmate);
+
+        Item alreadySavedItem = getItemWithSameName_and_sameGroup(item);
+
+        // overwrite item if necessary
+        if (alreadySavedItem != null) {
+            item = alreadySavedItem;
+        }
+
         itemRepository.save(item);
 
         return "redirect:/groceryList";
+    }
+
+    private Item getItemWithSameName_and_sameGroup(Item item) {
+        Iterable<Item> saved_items = itemRepository.findAll();
+
+        return null;
     }
 
     /**
