@@ -26,6 +26,7 @@ public class Item {
     private Flatmate flatmate;
 
     public Item() {
+        this.item_count = 1;
     }
 
     public Item(int item_count, String item_name, Flatmate flatmate_id) {

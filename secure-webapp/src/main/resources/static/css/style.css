@@ -7,8 +7,8 @@
 .grid {
     margin-left: auto;
     margin-right: auto;
-    max-width: 48em;
-    width: 90%;
+    max-width: 80em;
+    width: 98%;
 }
 
 /* helpers/sticky.css */
@@ -163,13 +163,16 @@ a {
     color: #73685d;
 }
 
-@media all and (max-width: 768px) {
+@media all and (min-width: 768px) {
 /*@media all and (max-width: 400px) {*/
 
-    .grid {
-        width: 95%;
-    }
 
+    .grid {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 38em;
+        width: 90%;
+    }
 }
 
 #itemSubmitBtn {

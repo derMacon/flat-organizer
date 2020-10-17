@@ -34,10 +34,10 @@ public class DefaultController {
         return "main";
     }
 
-    @RequestMapping("/noSecurity")
-    public String noSecurity() {
-        return "noSecurity";
-    }
+//    @RequestMapping("/noSecurity")
+//    public String noSecurity() {
+//        return "noSecurity";
+//    }
 
     @ModelAttribute
     public void addAttributes(Model model) {

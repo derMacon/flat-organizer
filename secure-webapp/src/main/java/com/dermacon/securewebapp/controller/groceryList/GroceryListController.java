@@ -89,6 +89,10 @@ public class GroceryListController {
         User currUser = getLoggedInUser();
         Flatmate loggedInFlatmate = flatmateRepository.findByUser(currUser);
 
+//        Item old = itemRepository.find
+
+//        if ()
+
         item.setFlatmate(loggedInFlatmate);
         itemRepository.save(item);
 

@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <title>title</title>
     <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
 <body>
@@ -45,10 +46,21 @@
         <div align="center">
             <form id="itemFormContainer" action="#" method="post" th:action="@{/groceryList}"
             th:object="${item}" th:placeholder="Produkt">
-                <input id="itemName" th:field="*{item_name}" type="text"/><br/>
+                <input list="suggestion_name" id="itemName" th:field="*{item_name}"
+                       type="text"/><br/>
+                <datalist id="suggestion_name">
+                    <option th:value="Küchenrolle">
+                    <option th:value="Klopapier">
+                </datalist>
+
 
                 <div id="secondLineSubmit">
-                    <input id="itemCnt" th:field="*{item_count}" type="number" value="5"/><br/>
+                    <input list="suggestion_cnt"id="itemCnt" th:field="*{item_count}"
+                    type="number" th:value="${item.item_count}"/><br/>
+                    <datalist id="suggestion_cnt">
+                        <option th:value="5">
+                    </datalist>
+
                     <button id="itemSubmin" type="submit">Produkt hinzufügen</button>
                 </div>
 
