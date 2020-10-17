@@ -41,7 +41,7 @@ public class GroceryListController {
      * @return grocery list thymeleaf template
      */
     @RequestMapping(value = "/groceryList", method= RequestMethod.GET)
-    public String initGroceryList(Model model) {
+    public String displayGroceryList(Model model) {
         // adding item which will be set in the thymeleaf form and used
         // and overwritten when a new item will be added
         model.addAttribute("item", new Item());
