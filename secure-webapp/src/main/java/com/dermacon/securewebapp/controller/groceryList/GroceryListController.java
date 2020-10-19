@@ -4,6 +4,9 @@ import com.dermacon.securewebapp.data.Flatmate;
 import com.dermacon.securewebapp.data.FlatmateRepository;
 import com.dermacon.securewebapp.data.Item;
 import com.dermacon.securewebapp.data.ItemRepository;
+import com.dermacon.securewebapp.data.LivingSpace;
+import com.dermacon.securewebapp.data.LivingSpaceRepository;
+import com.dermacon.securewebapp.data.Room;
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 @Transactional
 @Controller
@@ -31,6 +36,8 @@ public class GroceryListController {
     @Autowired
     FlatmateRepository flatmateRepository;
 
+    @Autowired
+    LivingSpaceRepository livingSpaceRepository;
 
     /**
      * Initializes model with
@@ -66,8 +73,6 @@ public class GroceryListController {
             Item item = itemRepository.findByItemId(curr);
             System.out.println("removing item entity: " + item);
 
-            // remove associated flatmate before deleting entity
-//            item.setFlatmate(null);
 
             // delete entity from database
             itemRepository.delete(item);
@@ -76,28 +81,56 @@ public class GroceryListController {
         return "redirect:/groceryList";
     }
 
+
     /**
-     * Adds a new Item to the database. The reference to the
-     * current user will also be appended to the item entity
-     * itself
+     * Adds a new Item to the database.
      * @param item item provided by the html form
      * @return grocery list thymeleaf template
      */
     @PostMapping("/groceryList")
     public String addNewItem(@ModelAttribute("item") Item item) {
-        // set flatmate in item
         User currUser = getLoggedInUser();
-        Flatmate loggedInFlatmate = flatmateRepository.findByUser(currUser);
-//        item.setFlatmate(loggedInFlatmate);
+//        Flatmate loggedInFlatmate = flatmateRepository.findAll().
+        // todo use repository for this
+//        Flatmate loggedInFlatmate = StreamSupport.stream(flatmateRepository.findAll().spliterator(),
+//                false)
+//                .filter(fm -> fm.getUser().getUserId() == currUser.getUserId()).findFirst().get();
+        Flatmate f = flatmateRepository.findAll().iterator().next();
 
-        Item alreadySavedItem = getItemWithSameName_and_sameGroup(item);
-
-        // overwrite item if necessary
-        if (alreadySavedItem != null) {
-            item = alreadySavedItem;
+        Flatmate loggedInFlatmate = null;
+        for (Flatmate fm : flatmateRepository.findAll()) {
+            if (fm.getUser().getUserId() == currUser.getUserId()) {
+                loggedInFlatmate = fm;
+            }
         }
 
-        itemRepository.save(item);
+        LivingSpace livingSpace = loggedInFlatmate.getLivingSpace();
+        Room destination;
+
+        switch (item.getItemCategory()) {
+            case KITCHEN_SUPPLY:
+                destination = livingSpace.getKitchen();
+                break;
+            case BATHROOM_SUPPLY:
+                destination = livingSpace.getBathroom();
+                break;
+            default:
+                destination = livingSpace.getBedroom();
+        }
+
+        item.setDestination(destination);
+
+
+
+
+//        Item alreadySavedItem = getItemWithSameName_and_sameGroup(item);
+//
+//        // overwrite item if necessary
+//        if (alreadySavedItem != null) {
+//            item = alreadySavedItem;
+//        }
+//
+//        itemRepository.save(item);
 
         return "redirect:/groceryList";
     }

@@ -96,7 +96,7 @@ INSERT INTO room (room_id, room_number, level, room_description)
 VALUES (108, 2, 1, "Zimmer gegenüber Verbindungstür");
 
 INSERT INTO room (room_id, room_number, level, room_description)
-VALUES (109, 3, 1, "Zimmer gegenüber Badezimmer 1. OG");
+VALUES (109, 3, 1, "Zimmer gegenüber Badezimmer 1. OG (rechts)");
 
 INSERT INTO room (room_id, room_number, level, room_description)
 VALUES (110, 4, 1, "Zimmer gegenüber Treppe");
@@ -166,43 +166,41 @@ INSERT INTO living_space (living_space_id, bedroom_id, bathroom_id, kitchen_id)
 VALUES (211, 118, 115, 107);
 
 
-
-
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
 VALUES (300, 1, 102, "Felix", "Schwart", '2018-01-12');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (301, 2, 102, "Sinje", "Cremer", '2018-04-07');
+VALUES (301, 2, 113, "Sinje", "Cremer", '2018-04-07');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (301, 2, 102, "Kathi", "Nadler", '2018-01-10');
+VALUES (302, 3, 112, "Kathi", "Nadler", '2018-01-10');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (301, 2, 102, "Lena", "Tschentscher", '2018-05-25');
+VALUES (303, 4, 110, "Lena", "Tschentscher", '2018-05-25');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (301, 2, 102, "Kira", "Jens", '2018-06-16');
+VALUES (304, 5, 109, "Kira", "Jens", '2018-06-16');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (301, 2, 102, "Silas", "Hoffmann", '2018-06-17');
+VALUES (305, 6, 108, "Silas", "Hoffmann", '2018-06-17');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (301, 2, 102, "Lina", "Velte", '2018-07-16');
+VALUES (306, 7, 104, "Lina", "Velte", '2018-07-16');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (301, 2, 102, "Felix", "Reinhardt", '2018-07-29');
+VALUES (307, 8, 116, "Felix", "Reinhardt", '2018-07-29');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (301, 2, 102, "Ole", "Ribbeck", '2018-08-01');
+VALUES (308, 9, 117, "Ole", "Ribbeck", '2018-08-01');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (301, 2, 102, "Julius", "Kocher", '2018-08-02');
+VALUES (309, 10, 100, "Julius", "Kocher", '2018-08-02');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (301, 2, 102, "Hannah", "Unknown", '2018-08-17');
+VALUES (310, 11, 118, "Hannah", "Unknown", '2018-08-17');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (301, 2, 102, "Linshu", "Gao", '2018-09-27');
+VALUES (311, 12, 101, "Linshu", "Gao", '2018-09-27');
 
 
 INSERT INTO item (item_id, item_count, item_name, destination_id)
