@@ -4,8 +4,6 @@ import org.hibernate.annotations.Cascade;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,22 +15,23 @@ public class Item {
     @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     private long itemId;
 
-    private int item_count;
+    private int itemCount;
 
-    private String item_name;
+    private String itemName;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "flatmate_id", nullable = true)
-    private Flatmate flatmate;
+    @JoinColumn(name = "destination_id", nullable = true)
+    private Room destination;
 
     public Item() {
-        this.item_count = 1;
+        this.itemCount = 1;
     }
 
-    public Item(int item_count, String item_name, Flatmate flatmate_id) {
-        this.item_count = item_count;
-        this.item_name = item_name;
-        this.flatmate = flatmate_id;
+    public Item(long itemId, int itemCount, String itemName, Room destination) {
+        this.itemId = itemId;
+        this.itemCount = itemCount;
+        this.itemName = itemName;
+        this.destination = destination;
     }
 
     public long getItemId() {
@@ -43,37 +42,37 @@ public class Item {
         this.itemId = itemId;
     }
 
-    public int getItem_count() {
-        return item_count;
+    public int getItemCount() {
+        return itemCount;
     }
 
-    public void setItem_count(int item_count) {
-        this.item_count = item_count;
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
     }
 
-    public String getItem_name() {
-        return item_name;
+    public String getItemName() {
+        return itemName;
     }
 
-    public void setItem_name(String item_name) {
-        this.item_name = item_name;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
-    public Flatmate getFlatmate() {
-        return flatmate;
+    public Room getDestination() {
+        return destination;
     }
 
-    public void setFlatmate(Flatmate flatmate) {
-        this.flatmate = flatmate;
+    public void setDestination(Room destination) {
+        this.destination = destination;
     }
 
     @Override
     public String toString() {
         return "Item{" +
-                "item_id=" + itemId +
-                ", item_count=" + item_count +
-                ", item_name='" + item_name + '\'' +
-                ", flatmate=" + flatmate +
+                "itemId=" + itemId +
+                ", itemCount=" + itemCount +
+                ", itemName='" + itemName + '\'' +
+                ", destination=" + destination +
                 '}';
     }
 }

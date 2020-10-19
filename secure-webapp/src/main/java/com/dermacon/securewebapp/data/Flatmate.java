@@ -20,6 +20,10 @@ public class Flatmate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long flatmateId;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     private String firstname;
     @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     private String surname;
@@ -28,22 +32,18 @@ public class Flatmate {
     private Date birthday;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "room_id")
-    private Room room;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "living_space_id")
+    private LivingSpace livingSpace;
 
     Flatmate() {
     }
 
-    public Flatmate(String firstname, String surname, Date birthday, Room room, User user) {
+    public Flatmate(User user, String firstname, String surname, Date birthday, LivingSpace livingSpace) {
+        this.user = user;
         this.firstname = firstname;
         this.surname = surname;
         this.birthday = birthday;
-        this.room = room;
-        this.user = user;
+        this.livingSpace = livingSpace;
     }
 
     public long getFlatmateId() {
@@ -52,6 +52,14 @@ public class Flatmate {
 
     public void setFlatmateId(long flatmateId) {
         this.flatmateId = flatmateId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getFirstname() {
@@ -78,31 +86,23 @@ public class Flatmate {
         this.birthday = birthday;
     }
 
-    public Room getRoom() {
-        return room;
+    public LivingSpace getLivingSpace() {
+        return livingSpace;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setLivingSpace(LivingSpace livingSpace) {
+        this.livingSpace = livingSpace;
     }
 
     @Override
     public String toString() {
         return "Flatmate{" +
-                "flatmate_id=" + flatmateId +
+                "flatmateId=" + flatmateId +
+                ", user=" + user +
                 ", firstname='" + firstname + '\'' +
                 ", surname='" + surname + '\'' +
                 ", birthday=" + birthday +
-                ", room=" + room +
-                ", user=" + user +
+                ", livingSpace=" + livingSpace +
                 '}';
     }
 }

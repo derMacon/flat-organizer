@@ -67,7 +67,7 @@ public class GroceryListController {
             System.out.println("removing item entity: " + item);
 
             // remove associated flatmate before deleting entity
-            item.setFlatmate(null);
+//            item.setFlatmate(null);
 
             // delete entity from database
             itemRepository.delete(item);
@@ -88,7 +88,7 @@ public class GroceryListController {
         // set flatmate in item
         User currUser = getLoggedInUser();
         Flatmate loggedInFlatmate = flatmateRepository.findByUser(currUser);
-        item.setFlatmate(loggedInFlatmate);
+//        item.setFlatmate(loggedInFlatmate);
 
         Item alreadySavedItem = getItemWithSameName_and_sameGroup(item);
 

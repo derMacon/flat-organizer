@@ -46,7 +46,7 @@
         <div align="center">
             <form id="itemFormContainer" action="#" method="post" th:action="@{/groceryList}"
             th:object="${item}" th:placeholder="Produkt">
-                <input list="suggestion_name" id="itemName" th:field="*{item_name}"
+                <input list="suggestion_name" id="itemName" th:field="*{itemName}"
                        type="text"/><br/>
                 <datalist id="suggestion_name">
                     <option th:value="Küchenrolle">
@@ -55,8 +55,8 @@
 
 
                 <div id="secondLineSubmit">
-                    <input list="suggestion_cnt"id="itemCnt" th:field="*{item_count}"
-                    type="number" th:value="${item.item_count}"/><br/>
+                    <input list="suggestion_cnt"id="itemCnt" th:field="*{itemCount}"
+                    type="number" th:value="${item.itemCount}"/><br/>
                     <datalist id="suggestion_cnt">
                         <option th:value="5">
                     </datalist>
@@ -89,9 +89,9 @@
                 <tr th:each="item : ${allItems}">
                     <td><input th:field="*{checkedItems}" th:value="${item.itemId}"
                                type="checkbox"/></td>
-                    <td><span th:text="${item.item_name}"> item name </span></td>
-                    <td><span th:text="${item.item_count}"> item count </span></td>
-                    <td><span th:text="${item.flatmate.firstname}"> flatmate name </span></td>
+                    <td><span th:text="${item.itemName}"> item name </span></td>
+                    <td><span th:text="${item.itemCount}"> item count </span></td>
+                    <td><span th:text="${item.destination.roomDescription}"> flatmate name </span></td>
                 </tr>
             </table>
             <input id="itemSubmitBtn" type="submit" value="Einkauskorb leeren"/>
