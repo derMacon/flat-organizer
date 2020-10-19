@@ -39,10 +39,6 @@ public class GroceryListController {
     @Autowired
     LivingSpaceRepository livingSpaceRepository;
 
-    @PersistenceContext
-    EntityManager entityManager;
-
-
     /**
      * Initializes model with
      * - item instance that will overwritten when a new item will be added
@@ -102,6 +98,10 @@ public class GroceryListController {
         return "redirect:/groceryList";
     }
 
+    /**
+     *
+     * @param item
+     */
     private void persistItem(Item item) {
         Item alreadySavedItem = getItemWithSameName_and_Destination(item);
         // overwrite item if necessary

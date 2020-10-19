@@ -87,7 +87,7 @@ public class Item extends BaseObject {
             return values[i-1];
         }
 
-        return null;
+        return ProductDefault.COSTUM_SUPPLY;
     }
 
     public void setItemCount(int itemCount) {

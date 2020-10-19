@@ -65,7 +65,7 @@ INSERT INTO user (user_id, username, password) VALUES (7, "lina", "velte1607");
 INSERT INTO user (user_id, username, password) VALUES (8, "felixR", "reinhardt2907");
 INSERT INTO user (user_id, username, password) VALUES (9, "ole", "ribbeck0108");
 INSERT INTO user (user_id, username, password) VALUES (10, "jules", "kocher0108");
-INSERT INTO user (user_id, username, password) VALUES (11, "hannah", "unknown1708");
+INSERT INTO user (user_id, username, password) VALUES (11, "hannah", "dürkop1708");
 INSERT INTO user (user_id, username, password) VALUES (12, "linshu", "gao2709");
 
 

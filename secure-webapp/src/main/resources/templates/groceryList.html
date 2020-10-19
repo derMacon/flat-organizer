@@ -41,8 +41,6 @@
 
     <div class="grid">
 
-<!--        <h1>Einkaufsliste</h1>-->
-
         <div align="center">
             <form id="itemFormContainer" action="#" method="post" th:action="@{/groceryList}"
             th:object="${item}" th:placeholder="Produkt">
@@ -68,6 +66,9 @@
         </div>
 
         <br/>
+
+        <h2>Aktuelle Einkaufsliste</h2>
+
 
         <form action="#" method="post" th:action="@{/processForm}" th:object="${selectedItems}">
 
