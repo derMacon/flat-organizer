@@ -94,17 +94,39 @@ public class GroceryListController {
      */
     @PostMapping("/groceryList")
     public String addNewItem(@ModelAttribute("item") Item item) {
+
+        Flatmate loggedInFlatmate = getLoggedInFlatmate();
+        updateItem_flatmateDestination(item, loggedInFlatmate);
+        persistItem(item);
+
+        return "redirect:/groceryList";
+    }
+
+    private void persistItem(Item item) {
+        Item alreadySavedItem = getItemWithSameName_and_Destination(item);
+        // overwrite item if necessary
+        if (alreadySavedItem != null) {
+            System.out.println("overwrites already saved item: " + item);
+            alreadySavedItem.setItemCount(item.getItemCount() + alreadySavedItem.getItemCount());
+        } else {
+            itemRepository.save(item);
+        }
+    }
+
+    private Flatmate getLoggedInFlatmate() {
         User currUser = getLoggedInUser();
-//        Flatmate loggedInFlatmate = flatmateRepository.findAll().
-        // todo use repository for this
+        // todo use flatmateRepository for this
         Flatmate loggedInFlatmate = null;
         for (Flatmate fm : flatmateRepository.findAll()) {
             if (fm.getUser().getUserId() == currUser.getUserId()) {
                 loggedInFlatmate = fm;
             }
         }
+        return loggedInFlatmate;
+    }
 
-        LivingSpace livingSpace = loggedInFlatmate.getLivingSpace();
+    private void updateItem_flatmateDestination(Item item, Flatmate flatmate) {
+        LivingSpace livingSpace = flatmate.getLivingSpace();
         Room destination;
 
         switch (item.getItemCategory()) {
@@ -119,22 +141,9 @@ public class GroceryListController {
         }
 
         item.setDestination(destination);
-
-
-        Item alreadySavedItem = getItemWithSameName_and_sameDestination(item);
-
-        // overwrite item if necessary
-        if (alreadySavedItem != null) {
-            System.out.println("overwrites already saved item: " + item);
-            alreadySavedItem.setItemCount(item.getItemCount() + alreadySavedItem.getItemCount());
-        } else {
-            itemRepository.save(item);
-        }
-
-        return "redirect:/groceryList";
     }
 
-    private Item getItemWithSameName_and_sameDestination(Item inputItem) {
+    private Item getItemWithSameName_and_Destination(Item inputItem) {
         Item out = null;
 
         for (Item currItem : itemRepository.findAll()) {

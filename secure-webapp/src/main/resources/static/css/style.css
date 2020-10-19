@@ -70,14 +70,14 @@ body {
 /* layout/main.css */
 
 .main {
-    padding-top: 6em;
-    padding-bottom: 6em;
+    padding-top: 2em;
+    padding-bottom: 2em;
 }
 
 /* modules/headline.css */
 
 h1 {
-    margin-bottom: 1.5em;
+    margin-bottom: 0.7em;
     margin-top: 0;
 }
 

@@ -41,13 +41,13 @@
 
     <div class="grid">
 
-        <h1>Einkaufsliste</h1>
+<!--        <h1>Einkaufsliste</h1>-->
 
         <div align="center">
             <form id="itemFormContainer" action="#" method="post" th:action="@{/groceryList}"
             th:object="${item}" th:placeholder="Produkt">
                 <input list="suggestion_name" id="itemName" th:field="*{itemName}"
-                       type="text"/><br/>
+                       type="text" th:placeholder="Produkt"/><br/>
                 <datalist id="suggestion_name">
                     <option th:value="Küchenrolle">
                     <option th:value="Klopapier">
