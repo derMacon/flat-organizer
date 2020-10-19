@@ -73,6 +73,7 @@ public class GroceryListController {
             Item item = itemRepository.findByItemId(curr);
             System.out.println("removing item entity: " + item);
 
+            item.setDestination(null);
 
             // delete entity from database
             itemRepository.delete(item);
@@ -92,11 +93,6 @@ public class GroceryListController {
         User currUser = getLoggedInUser();
 //        Flatmate loggedInFlatmate = flatmateRepository.findAll().
         // todo use repository for this
-//        Flatmate loggedInFlatmate = StreamSupport.stream(flatmateRepository.findAll().spliterator(),
-//                false)
-//                .filter(fm -> fm.getUser().getUserId() == currUser.getUserId()).findFirst().get();
-        Flatmate f = flatmateRepository.findAll().iterator().next();
-
         Flatmate loggedInFlatmate = null;
         for (Flatmate fm : flatmateRepository.findAll()) {
             if (fm.getUser().getUserId() == currUser.getUserId()) {
@@ -121,8 +117,6 @@ public class GroceryListController {
         item.setDestination(destination);
 
 
-
-
 //        Item alreadySavedItem = getItemWithSameName_and_sameGroup(item);
 //
 //        // overwrite item if necessary
@@ -130,7 +124,7 @@ public class GroceryListController {
 //            item = alreadySavedItem;
 //        }
 //
-//        itemRepository.save(item);
+        itemRepository.save(item);
 
         return "redirect:/groceryList";
     }

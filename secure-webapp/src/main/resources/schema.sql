@@ -1,6 +1,7 @@
 CREATE DATABASE flat_app;
 
 USE flat_app;
+SET FOREIGN_KEY_CHECKS=0;
 
 CREATE TABLE user (
   user_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -163,44 +164,44 @@ INSERT INTO living_space (living_space_id, bedroom_id, bathroom_id, kitchen_id)
 VALUES (211, 117, 115, 114);
 
 INSERT INTO living_space (living_space_id, bedroom_id, bathroom_id, kitchen_id)
-VALUES (211, 118, 115, 107);
+VALUES (212, 118, 115, 107);
 
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (300, 1, 102, "Felix", "Schwart", '2018-01-12');
+VALUES (300, 1, 202, "Felix", "Schwart", '2018-01-12');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (301, 2, 113, "Sinje", "Cremer", '2018-04-07');
+VALUES (301, 2, 209, "Sinje", "Cremer", '2018-04-07');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (302, 3, 112, "Kathi", "Nadler", '2018-01-10');
+VALUES (302, 3, 208, "Kathi", "Nadler", '2018-01-10');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (303, 4, 110, "Lena", "Tschentscher", '2018-05-25');
+VALUES (303, 4, 207, "Lena", "Tschentscher", '2018-05-25');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (304, 5, 109, "Kira", "Jens", '2018-06-16');
+VALUES (304, 5, 206, "Kira", "Jens", '2018-06-16');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (305, 6, 108, "Silas", "Hoffmann", '2018-06-17');
+VALUES (305, 6, 205, "Silas", "Hoffmann", '2018-06-17');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (306, 7, 104, "Lina", "Velte", '2018-07-16');
+VALUES (306, 7, 203, "Lina", "Velte", '2018-07-16');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (307, 8, 116, "Felix", "Reinhardt", '2018-07-29');
+VALUES (307, 8, 210, "Felix", "Reinhardt", '2018-07-29');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (308, 9, 117, "Ole", "Ribbeck", '2018-08-01');
+VALUES (308, 9, 211, "Ole", "Ribbeck", '2018-08-01');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (309, 10, 100, "Julius", "Kocher", '2018-08-02');
+VALUES (309, 10, 200, "Julius", "Kocher", '2018-08-02');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (310, 11, 118, "Hannah", "Unknown", '2018-08-17');
+VALUES (310, 11, 212, "Hannah", "Unknown", '2018-08-17');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
-VALUES (311, 12, 101, "Linshu", "Gao", '2018-09-27');
+VALUES (311, 12, 201, "Linshu", "Gao", '2018-09-27');
 
 
 INSERT INTO item (item_id, item_count, item_name, destination_id)

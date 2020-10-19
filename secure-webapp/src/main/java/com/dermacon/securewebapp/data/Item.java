@@ -57,7 +57,7 @@ public class Item {
             return ItemCategory.KITCHEN_SUPPLY;
         }
 
-        boolean isBathroomSupply = Arrays.stream(ItemCategory.KITCHEN_SUPPLY.getItemNames())
+        boolean isBathroomSupply = Arrays.stream(ItemCategory.BATHROOM_SUPPLY.getItemNames())
                 .filter(lowerCaseName::equals).findAny().isPresent();
         if (isBathroomSupply) {
             return ItemCategory.BATHROOM_SUPPLY;
