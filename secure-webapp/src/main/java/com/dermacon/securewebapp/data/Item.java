@@ -1,5 +1,6 @@
 package com.dermacon.securewebapp.data;
 
+import org.apache.commons.pool2.BaseObject;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.CascadeType;
@@ -7,11 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.io.Serializable;
 import java.util.Arrays;
-import java.util.stream.Stream;
+import java.util.Iterator;
 
 @Entity
-public class Item {
+public class Item extends BaseObject {
 
     @Id
     @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
@@ -49,21 +51,43 @@ public class Item {
     }
 
     public ItemCategory getItemCategory() {
-        String lowerCaseName = itemName.toLowerCase();
+        ItemCategory out = null;
 
-        boolean isKitchenSupply = Arrays.stream(ItemCategory.KITCHEN_SUPPLY.getItemNames())
-                .filter(lowerCaseName::equals).findAny().isPresent();
-        if (isKitchenSupply) {
-            return ItemCategory.KITCHEN_SUPPLY;
+        // if further product presets should be added, those can be updated here
+
+        switch (getProductDefault()) {
+            case KITCHEN_ROLL:
+                out = ItemCategory.KITCHEN_SUPPLY;
+                break;
+            case TOILET_PAPER:
+                out = ItemCategory.BATHROOM_SUPPLY;
+                break;
+            default:
+                out = ItemCategory.COSTUM_SUPPLY;
         }
 
-        boolean isBathroomSupply = Arrays.stream(ItemCategory.BATHROOM_SUPPLY.getItemNames())
-                .filter(lowerCaseName::equals).findAny().isPresent();
-        if (isBathroomSupply) {
-            return ItemCategory.BATHROOM_SUPPLY;
+        return out;
+    }
+
+    private ProductDefault getProductDefault() {
+        ProductDefault[] values = ProductDefault.values();
+        int i = 0;
+        boolean found = false;
+
+        while (!found && i < values.length) {
+            String lowerCaseName = itemName.toLowerCase();
+            found = Arrays.stream(values[i].getItemNames())
+                    .filter(lowerCaseName::equals)
+                    .findAny()
+                    .isPresent();
+            i++;
         }
 
-        return ItemCategory.COSTUM_SUPPLY;
+        if (found) {
+            return values[i-1];
+        }
+
+        return null;
     }
 
     public void setItemCount(int itemCount) {
@@ -94,5 +118,18 @@ public class Item {
                 ", itemName='" + itemName + '\'' +
                 ", destination=" + destination +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Item other = (Item) o;
+
+        boolean product_name_equals = this.getProductDefault().equals(other.getProductDefault())
+                || this.itemName.toLowerCase().equals(other.itemName.toLowerCase());
+
+        return product_name_equals && this.destination.equals(other.destination);
     }
 }

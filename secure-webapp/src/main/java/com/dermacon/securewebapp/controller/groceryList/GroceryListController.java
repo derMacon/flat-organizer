@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.StreamSupport;
 
 @Transactional
 @Controller
@@ -38,6 +38,10 @@ public class GroceryListController {
 
     @Autowired
     LivingSpaceRepository livingSpaceRepository;
+
+    @PersistenceContext
+    EntityManager entityManager;
+
 
     /**
      * Initializes model with
@@ -117,22 +121,29 @@ public class GroceryListController {
         item.setDestination(destination);
 
 
-//        Item alreadySavedItem = getItemWithSameName_and_sameGroup(item);
-//
-//        // overwrite item if necessary
-//        if (alreadySavedItem != null) {
-//            item = alreadySavedItem;
-//        }
-//
-        itemRepository.save(item);
+        Item alreadySavedItem = getItemWithSameName_and_sameDestination(item);
+
+        // overwrite item if necessary
+        if (alreadySavedItem != null) {
+            System.out.println("overwrites already saved item: " + item);
+            alreadySavedItem.setItemCount(item.getItemCount() + alreadySavedItem.getItemCount());
+        } else {
+            itemRepository.save(item);
+        }
 
         return "redirect:/groceryList";
     }
 
-    private Item getItemWithSameName_and_sameGroup(Item item) {
-        Iterable<Item> saved_items = itemRepository.findAll();
+    private Item getItemWithSameName_and_sameDestination(Item inputItem) {
+        Item out = null;
 
-        return null;
+        for (Item currItem : itemRepository.findAll()) {
+            if (currItem.equals(inputItem)) {
+                out = currItem;
+            }
+        }
+
+        return out;
     }
 
     /**
