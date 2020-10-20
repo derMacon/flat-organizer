@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Transactional
 @Controller
@@ -37,6 +39,8 @@ public class GroceryListController {
 
     @Autowired
     LivingSpaceRepository livingSpaceRepository;
+
+    private Date lastPurchase = new Date(System.currentTimeMillis());
 
     /**
      * Initializes model with
@@ -67,8 +71,9 @@ public class GroceryListController {
     @RequestMapping(value = "/processForm", method=RequestMethod.POST)
     public String processCheckboxForm(@ModelAttribute(value="selectedItems") SelectedItems selectedItems) {
 
-        List<Long> checkedItems = selectedItems.getCheckedItems();
+        updateOldItems();
 
+        List<Long> checkedItems = selectedItems.getCheckedItems();
         for (Long curr : checkedItems) {
             Item item = itemRepository.findByItemId(curr);
             item.setStatus(true);
@@ -76,12 +81,42 @@ public class GroceryListController {
 
             LoggerSingleton.getInstance().info("moving item to old items table: " + item);
 
-//            item.setDestination(null);
-            // delete entity from database
-//            itemRepository.delete(item);
         }
 
         return "redirect:/groceryList";
+    }
+
+    private void updateOldItems() {
+        Date curr = new Date(System.currentTimeMillis());
+        if (getDateDiff(lastPurchase, curr, TimeUnit.HOURS) > 1) {
+
+            LoggerSingleton.getInstance().info("latest purchase too old, will be removed. Last " +
+                    "Purchase (" + lastPurchase + "), current date (" + curr + ")");
+
+            lastPurchase = curr;
+
+            for (Item item : itemRepository.findAllByStatus(true)) {
+                item.setDestination(null);
+                // delete entity from database
+                itemRepository.delete(item);
+
+                LoggerSingleton.getInstance().info("removed item: " + item);
+            }
+
+        }
+    }
+
+    /**
+     * Get a diff between two dates
+     * https://stackoverflow.com/questions/1555262/calculating-the-difference-between-two-java-date-instances
+     * @param date1 the oldest date
+     * @param date2 the newest date
+     * @param timeUnit the unit in which you want the diff
+     * @return the diff value, in the provided unit
+     */
+    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+        long diffInMillies = date2.getTime() - date1.getTime();
+        return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
     }
 
 
@@ -157,7 +192,8 @@ public class GroceryListController {
         Item out = null;
 
         for (Item currItem : itemRepository.findAll()) {
-            if (currItem.equals(inputItem)) {
+            if (currItem.equals(inputItem)
+                    && currItem.getItemId() == inputItem.getItemId()) {
                 out = currItem;
             }
         }
