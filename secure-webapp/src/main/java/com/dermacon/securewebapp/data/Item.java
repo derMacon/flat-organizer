@@ -143,6 +143,8 @@ public class Item extends BaseObject {
         boolean product_name_equals = this.getProductDefault().equals(other.getProductDefault())
                 || this.itemName.toLowerCase().equals(other.itemName.toLowerCase());
 
-        return product_name_equals && this.destination.equals(other.destination);
+        return product_name_equals
+                && this.destination.equals(other.destination)
+                && this.status.equals(other.status);
     }
 }

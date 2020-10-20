@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -53,7 +51,8 @@ public class GroceryListController {
         // and overwritten when a new item will be added
         model.addAttribute("item", new Item());
 
-        model.addAttribute("allItems", itemRepository.findAll());
+        model.addAttribute("newItems", itemRepository.findAllByStatus(false));
+        model.addAttribute("oldItems", itemRepository.findAllByStatus(true));
         model.addAttribute("selectedItems", new SelectedItems());
 
         return "groceryList";
@@ -73,10 +72,11 @@ public class GroceryListController {
             Item item = itemRepository.findByItemId(curr);
             System.out.println("removing item entity: " + item);
 
-            item.setDestination(null);
+            item.setStatus(true);
 
+//            item.setDestination(null);
             // delete entity from database
-            itemRepository.delete(item);
+//            itemRepository.delete(item);
         }
 
         return "redirect:/groceryList";
@@ -92,7 +92,7 @@ public class GroceryListController {
     public String addNewItem(@ModelAttribute("item") Item item) {
 
         Flatmate loggedInFlatmate = getLoggedInFlatmate();
-        item.setStatus(true);
+        item.setStatus(false);
         updateItem_flatmateDestination(item, loggedInFlatmate);
         persistItem(item);
 
@@ -104,7 +104,7 @@ public class GroceryListController {
      * @param item
      */
     private void persistItem(Item item) {
-        Item alreadySavedItem = getItemWithSameName_and_Destination(item);
+        Item alreadySavedItem = getItemWithSameName_and_Destination_and_status(item);
         // overwrite item if necessary
         if (alreadySavedItem != null) {
             System.out.println("overwrites already saved item: " + item);
@@ -144,7 +144,7 @@ public class GroceryListController {
         item.setDestination(destination);
     }
 
-    private Item getItemWithSameName_and_Destination(Item inputItem) {
+    private Item getItemWithSameName_and_Destination_and_status(Item inputItem) {
         Item out = null;
 
         for (Item currItem : itemRepository.findAll()) {
