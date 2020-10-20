@@ -7,6 +7,8 @@ import com.dermacon.securewebapp.data.ItemRepository;
 import com.dermacon.securewebapp.data.LivingSpace;
 import com.dermacon.securewebapp.data.LivingSpaceRepository;
 import com.dermacon.securewebapp.data.Room;
+import com.dermacon.securewebapp.data.Task;
+import com.dermacon.securewebapp.data.TaskRepository;
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRepository;
 import com.dermacon.securewebapp.logger.LoggerSingleton;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Transactional
@@ -39,6 +42,9 @@ public class GroceryListController {
 
     @Autowired
     LivingSpaceRepository livingSpaceRepository;
+
+    @Autowired
+    TaskRepository taskRepository;
 
     private Date lastPurchase = new Date(System.currentTimeMillis());
 
@@ -61,6 +67,11 @@ public class GroceryListController {
         model.addAttribute("selectedItems", new SelectedItems());
 
         model.addAttribute("selectedDomain", "groceryList");
+
+
+
+        Long id = (long)300;
+        Set<Task> tasks = taskRepository.findAllByResponsibleFlatmates_flatmateId(id);
 
         return "groceryList";
     }

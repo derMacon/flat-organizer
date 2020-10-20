@@ -210,3 +210,9 @@ INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname,
 VALUES (311, 12, 201, "Linshu", "Gao", '2018-09-27');
 
 
+INSERT INTO task (task_id, description, task_status, publishing_date)
+VALUES (400, "test task 1", false, '2018-09-27');
+
+
+INSERT INTO task_flatmate (task_id, flatmate_id)
+VALUES (400, 300);
