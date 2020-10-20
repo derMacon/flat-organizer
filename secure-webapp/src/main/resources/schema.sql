@@ -46,14 +46,14 @@ CREATE TABLE item (
   status BIT
 );
 
-CREATE TABLE task (
-  task_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  description VARCHAR(5000) NOT NULL,
-  responsibleFlatmate INT(6) UNSIGNED,
-  FOREIGN KEY (responsibleFlatmate) REFERENCES  (flatmate_id),
-  status BIT,
-  publishingDate DATE NOT NULL
-);
+-- CREATE TABLE task (
+--   task_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+--   description VARCHAR(5000) NOT NULL,
+--   responsibleFlatmate INT(6) UNSIGNED,
+--   FOREIGN KEY (responsibleFlatmate) REFERENCES  (flatmate_id),
+--   status BIT,
+--   publishingDate DATE NOT NULL
+-- );
 
 
 INSERT INTO user (user_id, username, password) VALUES (1, "felixS", "schwart1201");
