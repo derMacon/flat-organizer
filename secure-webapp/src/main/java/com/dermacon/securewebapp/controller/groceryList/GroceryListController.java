@@ -73,6 +73,7 @@ public class GroceryListController {
             System.out.println("removing item entity: " + item);
 
             item.setStatus(true);
+            persistItem(item);
 
 //            item.setDestination(null);
             // delete entity from database

@@ -78,6 +78,7 @@ body {
 .main {
     padding-top: 2em;
     padding-bottom: 2em;
+    min-height: calc(100vh - 160px);
 }
 
 /* modules/headline.css */
@@ -271,3 +272,22 @@ input:focus{
 
 
 
+/* ----------------- footer ---------------------*/
+#sticky-footer {
+    width:100%;
+    padding:20px;
+    padding-bottom:16px;
+    /*background:black;*/
+    background: #383838;
+    color:white;
+    /*font-weight:bold;*/
+    /*font-size:18px;*/
+    text-align:center;
+    /*position:fixed;    !*Here's what sticks it*!*/
+    bottom:0;          /*to the bottom of the body*/
+    left:0;            /*and to the left of the body.*/
+
+    /*EFFECTS*/
+    border-top:1px solid whitesmoke; /*border for accent*/
+    box-shadow:0 -6px 32px; /*shadow*/
+}
