@@ -1,26 +1,27 @@
 <!--source: https://codepen.io/marcobiedermann/pen/gReMQy-->
-
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>title</title>
-    <!--    <link href="../../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>-->
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
 
 <header class="header sticky sticky--top js-header">
 
-    <div class="grid">
+    <div class="grid" id="headerDiv">
 
         <nav class="navigation">
             <ul class="navigation__list navigation__list--inline">
                 <li
                         class="navigation__item"><a class="is-active" href="/">Home
                 </a></li>
-                <li class="navigation__item"><a href="/groceryList">Einkaufsliste</a></li>
-                <li class="navigation__item"><a href="/noSecurity">noSecurity endpoint</a></li>
-                <li class="navigation__item"><a href="/information">Information</a></li>
+                <li
+                        class="navigation__item"><a href="/flat-organizer/groceryList">Einkaufsliste
+                </a></li>
+                <li class="navigation__item"><a href="/flat-organizer/noSecurity">noSecurity
+                    endpoint</a></li>
+                <li
+                        class="navigation__item"><a href="/flat-organizer/minutes">Protokoll
+                </a></li>
+                <li class="navigation__item"><a href="/flat-organizer/information">Information</a>
+                </li>
             </ul>
         </nav>
 

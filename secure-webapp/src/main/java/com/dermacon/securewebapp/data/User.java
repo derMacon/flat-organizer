@@ -11,7 +11,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long user_id;
+    private long userId;
 
     @Column(unique = true)
     private String username;
@@ -26,12 +26,12 @@ public class User {
         this.password = password;
     }
 
-    public long getUser_id() {
-        return user_id;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUser_id(long user_id) {
-        this.user_id = user_id;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -53,7 +53,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + user_id +
+                "id=" + userId +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';

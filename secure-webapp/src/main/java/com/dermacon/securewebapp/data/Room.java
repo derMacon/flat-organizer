@@ -10,25 +10,35 @@ public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long room_id;
+    private long roomId;
 
+    private int roomNumber;
     private int level;
-    private String room_description;
+    private String roomDescription;
 
     Room() {
     }
 
-    public Room(int level, String room_description) {
+    public Room(int roomNumber, int level, String roomDescription) {
+        this.roomNumber = roomNumber;
         this.level = level;
-        this.room_description = room_description;
+        this.roomDescription = roomDescription;
     }
 
-    public long getRoom_id() {
-        return room_id;
+    public long getRoomId() {
+        return roomId;
     }
 
-    public void setRoom_id(long room_id) {
-        this.room_id = room_id;
+    public void setRoomId(long roomId) {
+        this.roomId = roomId;
+    }
+
+    public int getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
     public int getLevel() {
@@ -39,11 +49,21 @@ public class Room {
         this.level = level;
     }
 
-    public String getRoom_description() {
-        return room_description;
+    public String getRoomDescription() {
+        return roomDescription;
     }
 
-    public void setRoom_description(String room_description) {
-        this.room_description = room_description;
+    public void setRoomDescription(String roomDescription) {
+        this.roomDescription = roomDescription;
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "roomId=" + roomId +
+                ", roomNumber=" + roomNumber +
+                ", level=" + level +
+                ", roomDescription='" + roomDescription + '\'' +
+                '}';
     }
 }
