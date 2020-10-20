@@ -93,12 +93,17 @@ public class GroceryListController {
     @PostMapping("/groceryList")
     public String addNewItem(@ModelAttribute("item") Item item) {
 
-        Flatmate loggedInFlatmate = getLoggedInFlatmate();
-        item.setStatus(false);
-        updateItem_flatmateDestination(item, loggedInFlatmate);
-        persistItem(item);
+        if (item.getItemCount() > 0
+                && !item.getItemName().isBlank()
+                && !item.getItemName().isEmpty())
+        {
+            Flatmate loggedInFlatmate = getLoggedInFlatmate();
+            item.setStatus(false);
+            updateItem_flatmateDestination(item, loggedInFlatmate);
+            persistItem(item);
 
-        LoggerSingleton.getInstance().info("added new item: " + item);
+            LoggerSingleton.getInstance().info("added new item: " + item);
+        }
 
         return "redirect:/groceryList";
     }
