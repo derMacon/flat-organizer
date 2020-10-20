@@ -19,18 +19,8 @@ public class DefaultController {
 
 
     @RequestMapping("/")
-    public String index(@ModelAttribute("currUser") User user) {
-        User currUser = (User) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-        String currentPrincipalName = currUser.getUsername();
-
-        user.setUsername(currentPrincipalName);
-
-//        return (List<User>) userRepository.findAll();
-//        List<User> users = new LinkedList<>();
-//
-//        model.addAttribute("users", users);
-//        return "index";
+    public String index(Model model) {
+        model.addAttribute("selectedDomain", "home");
         return "main";
     }
 

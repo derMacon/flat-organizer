@@ -60,7 +60,7 @@ public class GroceryListController {
         model.addAttribute("oldItems", itemRepository.findAllByStatus(true));
         model.addAttribute("selectedItems", new SelectedItems());
 
-        model.addAttribute("subdomainSelected", "groceryList");
+        model.addAttribute("selectedDomain", "groceryList");
 
         return "groceryList";
     }
@@ -78,6 +78,7 @@ public class GroceryListController {
         List<Long> checkedItems = selectedItems.getCheckedItems();
         for (Long curr : checkedItems) {
             Item item = itemRepository.findByItemId(curr);
+            LoggerSingleton.getInstance().info("before persist: " + item);
             item.setStatus(true);
             persistItem(item);
 
@@ -195,7 +196,7 @@ public class GroceryListController {
 
         for (Item currItem : itemRepository.findAll()) {
             if (currItem.equals(inputItem)
-                    && currItem.getItemId() == inputItem.getItemId()) {
+                    && currItem.getItemId() != inputItem.getItemId()) {
                 out = currItem;
             }
         }
