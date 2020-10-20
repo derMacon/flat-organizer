@@ -27,15 +27,19 @@ public class Item extends BaseObject {
     @JoinColumn(name = "destination_id", nullable = true)
     private Room destination;
 
+    private Boolean status;
+
     public Item() {
         this.itemCount = 1;
+        this.status = true;
     }
 
-    public Item(long itemId, int itemCount, String itemName, Room destination) {
+    public Item(long itemId, int itemCount, String itemName, Room destination, Boolean status) {
         this.itemId = itemId;
         this.itemCount = itemCount;
         this.itemName = itemName;
         this.destination = destination;
+        this.status = status;
     }
 
     public long getItemId() {
@@ -48,6 +52,45 @@ public class Item extends BaseObject {
 
     public int getItemCount() {
         return itemCount;
+    }
+
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public Room getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Room destination) {
+        this.destination = destination;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "itemId=" + itemId +
+                ", itemCount=" + itemCount +
+                ", itemName='" + itemName + '\'' +
+                ", destination=" + destination +
+                ", status=" + status +
+                '}';
     }
 
     public ItemCategory getItemCategory() {
@@ -88,36 +131,6 @@ public class Item extends BaseObject {
         }
 
         return ProductDefault.COSTUM_SUPPLY;
-    }
-
-    public void setItemCount(int itemCount) {
-        this.itemCount = itemCount;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public Room getDestination() {
-        return destination;
-    }
-
-    public void setDestination(Room destination) {
-        this.destination = destination;
-    }
-
-    @Override
-    public String toString() {
-        return "Item{" +
-                "itemId=" + itemId +
-                ", itemCount=" + itemCount +
-                ", itemName='" + itemName + '\'' +
-                ", destination=" + destination +
-                '}';
     }
 
     @Override

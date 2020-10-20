@@ -42,7 +42,8 @@ CREATE TABLE item (
   item_count INT(6) UNSIGNED NOT NULL,
   item_name VARCHAR(500) NOT NULL,
   destination_id INT(6) UNSIGNED,
-  FOREIGN KEY (destination_id) REFERENCES room (room_id)
+  FOREIGN KEY (destination_id) REFERENCES room (room_id),
+  status BIT
 );
 
 CREATE TABLE task (

@@ -92,6 +92,7 @@ public class GroceryListController {
     public String addNewItem(@ModelAttribute("item") Item item) {
 
         Flatmate loggedInFlatmate = getLoggedInFlatmate();
+        item.setStatus(true);
         updateItem_flatmateDestination(item, loggedInFlatmate);
         persistItem(item);
 

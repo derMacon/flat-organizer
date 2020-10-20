@@ -129,8 +129,9 @@
                         </tr>
 
                         <tr th:each="item : ${allItems}">
-                            <td><input th:field="*{checkedItems}" th:value="${item.itemId}"
-                                       type="checkbox"/></td>
+<!--                            <td><input th:field="*{checkedItems}" th:value="${item.itemId}"-->
+<!--                                       type="checkbox"/></td>-->
+                            <td><input type="checkbox" disabled="disabled" checked/></td>
                             <td><span th:text="${item.itemName}"> item name </span></td>
                             <td><span th:text="${item.itemCount}"> item count </span></td>
                             <td><span
