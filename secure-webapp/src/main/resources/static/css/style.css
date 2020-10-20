@@ -90,6 +90,10 @@ h1 {
 
 /* modules/navigation.css */
 
+/*#headerDiv {*/
+/*    position:fixed;    !*Here's what sticks it*!*/
+/*}*/
+
 .navigation a {
     color: inherit;
     display: block;

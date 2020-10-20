@@ -60,6 +60,8 @@ public class GroceryListController {
         model.addAttribute("oldItems", itemRepository.findAllByStatus(true));
         model.addAttribute("selectedItems", new SelectedItems());
 
+        model.addAttribute("subdomainSelected", "groceryList");
+
         return "groceryList";
     }
 
