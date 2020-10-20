@@ -205,9 +205,3 @@ INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname,
 VALUES (311, 12, 201, "Linshu", "Gao", '2018-09-27');
 
 
-INSERT INTO item (item_id, item_count, item_name, destination_id)
-VALUES (400, 5, "Klopapier", 103);
-
-INSERT INTO item (item_id, item_count, item_name, destination_id)
-VALUES (401, 5, "Küchenrolle", 105);
-

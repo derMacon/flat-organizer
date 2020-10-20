@@ -9,6 +9,7 @@ import com.dermacon.securewebapp.data.LivingSpaceRepository;
 import com.dermacon.securewebapp.data.Room;
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRepository;
+import com.dermacon.securewebapp.logger.LoggerSingleton;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -70,10 +71,10 @@ public class GroceryListController {
 
         for (Long curr : checkedItems) {
             Item item = itemRepository.findByItemId(curr);
-            System.out.println("removing item entity: " + item);
-
             item.setStatus(true);
             persistItem(item);
+
+            LoggerSingleton.getInstance().info("moving item to old items table: " + item);
 
 //            item.setDestination(null);
             // delete entity from database
@@ -97,21 +98,26 @@ public class GroceryListController {
         updateItem_flatmateDestination(item, loggedInFlatmate);
         persistItem(item);
 
+        LoggerSingleton.getInstance().info("added new item: " + item);
+
         return "redirect:/groceryList";
     }
 
     /**
-     *
-     * @param item
+     * Checks if an item with the same name, destination and shipping status already exists,
+     * if so the appropriate entity will be updated otherwise the given entity will be saved
+     * to the database as it is.
+     * @param item item to persist
      */
     private void persistItem(Item item) {
         Item alreadySavedItem = getItemWithSameName_and_Destination_and_status(item);
         // overwrite item if necessary
         if (alreadySavedItem != null) {
-            System.out.println("overwrites already saved item: " + item);
             alreadySavedItem.setItemCount(item.getItemCount() + alreadySavedItem.getItemCount());
+            LoggerSingleton.getInstance().info("overwrites already saved item: " + item);
         } else {
             itemRepository.save(item);
+            LoggerSingleton.getInstance().info("no existing item entity, persist new: " + item);
         }
     }
 
