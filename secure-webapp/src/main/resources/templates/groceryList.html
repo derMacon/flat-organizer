@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <title>title</title>
     <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
 
 </head>
 <body>
@@ -23,11 +23,13 @@
                 <li
                         class="navigation__item"><a href="/flat-organizer/groceryList">Einkaufsliste
                 </a></li>
-                <li class="navigation__item"><a href="/flat-organizer/noSecurity">noSecurity endpoint</a></li>
+                <li class="navigation__item"><a href="/flat-organizer/noSecurity">noSecurity
+                    endpoint</a></li>
                 <li
                         class="navigation__item"><a href="/flat-organizer/minutes">Protokoll
                 </a></li>
-                <li class="navigation__item"><a href="/flat-organizer/information">Information</a></li>
+                <li class="navigation__item"><a href="/flat-organizer/information">Information</a>
+                </li>
             </ul>
         </nav>
 
@@ -39,13 +41,13 @@
 
 <main class="main">
 
-    <div class="grid">
+    <div class="grid" id="groceryListView">
 
         <div align="center">
-            <form id="itemFormContainer" action="#" method="post" th:action="@{/groceryList}"
-            th:object="${item}" th:placeholder="Produkt">
-                <input list="suggestion_name" id="itemName" th:field="*{itemName}"
-                       type="text" th:placeholder="Produkt"/><br/>
+            <form action="#" id="itemFormContainer" method="post" th:action="@{/groceryList}"
+                  th:object="${item}" th:placeholder="Produkt">
+                <input id="itemName" list="suggestion_name" th:field="*{itemName}"
+                       th:placeholder="Produkt" type="text"/><br/>
                 <datalist id="suggestion_name">
                     <option th:value="Küchenrolle">
                     <option th:value="Klopapier">
@@ -53,8 +55,8 @@
 
 
                 <div id="secondLineSubmit">
-                    <input list="suggestion_cnt"id="itemCnt" th:field="*{itemCount}"
-                    type="number" th:value="${item.itemCount}"/><br/>
+                    <input id="itemCnt" list="suggestion_cnt" th:field="*{itemCount}"
+                           th:value="${item.itemCount}" type="number"/><br/>
                     <datalist id="suggestion_cnt">
                         <option th:value="5">
                     </datalist>
@@ -68,66 +70,79 @@
         <br/>
 
         <div class="listContainer">
+            <div class="gridItem">
 
-            <h2>Aktuelle Einkaufsliste</h2>
+                <h2>Aktuelle Einkaufsliste</h2>
 
-            <form action="#" method="post" th:action="@{/processForm}" th:object="${selectedItems}">
+                <form action="#" method="post" th:action="@{/processForm}"
+                      th:object="${selectedItems}">
 
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Status</th>
-                        <th>Produkt</th>
-                        <th>Menge</th>
-                        <th>Mitbewohner</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Produkt</th>
+                            <th>Menge</th>
+                            <th>Mitbewohner</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-                    <tr th:if="${allItems.empty}">
-                        <td colspan="3"> Keine Produkte in der Einkaufsliste! </td>
-                    </tr>
+                        <tr th:if="${allItems.empty}">
+                            <td colspan="3"> Keine Produkte in der Einkaufsliste!</td>
+                        </tr>
 
-                    <tr th:each="item : ${allItems}">
-                        <td><input th:field="*{checkedItems}" th:value="${item.itemId}"
-                                   type="checkbox"/></td>
-                        <td><span th:text="${item.itemName}"> item name </span></td>
-                        <td><span th:text="${item.itemCount}"> item count </span></td>
-                        <td><span th:text="${item.destination.roomDescription}"> flatmate name </span></td>
-                    </tr>
-                </table>
-                <input id="itemSubmitBtn" type="submit" value="Einkauskorb leeren"/>
-            </form>
+                        <tr th:each="item : ${allItems}">
+                            <td><input th:field="*{checkedItems}" th:value="${item.itemId}"
+                                       type="checkbox"/></td>
+                            <td><span th:text="${item.itemName}"> item name </span></td>
+                            <td><span th:text="${item.itemCount}"> item count </span></td>
+                            <td><span
+                                    th:text="${item.destination.roomDescription}"> flatmate name </span>
+                            </td>
+                        </tr>
+                    </table>
+                    <input id="itemSubmitBtn" type="submit" value="Einkauskorb leeren"/>
+                </form>
+
+            </div>
+
+            <div class="gridItem">
+                <h2>Letzter Einkauf</h2>
+
+                <form action="#" method="post" th:action="@{/processForm}"
+                      th:object="${selectedItems}">
+
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Produkt</th>
+                            <th>Menge</th>
+                            <th>Mitbewohner</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr th:if="${allItems.empty}">
+                            <td colspan="3"> Keine Produkte in der Einkaufsliste!</td>
+                        </tr>
+
+                        <tr th:each="item : ${allItems}">
+                            <td><input th:field="*{checkedItems}" th:value="${item.itemId}"
+                                       type="checkbox"/></td>
+                            <td><span th:text="${item.itemName}"> item name </span></td>
+                            <td><span th:text="${item.itemCount}"> item count </span></td>
+                            <td><span
+                                    th:text="${item.destination.roomDescription}"> flatmate name </span>
+                            </td>
+                        </tr>
+                    </table>
+                    <input id="itemSubmitBtn" type="submit" value="Einkauskorb leeren"/>
+                </form>
+            </div>
 
         </div>
-
-
-        <h2>Letzter Einkauf</h2>
-
-        <form action="#" method="post" th:action="@{/processForm}" th:object="${selectedItems}">
-
-            <table>
-                <thead>
-                <tr>
-                    <th>Produkt</th>
-                    <th>Menge</th>
-                    <th>Mitbewohner</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                <tr th:if="${allItems.empty}">
-                    <td colspan="3"> Keine Produkte in der Einkaufsliste! </td>
-                </tr>
-
-                <tr th:each="item : ${allItems}">
-                    <td><span th:text="${item.itemName}"> item name </span></td>
-                    <td><span th:text="${item.itemCount}"> item count </span></td>
-                    <td><span th:text="${item.destination.roomDescription}"> flatmate name </span></td>
-                </tr>
-            </table>
-            <input id="itemSubmitBtn" type="submit" value="Einkauskorb leeren"/>
-        </form>
 
     </div>
 

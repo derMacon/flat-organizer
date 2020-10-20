@@ -8,7 +8,13 @@
     margin-left: auto;
     margin-right: auto;
     max-width: 80em;
+    /*min-width: 80em;*/
     width: 98%;
+}
+
+#groceryListView {
+    max-width: 70em;
+    /*border: 5px solid red;*/
 }
 
 /* helpers/sticky.css */
@@ -120,11 +126,6 @@ p {
 
 
 
-
-
-
-
-
 /* ------------------ table -----------------------*/
 
 /*https://codepen.io/sethabbott/pen/gdpzF*/
@@ -173,6 +174,19 @@ a {
         max-width: 38em;
         width: 90%;
     }
+
+    .listContainer {
+        display: flex;
+    }
+
+    .gridItem {
+        flex: 1;
+        /*margin-left: auto;*/
+        /*margin-right: auto;*/
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+
 }
 
 #itemSubmitBtn {
@@ -215,14 +229,14 @@ input:focus{
     /*border: 1px solid red;*/
 
     padding-top: 10px;
-    padding-right: 25px;
+    padding-right: 18px;
     padding-bottom: 10px;
-    padding-left: 25px;
+    padding-left: 18px;
 
     border: 1px #a39485 solid;
     /*font-size: .9em;*/
     box-shadow: 0 2px 5px rgba(0,0,0,.25);
-    background: #383838;
+    background: #888888;
     border-radius: 5px;
     transition-duration: 0.3s;
 }
