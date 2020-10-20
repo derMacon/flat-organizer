@@ -49,12 +49,17 @@ CREATE TABLE item (
 CREATE TABLE task (
   task_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   description VARCHAR(5000) NOT NULL,
-  responsibleFlatmate INT(6) UNSIGNED,
-  FOREIGN KEY (responsibleFlatmate) REFERENCES  (flatmate_id),
-  status BIT,
-  publishingDate DATE NOT NULL
+  task_status BIT NOT NULL,
+  publishing_date DATE NOT NULL
 );
 
+CREATE TABLE task_flatmate (
+  task_id INT(6) UNSIGNED NOT NULL,
+  flatmate_id INT(6) UNSIGNED NOT NULL,
+  PRIMARY KEY CLUSTERED (task_id, flatmate_id),
+  FOREIGN KEY (task_id) REFERENCES task (task_id),
+  FOREIGN KEY (flatmate_id) REFERENCES flatmate (flatmate_id)
+);
 
 INSERT INTO user (user_id, username, password) VALUES (1, "felixS", "schwart1201");
 INSERT INTO user (user_id, username, password) VALUES (2, "sinje", "cremer0704");
