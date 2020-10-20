@@ -133,6 +133,12 @@ public class Item extends BaseObject {
         return ProductDefault.COSTUM_SUPPLY;
     }
 
+    public boolean isValid() {
+        return this.getItemCount() > 0
+                && !this.getItemName().isBlank()
+                && !this.getItemName().isEmpty();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -140,10 +146,18 @@ public class Item extends BaseObject {
 
         Item other = (Item) o;
 
-        boolean product_name_equals = this.getProductDefault().equals(other.getProductDefault())
-                || this.itemName.toLowerCase().equals(other.itemName.toLowerCase());
+        ProductDefault this_default = this.getProductDefault();
+        ProductDefault other_default = other.getProductDefault();
 
-        return product_name_equals
+        boolean defaultsMatch = this_default.equals(other_default);
+
+        // custom products must match names
+        if (defaultsMatch && this_default.equals(ProductDefault.COSTUM_SUPPLY)) {
+            defaultsMatch = this.itemName.toLowerCase().equals(other.itemName.toLowerCase());
+        }
+
+        // all defaults only need to match
+        return defaultsMatch
                 && this.destination.equals(other.destination)
                 && this.status.equals(other.status);
     }
