@@ -48,8 +48,9 @@ CREATE TABLE item (
 
 CREATE TABLE task (
   task_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  task_title VARCHAR(500) NOT NULL,
   description VARCHAR(5000) NOT NULL,
-  task_status BIT NOT NULL,
+  task_status BIT,
   publishing_date DATE NOT NULL
 );
 
@@ -210,8 +211,8 @@ INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname,
 VALUES (311, 12, 201, "Linshu", "Gao", '2018-09-27');
 
 
-INSERT INTO task (task_id, description, task_status, publishing_date)
-VALUES (400, "test task 1", false, '2018-09-27');
+INSERT INTO task (task_id, task_title, description, task_status, publishing_date)
+VALUES (400, "test title", "test description 1", false, '2018-09-27');
 
 
 INSERT INTO task_flatmate (task_id, flatmate_id)

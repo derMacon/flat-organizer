@@ -21,6 +21,8 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long task_id;
 
+    private String task_title;
+
     private String description;
 
     private Boolean taskStatus;
@@ -36,9 +38,12 @@ public class Task {
     )
     Set<Flatmate> responsibleFlatmates = new HashSet<>();
 
-    public Task() {}
+    public Task() {
+        this.taskStatus = null;
+    }
 
-    public Task(String description, Boolean taskStatus, Date publishingDate, Set<Flatmate> responsibleFlatmates) {
+    public Task(String task_title, String description, Boolean taskStatus, Date publishingDate, Set<Flatmate> responsibleFlatmates) {
+        this.task_title = task_title;
         this.description = description;
         this.taskStatus = taskStatus;
         this.publishingDate = publishingDate;
@@ -51,6 +56,14 @@ public class Task {
 
     public void setTask_id(long task_id) {
         this.task_id = task_id;
+    }
+
+    public String getTask_title() {
+        return task_title;
+    }
+
+    public void setTask_title(String task_title) {
+        this.task_title = task_title;
     }
 
     public String getDescription() {
@@ -85,14 +98,5 @@ public class Task {
         this.responsibleFlatmates = responsibleFlatmates;
     }
 
-    @Override
-    public String toString() {
-        return "Task{" +
-                "task_id=" + task_id +
-                ", description='" + description + '\'' +
-                ", taskStatus=" + taskStatus +
-                ", publishingDate=" + publishingDate +
-                ", responsibleFlatmates=" + responsibleFlatmates +
-                '}';
-    }
+
 }

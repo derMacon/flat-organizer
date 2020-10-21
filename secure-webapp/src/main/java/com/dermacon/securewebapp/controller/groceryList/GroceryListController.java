@@ -68,10 +68,8 @@ public class GroceryListController {
 
         model.addAttribute("selectedDomain", "groceryList");
 
-
-
-        Long id = (long)300;
-        Set<Task> tasks = taskRepository.findAllByResponsibleFlatmates_flatmateId(id);
+//        Long id = (long)300;
+//        Set<Task> tasks = taskRepository.findAllByResponsibleFlatmates_flatmateId(id);
 
         return "groceryList";
     }
