@@ -24,9 +24,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Controller for the grocery list endpoint
+ */
 @Transactional
 @Controller
 public class GroceryListController {
@@ -62,12 +64,17 @@ public class GroceryListController {
         // and overwritten when a new item will be added
         model.addAttribute("item", new Item());
 
+        // add list of active and inactive elements, will be used to display
+        // what is currently in the grocery list and what was bought at the
+        // last shopping trip
         model.addAttribute("newItems", itemRepository.findAllByStatus(false));
         model.addAttribute("oldItems", itemRepository.findAllByStatus(true));
         model.addAttribute("selectedItems", new SelectedItems());
 
+        // used in header to select which of the title segments should be highlighted
         model.addAttribute("selectedDomain", "groceryList");
 
+        // todo delete this
 //        Long id = (long)300;
 //        Set<Task> tasks = taskRepository.findAllByResponsibleFlatmates_flatmateId(id);
 
@@ -79,7 +86,7 @@ public class GroceryListController {
      * @param selectedItems object which holds a list of item ids which should be deleted
      * @return grocery list thymeleaf template
      */
-    @RequestMapping(value = "/processForm", method=RequestMethod.POST)
+    @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "update")
     public String processCheckboxForm(@ModelAttribute(value="selectedItems") SelectedItems selectedItems) {
 
         updateOldItems();
@@ -98,9 +105,23 @@ public class GroceryListController {
         return "redirect:/groceryList";
     }
 
+    @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "remove")
+    public String removeItems(@ModelAttribute(value="selectedItems") SelectedItems selectedItems) {
+
+        selectedItems = selectedItems;
+
+        return "redirect:/groceryList";
+    }
+
+    /**
+     * When the user wants to move new items to the right column the old items
+     * will be removed, given that the last move action was at the last day
+     *
+     * Needed to keep the old items column up to date
+     */
     private void updateOldItems() {
         Date curr = new Date(System.currentTimeMillis());
-        if (getDateDiff(lastPurchase, curr, TimeUnit.HOURS) > 1) {
+        if (getDateDiff(lastPurchase, curr, TimeUnit.DAYS) > 1) {
 
             LoggerSingleton.getInstance().info("latest purchase too old, will be removed. Last " +
                     "Purchase (" + lastPurchase + "), current date (" + curr + ")");
@@ -170,6 +191,10 @@ public class GroceryListController {
         }
     }
 
+    /**
+     * Returns the Flatmate entity of the currently logged in user.
+     * @return the Flatmate entity of the currently logged in user.
+     */
     private Flatmate getLoggedInFlatmate() {
         User currUser = getLoggedInUser();
         // todo use flatmateRepository for this
@@ -182,6 +207,14 @@ public class GroceryListController {
         return loggedInFlatmate;
     }
 
+    /**
+     * The destination field of the item will be filled.
+     *
+     * Depending where the item is neede (e.g. kitchen vs. bathroom supply)
+     * the
+     * @param item
+     * @param flatmate
+     */
     private void updateItem_flatmateDestination(Item item, Flatmate flatmate) {
         LivingSpace livingSpace = flatmate.getLivingSpace();
         Room destination;
@@ -200,6 +233,11 @@ public class GroceryListController {
         item.setDestination(destination);
     }
 
+    /**
+     * Get equivalent item to given input
+     * @param inputItem input item to check
+     * @return equivalent item to given input
+     */
     private Item getItemWithSameName_and_Destination_and_status(Item inputItem) {
         Item out = null;
 
