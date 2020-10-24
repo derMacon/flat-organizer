@@ -62,6 +62,19 @@ CREATE TABLE task_flatmate (
   FOREIGN KEY (flatmate_id) REFERENCES flatmate (flatmate_id)
 );
 
+CREATE TABLE item_preset (
+  preset_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  preset_name VARCHAR(500) NOT NULL,
+  category_id INT(6) UNSIGNED NOT NULL,
+  FOREIGN KEY (category_id) REFERENCES supply_category (category_id)
+);
+
+CREATE TABLE supply_category (
+  category_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  category_name VARCHAR(500) NOT NULL
+);
+
+
 INSERT INTO user (user_id, username, password) VALUES (1, "felixS", "schwart1201");
 INSERT INTO user (user_id, username, password) VALUES (2, "sinje", "cremer0704");
 INSERT INTO user (user_id, username, password) VALUES (3, "kathi", "nadler1005");
@@ -209,6 +222,23 @@ VALUES (310, 11, 212, "Hannah", "Unknown", '2018-08-17');
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
 VALUES (311, 12, 201, "Linshu", "Gao", '2018-09-27');
+
+
+INSERT INTO supply_category (category_id, category_name)
+VALUES (400, "KITCHEN_SUPPLY");
+
+INSERT INTO supply_category (category_id, category_name)
+VALUES (401, "BATHROOM_SUPPLY");
+
+INSERT INTO supply_category (category_id, category_name)
+VALUES (402, "CLEANING_SUPPLY");
+
+
+INSERT INTO item_preset (preset_id, preset_name, category_id)
+VALUES (500, "Klopapier", 400);
+
+INSERT INTO item_preset (preset_id, preset_name, category_id)
+VALUES (501, "Küchenrolle", 401);
 
 
 INSERT INTO task (task_id, task_title, description, task_status, publishing_date)

@@ -3,10 +3,14 @@ package com.dermacon.securewebapp.controller.groceryList;
 import com.dermacon.securewebapp.data.Flatmate;
 import com.dermacon.securewebapp.data.FlatmateRepository;
 import com.dermacon.securewebapp.data.Item;
+import com.dermacon.securewebapp.data.ItemPreset;
+import com.dermacon.securewebapp.data.ItemPresetRepository;
 import com.dermacon.securewebapp.data.ItemRepository;
 import com.dermacon.securewebapp.data.LivingSpace;
 import com.dermacon.securewebapp.data.LivingSpaceRepository;
 import com.dermacon.securewebapp.data.Room;
+import com.dermacon.securewebapp.data.SupplyCategory;
+import com.dermacon.securewebapp.data.SupplyCategoryRepository;
 import com.dermacon.securewebapp.data.Task;
 import com.dermacon.securewebapp.data.TaskRepository;
 import com.dermacon.securewebapp.data.User;
@@ -48,6 +52,12 @@ public class GroceryListController {
     @Autowired
     TaskRepository taskRepository;
 
+    @Autowired
+    ItemPresetRepository itemPresetRepository;
+
+    @Autowired
+    SupplyCategoryRepository supplyCategoryRepository;
+
     private Date lastPurchase = new Date(System.currentTimeMillis());
 
     /**
@@ -60,6 +70,7 @@ public class GroceryListController {
      */
     @RequestMapping(value = "/groceryList", method= RequestMethod.GET)
     public String displayGroceryList(Model model) {
+
         // adding item which will be set in the thymeleaf form and used
         // and overwritten when a new item will be added
         model.addAttribute("item", new Item());
@@ -94,7 +105,7 @@ public class GroceryListController {
         List<Long> checkedItems = selectedItems.getCheckedItems();
         for (Long curr : checkedItems) {
             Item item = itemRepository.findByItemId(curr);
-            LoggerSingleton.getInstance().info("before persist: " + item);
+            LoggerSingleton.getInstance().info("persist item: " + item);
             item.setStatus(true);
             persistItem(item);
 
@@ -108,7 +119,13 @@ public class GroceryListController {
     @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "remove")
     public String removeItems(@ModelAttribute(value="selectedItems") SelectedItems selectedItems) {
 
-        selectedItems = selectedItems;
+        List<Long> checkedItems = selectedItems.getCheckedItems();
+        for (Long curr : checkedItems) {
+            Item item = itemRepository.findByItemId(curr);
+            item.setDestination(null);
+            LoggerSingleton.getInstance().info("persist item: " + item);
+            itemRepository.delete(item);
+        }
 
         return "redirect:/groceryList";
     }

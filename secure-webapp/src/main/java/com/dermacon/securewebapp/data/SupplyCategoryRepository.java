@@ -2,5 +2,5 @@ package com.dermacon.securewebapp.data;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface LivingSpaceRepository extends CrudRepository<LivingSpace, Long> {
+public interface SupplyCategoryRepository extends CrudRepository<SupplyCategory, Long> {
 }
