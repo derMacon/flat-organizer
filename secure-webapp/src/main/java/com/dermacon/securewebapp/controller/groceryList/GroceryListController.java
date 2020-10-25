@@ -100,17 +100,40 @@ public class GroceryListController {
         updateOldItems();
 
         List<Long> checkedItems = selectedItems.getCheckedItems();
-        for (Long curr : checkedItems) {
-            Item item = itemRepository.findByItemId(curr);
+        for (Long currId : checkedItems) {
+            Item item = itemRepository.findByItemId(currId);
             LoggerSingleton.getInstance().info("persist item: " + item);
-            item.setStatus(true);
-            persistItem(item);
+
+            updateLastShoppingList(item);
 
             LoggerSingleton.getInstance().info("moving item to old items table: " + item);
-
+//
         }
 
         return "redirect:/groceryList";
+    }
+
+    private void updateLastShoppingList(Item inputItem) {
+
+        Item alreadySavedItem = null;
+
+        for (Item currItem : itemRepository.findAll()) {
+            if (currItem.getItemName().toLowerCase().equals(inputItem.getItemName().toLowerCase())
+                    && currItem.getDestination().equals(inputItem.getDestination())
+                    && currItem.getItemId() != inputItem.getItemId()) {
+
+                alreadySavedItem = currItem;
+
+            }
+        }
+
+        if (alreadySavedItem == null) {
+            inputItem.setStatus(true);
+        } else {
+            alreadySavedItem.setItemCount(alreadySavedItem.getItemCount() + inputItem.getItemCount());
+            // delete entity from database
+            itemRepository.delete(inputItem);
+        }
     }
 
     @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "remove")

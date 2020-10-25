@@ -108,7 +108,6 @@ public class Item extends BaseObject {
 
         Item other = (Item) o;
 
-        // all defaults only need to match
         return this.itemName.toLowerCase().equals(other.itemName.toLowerCase())
                 && this.destination.equals(other.destination)
                 && this.status.equals(other.status);
