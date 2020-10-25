@@ -20,12 +20,18 @@
         <div align="center">
             <form action="#" id="itemFormContainer" method="post" th:action="@{/groceryList}"
                   th:object="${item}" th:placeholder="Produkt">
-                <input id="itemName" list="suggestion_name" th:field="*{itemName}"
-                       th:placeholder="Produkt" type="text"/><br/>
-                <datalist id="suggestion_name">
-                    <option th:each="preset : ${saved_presets}"
-                            th:value="${preset.getPresetName()}">
-                </datalist>
+<!--                <input id="itemName" list="suggestion_name" th:field="*{itemName}"-->
+<!--                       th:placeholder="Produkt" type="text"/><br/>-->
+<!--                <datalist id="suggestion_name">-->
+<!--                    <option th:each="preset : ${saved_presets}"-->
+<!--                            th:value="${preset.getPresetName()}">-->
+<!--                </datalist>-->
+
+                <select id="itemName" th:field="*{itemName}">
+                    <option value="0">Produktart</option>
+                    <option th:each="preset : ${saved_presets}" th:value="${preset.presetName}"
+                            th:text="${preset.presetName}"></option>
+                </select>
 
 
                 <div id="secondLineSubmit">
