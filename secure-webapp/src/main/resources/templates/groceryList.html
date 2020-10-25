@@ -23,8 +23,8 @@
                 <input id="itemName" list="suggestion_name" th:field="*{itemName}"
                        th:placeholder="Produkt" type="text"/><br/>
                 <datalist id="suggestion_name">
-                        <option th:each="preset : ${saved_presets}"
-                                th:value="${preset.getPresetName()}">
+                    <option th:each="preset : ${saved_presets}"
+                            th:value="${preset.getPresetName()}">
                 </datalist>
 
 
@@ -40,13 +40,42 @@
                         <button id="newProdBtn" type="submit" value="add">
                             Produkt hinzufügen</button>
 
-<!--                        <button id="itemSubmitBtn" type="submit" value="delete">-->
-<!--                            Produkt hinzufügen</button>-->
+                        <!--                        <button id="itemSubmitBtn" type="submit" value="delete">-->
+                        <!--                            Produkt hinzufügen</button>-->
 
                     </div>
 
-<!--                    <a href="/flat-organizer/information">Information</a>-->
+                    <!--                    <a href="/flat-organizer/information">Information</a>-->
                 </div>
+
+            </form>
+        </div>
+
+        <div align="center">
+            <form action="#" id="itemFormContainer" method="post" th:action="@{/addNewPreset}"
+                  th:object="${preset}" th:placeholder="Produkt">
+                <input id="presetName" th:field="*{presetName}"
+                       th:placeholder="Produkt" type="text"/><br/>
+
+<!--                <div id="secondLineSubmit">-->
+<!--                    <input id="itemCnt" list="suggestion_cnt" th:field="*{itemCount}"-->
+<!--                           th:value="${item.itemCount}" type="number"/><br/>-->
+<!--                    <datalist id="suggestion_cnt">-->
+<!--                        <option th:value="5">-->
+<!--                    </datalist>-->
+
+<!--                    <div class="flexBtn">-->
+
+<!--                        <button id="newProdBtn" type="submit" value="add">-->
+<!--                            Produkt hinzufügen</button>-->
+
+<!--&lt;!&ndash;                        <button id="itemSubmitBtn" type="submit" value="delete">&ndash;&gt;-->
+<!--&lt;!&ndash;                            Produkt hinzufügen</button>&ndash;&gt;-->
+
+<!--                    </div>-->
+
+<!--&lt;!&ndash;                    <a href="/flat-organizer/information">Information</a>&ndash;&gt;-->
+<!--                </div>-->
 
             </form>
         </div>

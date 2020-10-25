@@ -72,6 +72,8 @@ public class GroceryListController {
         // and overwritten when a new item will be added
         model.addAttribute("item", new Item());
 
+        model.addAttribute("preset", new ItemPreset());
+
         // add list of active and inactive elements, will be used to display
         // what is currently in the grocery list and what was bought at the
         // last shopping trip
@@ -212,6 +214,15 @@ public class GroceryListController {
 
         return "redirect:/groceryList";
     }
+
+
+    @PostMapping("/addNewPreset")
+    public String addNewPreset(@ModelAttribute("item") Item item) {
+
+        return "redirect:/groceryList";
+    }
+
+
 
     /**
      * Checks if an item with the same name, destination and shipping status already exists,
