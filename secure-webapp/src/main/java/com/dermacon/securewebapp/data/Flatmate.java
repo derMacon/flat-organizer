@@ -9,42 +9,41 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Flatmate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(nullable=false)
     private long flatmateId;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-//    @Column(nullable=false)
     private User user;
 
-//    @Column(nullable=false)
     private String firstname;
 
     @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
-//    @Column(nullable=false)
     private String surname;
 
     @Temporal(TemporalType.DATE)
-//    @Column(nullable=false)
     private Date birthday;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "living_space_id")
-//    @Column(nullable=false)
     private LivingSpace livingSpace;
 
-    Flatmate() {
-    }
+    @ManyToMany (mappedBy = "responsibleFlatmates")
+    private Set<Task> tasks = new HashSet<>();
+
+    Flatmate() {}
 
     public Flatmate(User user, String firstname, String surname, Date birthday, LivingSpace livingSpace) {
         this.user = user;

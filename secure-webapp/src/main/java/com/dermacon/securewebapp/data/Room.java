@@ -66,4 +66,14 @@ public class Room {
                 ", roomDescription='" + roomDescription + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Room other = (Room) o;
+
+        return this.roomId == other.roomId;
+    }
 }
