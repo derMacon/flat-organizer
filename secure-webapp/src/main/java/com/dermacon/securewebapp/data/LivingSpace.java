@@ -34,12 +34,17 @@ public class LivingSpace {
     @JoinColumn(name = "bathroom_id")
     private Room bathroom;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "storage_id")
+    private Room storage;
+
     public LivingSpace() {}
 
-    public LivingSpace(Room bedroom, Room kitchen, Room bathroom) {
+    public LivingSpace(Room bedroom, Room kitchen, Room bathroom, Room storage) {
         this.bedroom = bedroom;
         this.kitchen = kitchen;
         this.bathroom = bathroom;
+        this.storage = storage;
     }
 
     public long getLivingSpaceId() {
@@ -74,6 +79,14 @@ public class LivingSpace {
         this.bathroom = bathroom;
     }
 
+    public Room getStorage() {
+        return storage;
+    }
+
+    public void setStorage(Room storage) {
+        this.storage = storage;
+    }
+
     @Override
     public String toString() {
         return "LivingSpace{" +
@@ -81,6 +94,7 @@ public class LivingSpace {
                 ", bedroom=" + bedroom +
                 ", kitchen=" + kitchen +
                 ", bathroom=" + bathroom +
+                ", storage=" + storage +
                 '}';
     }
 }

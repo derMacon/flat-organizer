@@ -3,10 +3,13 @@ package com.dermacon.securewebapp.controller.groceryList;
 import com.dermacon.securewebapp.data.Flatmate;
 import com.dermacon.securewebapp.data.FlatmateRepository;
 import com.dermacon.securewebapp.data.Item;
+import com.dermacon.securewebapp.data.ItemPreset;
+import com.dermacon.securewebapp.data.ItemPresetRepository;
 import com.dermacon.securewebapp.data.ItemRepository;
 import com.dermacon.securewebapp.data.LivingSpace;
 import com.dermacon.securewebapp.data.LivingSpaceRepository;
 import com.dermacon.securewebapp.data.Room;
+import com.dermacon.securewebapp.data.TaskRepository;
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRepository;
 import com.dermacon.securewebapp.logger.LoggerSingleton;
@@ -24,6 +27,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Controller for the grocery list endpoint
+ */
 @Transactional
 @Controller
 public class GroceryListController {
@@ -40,6 +46,13 @@ public class GroceryListController {
     @Autowired
     LivingSpaceRepository livingSpaceRepository;
 
+    @Autowired
+    TaskRepository taskRepository;
+
+    @Autowired
+    ItemPresetRepository itemPresetRepository;
+
+
     private Date lastPurchase = new Date(System.currentTimeMillis());
 
     /**
@@ -52,15 +65,26 @@ public class GroceryListController {
      */
     @RequestMapping(value = "/groceryList", method= RequestMethod.GET)
     public String displayGroceryList(Model model) {
+
+        Iterable<ItemPreset> p = itemPresetRepository.findAll();
+
         // adding item which will be set in the thymeleaf form and used
         // and overwritten when a new item will be added
         model.addAttribute("item", new Item());
 
+        // add list of active and inactive elements, will be used to display
+        // what is currently in the grocery list and what was bought at the
+        // last shopping trip
         model.addAttribute("newItems", itemRepository.findAllByStatus(false));
         model.addAttribute("oldItems", itemRepository.findAllByStatus(true));
         model.addAttribute("selectedItems", new SelectedItems());
 
+        // used in header to select which of the title segments should be highlighted
         model.addAttribute("selectedDomain", "groceryList");
+
+        // todo delete this
+//        Long id = (long)300;
+//        Set<Task> tasks = taskRepository.findAllByResponsibleFlatmates_flatmateId(id);
 
         return "groceryList";
     }
@@ -70,28 +94,71 @@ public class GroceryListController {
      * @param selectedItems object which holds a list of item ids which should be deleted
      * @return grocery list thymeleaf template
      */
-    @RequestMapping(value = "/processForm", method=RequestMethod.POST)
+    @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "update")
     public String processCheckboxForm(@ModelAttribute(value="selectedItems") SelectedItems selectedItems) {
 
         updateOldItems();
 
         List<Long> checkedItems = selectedItems.getCheckedItems();
-        for (Long curr : checkedItems) {
-            Item item = itemRepository.findByItemId(curr);
-            LoggerSingleton.getInstance().info("before persist: " + item);
-            item.setStatus(true);
-            persistItem(item);
+        for (Long currId : checkedItems) {
+            Item item = itemRepository.findByItemId(currId);
+            LoggerSingleton.getInstance().info("persist item: " + item);
+
+            updateLastShoppingList(item);
 
             LoggerSingleton.getInstance().info("moving item to old items table: " + item);
-
+//
         }
 
         return "redirect:/groceryList";
     }
 
+    private void updateLastShoppingList(Item inputItem) {
+
+        Item alreadySavedItem = null;
+
+        for (Item currItem : itemRepository.findAll()) {
+            if (currItem.getItemName().toLowerCase().equals(inputItem.getItemName().toLowerCase())
+                    && currItem.getDestination().equals(inputItem.getDestination())
+                    && currItem.getItemId() != inputItem.getItemId()) {
+
+                alreadySavedItem = currItem;
+
+            }
+        }
+
+        if (alreadySavedItem == null) {
+            inputItem.setStatus(true);
+        } else {
+            alreadySavedItem.setItemCount(alreadySavedItem.getItemCount() + inputItem.getItemCount());
+            // delete entity from database
+            itemRepository.delete(inputItem);
+        }
+    }
+
+    @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "remove")
+    public String removeItems(@ModelAttribute(value="selectedItems") SelectedItems selectedItems) {
+
+        List<Long> checkedItems = selectedItems.getCheckedItems();
+        for (Long curr : checkedItems) {
+            Item item = itemRepository.findByItemId(curr);
+            item.setDestination(null);
+            LoggerSingleton.getInstance().info("persist item: " + item);
+            itemRepository.delete(item);
+        }
+
+        return "redirect:/groceryList";
+    }
+
+    /**
+     * When the user wants to move new items to the right column the old items
+     * will be removed, given that the last move action was at the last day
+     *
+     * Needed to keep the old items column up to date
+     */
     private void updateOldItems() {
         Date curr = new Date(System.currentTimeMillis());
-        if (getDateDiff(lastPurchase, curr, TimeUnit.HOURS) > 1) {
+        if (getDateDiff(lastPurchase, curr, TimeUnit.DAYS) > 1) {
 
             LoggerSingleton.getInstance().info("latest purchase too old, will be removed. Last " +
                     "Purchase (" + lastPurchase + "), current date (" + curr + ")");
@@ -161,6 +228,10 @@ public class GroceryListController {
         }
     }
 
+    /**
+     * Returns the Flatmate entity of the currently logged in user.
+     * @return the Flatmate entity of the currently logged in user.
+     */
     private Flatmate getLoggedInFlatmate() {
         User currUser = getLoggedInUser();
         // todo use flatmateRepository for this
@@ -173,24 +244,42 @@ public class GroceryListController {
         return loggedInFlatmate;
     }
 
+    /**
+     * The destination field of the item will be filled.
+     *
+     * Depending where the item is neede (e.g. kitchen vs. bathroom supply)
+     * the
+     * @param item
+     * @param flatmate
+     */
     private void updateItem_flatmateDestination(Item item, Flatmate flatmate) {
         LivingSpace livingSpace = flatmate.getLivingSpace();
         Room destination;
 
-        switch (item.getItemCategory()) {
+        ItemPreset preset = itemPresetRepository.findItemPresetsByPresetName(item.getItemName());
+        switch (preset.getSupplyCategory()) {
             case KITCHEN_SUPPLY:
                 destination = livingSpace.getKitchen();
                 break;
             case BATHROOM_SUPPLY:
                 destination = livingSpace.getBathroom();
                 break;
+            case CLEANING_SUPPLY:
+                destination = livingSpace.getStorage();
+                break;
             default:
                 destination = livingSpace.getBedroom();
         }
 
         item.setDestination(destination);
+        LoggerSingleton.getInstance().info("updated item with destination: " + item);
     }
 
+    /**
+     * Get equivalent item to given input
+     * @param inputItem input item to check
+     * @return equivalent item to given input
+     */
     private Item getItemWithSameName_and_Destination_and_status(Item inputItem) {
         Item out = null;
 

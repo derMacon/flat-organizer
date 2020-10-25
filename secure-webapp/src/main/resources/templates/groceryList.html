@@ -35,7 +35,17 @@
                         <option th:value="5">
                     </datalist>
 
-                    <button id="itemSubmin" type="submit">Produkt hinzufügen</button>
+                    <div class="flexBtn">
+
+                        <button id="newProdBtn" type="submit" value="add">
+                            Produkt hinzufügen</button>
+
+<!--                        <button id="itemSubmitBtn" type="submit" value="delete">-->
+<!--                            Produkt hinzufügen</button>-->
+
+                    </div>
+
+<!--                    <a href="/flat-organizer/information">Information</a>-->
                 </div>
 
             </form>
@@ -57,7 +67,7 @@
                             <th>Status</th>
                             <th>Produkt</th>
                             <th>Menge</th>
-                            <th>Mitbewohner</th>
+                            <th>Zimmer</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -76,7 +86,16 @@
                             </td>
                         </tr>
                     </table>
-                    <input id="itemSubmitBtn" type="submit" value="Einkauskorb leeren"/>
+
+                    <div class="flexBtn">
+
+                        <input id="itemSubmitBtn" type="submit" name="update"
+                               value="Produkte einkaufen"/>
+                        <input id="itemSubmitBtn" type="submit" name="remove"
+                               value="Produkte entfernen"/>
+
+                    </div>
+
                 </form>
 
             </div>
@@ -90,7 +109,7 @@
                             <th>Status</th>
                             <th>Produkt</th>
                             <th>Menge</th>
-                            <th>Mitbewohner</th>
+                            <th>Zimmer</th>
                         </tr>
                         </thead>
                         <tbody>
