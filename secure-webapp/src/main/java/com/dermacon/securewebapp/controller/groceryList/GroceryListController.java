@@ -82,6 +82,9 @@ public class GroceryListController {
         // used in header to select which of the title segments should be highlighted
         model.addAttribute("selectedDomain", "groceryList");
 
+        // used to display preset options
+        model.addAttribute("saved_presets", itemPresetRepository.findAll());
+
         // todo delete this
 //        Long id = (long)300;
 //        Set<Task> tasks = taskRepository.findAllByResponsibleFlatmates_flatmateId(id);

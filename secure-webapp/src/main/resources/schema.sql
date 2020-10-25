@@ -226,16 +226,70 @@ INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname,
 VALUES (311, 12, 201, "Linshu", "Gao", '2018-09-27');
 
 
+INSERT INTO task (task_id, task_title, description, task_status, publishing_date)
+VALUES (400, "test title", "test description 1", false, '2018-09-27');
+
+INSERT INTO task_flatmate (task_id, flatmate_id)
+VALUES (400, 300);
+
+
 INSERT INTO item_preset (preset_id, preset_name, supply_category)
 VALUES (500, "Klopapier", "BATHROOM_SUPPLY");
 
 INSERT INTO item_preset (preset_id, preset_name, supply_category)
-VALUES (501, "Küchenrolle", "KITCHEN_SUPPLY");
+VALUES (501, "Küchenpapier", "KITCHEN_SUPPLY");
 
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (502, "Backpapier", "KITCHEN_SUPPLY");
 
-INSERT INTO task (task_id, task_title, description, task_status, publishing_date)
-VALUES (400, "test title", "test description 1", false, '2018-09-27');
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (503, "Badreiniger", "BATHROOM_SUPPLY");
 
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (504, "Bioabfalltüten", "CLEANING_SUPPLY");
 
-INSERT INTO task_flatmate (task_id, flatmate_id)
-VALUES (400, 300);
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (505, "Desinfektionsspray", "CLEANING_SUPPLY");
+
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (506, "Gelbe Müllsäcke", "CLEANING_SUPPLY");
+
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (507, "Geschirrspülsalz", "KITCHEN_SUPPLY");
+
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (508, "Kalkreiniger", "CLEANING_SUPPLY");
+
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (509, "Lappen", "CLEANING_SUPPLY");
+
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (510, "Metallschwäme", "CLEANING_SUPPLY");
+
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (511, "Olivenöl", "KITCHEN_SUPPLY");
+
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (512, "Pfeffer (Körner)", "KITCHEN_SUPPLY");
+
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (513, "Rapsöl", "KITCHEN_SUPPLY");
+
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (514, "Salz", "KITCHEN_SUPPLY");
+
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (515, "Scheuermilch", "CLEANING_SUPPLY");
+
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (516, "Schwämme", "CLEANING_SUPPLY");
+
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (517, "Seife", "CLEANING_SUPPLY");
+
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (518, "Sonnenblumenöl", "KITCHEN_SUPPLY");
+
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (519, "Spüli", "CLEANING_SUPPLY");
+

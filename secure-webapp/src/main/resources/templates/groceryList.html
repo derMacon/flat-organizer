@@ -23,8 +23,8 @@
                 <input id="itemName" list="suggestion_name" th:field="*{itemName}"
                        th:placeholder="Produkt" type="text"/><br/>
                 <datalist id="suggestion_name">
-                    <option th:value="Küchenrolle">
-                    <option th:value="Klopapier">
+                        <option th:each="preset : ${saved_presets}"
+                                th:value="${preset.getPresetName()}">
                 </datalist>
 
 
