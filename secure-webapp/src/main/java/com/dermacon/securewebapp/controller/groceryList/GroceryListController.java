@@ -9,9 +9,6 @@ import com.dermacon.securewebapp.data.ItemRepository;
 import com.dermacon.securewebapp.data.LivingSpace;
 import com.dermacon.securewebapp.data.LivingSpaceRepository;
 import com.dermacon.securewebapp.data.Room;
-import com.dermacon.securewebapp.data.SupplyCategory;
-import com.dermacon.securewebapp.data.SupplyCategoryRepository;
-import com.dermacon.securewebapp.data.Task;
 import com.dermacon.securewebapp.data.TaskRepository;
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRepository;
@@ -55,8 +52,6 @@ public class GroceryListController {
     @Autowired
     ItemPresetRepository itemPresetRepository;
 
-    @Autowired
-    SupplyCategoryRepository supplyCategoryRepository;
 
     private Date lastPurchase = new Date(System.currentTimeMillis());
 
@@ -70,6 +65,8 @@ public class GroceryListController {
      */
     @RequestMapping(value = "/groceryList", method= RequestMethod.GET)
     public String displayGroceryList(Model model) {
+
+        Iterable<ItemPreset> p = itemPresetRepository.findAll();
 
         // adding item which will be set in the thymeleaf form and used
         // and overwritten when a new item will be added
@@ -236,18 +233,23 @@ public class GroceryListController {
         LivingSpace livingSpace = flatmate.getLivingSpace();
         Room destination;
 
-        switch (item.getItemCategory()) {
+        ItemPreset preset = itemPresetRepository.findItemPresetsByPresetName(item.getItemName());
+        switch (preset.getSupplyCategory()) {
             case KITCHEN_SUPPLY:
                 destination = livingSpace.getKitchen();
                 break;
             case BATHROOM_SUPPLY:
                 destination = livingSpace.getBathroom();
                 break;
+            case CLEANING_SUPPLY:
+                destination = livingSpace.getStorage();
+                break;
             default:
                 destination = livingSpace.getBedroom();
         }
 
         item.setDestination(destination);
+        LoggerSingleton.getInstance().info("updated item with destination: " + item);
     }
 
     /**

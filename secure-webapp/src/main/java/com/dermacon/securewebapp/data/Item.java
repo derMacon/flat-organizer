@@ -2,6 +2,7 @@ package com.dermacon.securewebapp.data;
 
 import org.apache.commons.pool2.BaseObject;
 import org.hibernate.annotations.Cascade;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -28,6 +29,7 @@ public class Item extends BaseObject {
     private Room destination;
 
     private Boolean status;
+
 
     public Item() {
         this.itemCount = 1;
@@ -93,46 +95,6 @@ public class Item extends BaseObject {
                 '}';
     }
 
-    public ItemCategory getItemCategory() {
-        ItemCategory out = null;
-
-        // if further product presets should be added, those can be updated here
-
-        switch (getProductDefault()) {
-            case KITCHEN_ROLL:
-                out = ItemCategory.KITCHEN_SUPPLY;
-                break;
-            case TOILET_PAPER:
-                out = ItemCategory.BATHROOM_SUPPLY;
-                break;
-            default:
-                out = ItemCategory.COSTUM_SUPPLY;
-        }
-
-        return out;
-    }
-
-    private ProductDefault getProductDefault() {
-        ProductDefault[] values = ProductDefault.values();
-        int i = 0;
-        boolean found = false;
-
-        while (!found && i < values.length) {
-            String lowerCaseName = itemName.toLowerCase();
-            found = Arrays.stream(values[i].getItemNames())
-                    .filter(lowerCaseName::equals)
-                    .findAny()
-                    .isPresent();
-            i++;
-        }
-
-        if (found) {
-            return values[i-1];
-        }
-
-        return ProductDefault.COSTUM_SUPPLY;
-    }
-
     public boolean isValid() {
         return this.getItemCount() > 0
                 && !this.getItemName().isBlank()
@@ -146,18 +108,8 @@ public class Item extends BaseObject {
 
         Item other = (Item) o;
 
-        ProductDefault this_default = this.getProductDefault();
-        ProductDefault other_default = other.getProductDefault();
-
-        boolean defaultsMatch = this_default.equals(other_default);
-
-        // custom products must match names
-        if (defaultsMatch && this_default.equals(ProductDefault.COSTUM_SUPPLY)) {
-            defaultsMatch = this.itemName.toLowerCase().equals(other.itemName.toLowerCase());
-        }
-
         // all defaults only need to match
-        return defaultsMatch
+        return this.itemName.toLowerCase().equals(other.itemName.toLowerCase())
                 && this.destination.equals(other.destination)
                 && this.status.equals(other.status);
     }

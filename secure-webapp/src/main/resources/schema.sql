@@ -23,7 +23,9 @@ CREATE TABLE living_space (
   kitchen_id INT(6) UNSIGNED NOT NULL,
   FOREIGN KEY (kitchen_id) REFERENCES room (room_id),
   bathroom_id INT(6) UNSIGNED NOT NULL,
-  FOREIGN KEY (bathroom_id) REFERENCES room (room_id)
+  FOREIGN KEY (bathroom_id) REFERENCES room (room_id),
+  storage_id INT(6) UNSIGNED NOT NULL,
+  FOREIGN KEY (storage_id) REFERENCES room (room_id)
 );
 
 CREATE TABLE flatmate (
@@ -65,13 +67,7 @@ CREATE TABLE task_flatmate (
 CREATE TABLE item_preset (
   preset_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   preset_name VARCHAR(500) NOT NULL,
-  category_id INT(6) UNSIGNED NOT NULL,
-  FOREIGN KEY (category_id) REFERENCES supply_category (category_id)
-);
-
-CREATE TABLE supply_category (
-  category_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  category_name VARCHAR(500) NOT NULL
+  supply_category VARCHAR(30) NOT NULL
 );
 
 
@@ -146,45 +142,51 @@ VALUES (117, 3, 2, "Zimmer in der Mitte");
 INSERT INTO room (room_id, room_number, level, room_description)
 VALUES (118, 4, 2, "Zimmer rechts von der Treppe");
 
+INSERT INTO room (room_id, room_number, level, room_description)
+VALUES (119, 0, 0, "Flur Erdgeschoss");
 
-INSERT INTO living_space (living_space_id, bedroom_id, bathroom_id, kitchen_id)
-VALUES (200, 100, 103, 105);
+INSERT INTO room (room_id, room_number, level, room_description)
+VALUES (120, 0, 1, "Flur 1. OG");
 
-INSERT INTO living_space (living_space_id, bedroom_id, bathroom_id, kitchen_id)
-VALUES (201, 101, 103, 105);
+INSERT INTO room (room_id, room_number, level, room_description)
+VALUES (121, 0, 2, "Flur 2. OG");
 
-INSERT INTO living_space (living_space_id, bedroom_id, bathroom_id, kitchen_id)
-VALUES (202, 102, 103, 105);
 
-INSERT INTO living_space (living_space_id, bedroom_id, bathroom_id, kitchen_id)
-VALUES (203, 104, 103, 105);
+INSERT INTO living_space (living_space_id, bedroom_id, kitchen_id, bathroom_id, storage_id)
+VALUES (200, 100, 105, 103, 103);
 
-INSERT INTO living_space (living_space_id, bedroom_id, bathroom_id, kitchen_id)
-VALUES (204, 106, 103, 105);
+INSERT INTO living_space (living_space_id, bedroom_id, kitchen_id, bathroom_id, storage_id)
+VALUES (201, 101, 105, 103, 103);
 
-INSERT INTO living_space (living_space_id, bedroom_id, bathroom_id, kitchen_id)
-VALUES (205, 108, 107, 111);
+INSERT INTO living_space (living_space_id, bedroom_id, kitchen_id, bathroom_id, storage_id)
+VALUES (202, 102, 105, 103, 103);
 
-INSERT INTO living_space (living_space_id, bedroom_id, bathroom_id, kitchen_id)
-VALUES (206, 109, 107, 111);
+INSERT INTO living_space (living_space_id, bedroom_id, kitchen_id, bathroom_id, storage_id)
+VALUES (203, 104, 105, 103, 103);
 
-INSERT INTO living_space (living_space_id, bedroom_id, bathroom_id, kitchen_id)
-VALUES (207, 110, 107, 111);
+INSERT INTO living_space (living_space_id, bedroom_id, kitchen_id, bathroom_id, storage_id)
+VALUES (205, 108, 111, 107, 120);
 
-INSERT INTO living_space (living_space_id, bedroom_id, bathroom_id, kitchen_id)
-VALUES (208, 112, 114, 111);
+INSERT INTO living_space (living_space_id, bedroom_id, kitchen_id, bathroom_id, storage_id)
+VALUES (206, 109, 111, 107, 120);
 
-INSERT INTO living_space (living_space_id, bedroom_id, bathroom_id, kitchen_id)
-VALUES (209, 113, 114, 111);
+INSERT INTO living_space (living_space_id, bedroom_id, kitchen_id, bathroom_id, storage_id)
+VALUES (207, 110, 111, 107, 120);
 
-INSERT INTO living_space (living_space_id, bedroom_id, bathroom_id, kitchen_id)
-VALUES (210, 116, 115, 107);
+INSERT INTO living_space (living_space_id, bedroom_id, kitchen_id, bathroom_id, storage_id)
+VALUES (208, 112, 111, 114, 120);
 
-INSERT INTO living_space (living_space_id, bedroom_id, bathroom_id, kitchen_id)
-VALUES (211, 117, 115, 114);
+INSERT INTO living_space (living_space_id, bedroom_id, kitchen_id, bathroom_id, storage_id)
+VALUES (209, 113, 111, 114, 120);
 
-INSERT INTO living_space (living_space_id, bedroom_id, bathroom_id, kitchen_id)
-VALUES (212, 118, 115, 107);
+INSERT INTO living_space (living_space_id, bedroom_id, kitchen_id, bathroom_id, storage_id)
+VALUES (210, 116, 115, 107, 120);
+
+INSERT INTO living_space (living_space_id, bedroom_id, kitchen_id, bathroom_id, storage_id)
+VALUES (211, 117, 115, 114, 120);
+
+INSERT INTO living_space (living_space_id, bedroom_id, kitchen_id, bathroom_id, storage_id)
+VALUES (212, 118, 115, 107, 120);
 
 
 INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname, birthday)
@@ -224,21 +226,11 @@ INSERT INTO flatmate (flatmate_id, user_id, living_space_id, firstname, surname,
 VALUES (311, 12, 201, "Linshu", "Gao", '2018-09-27');
 
 
-INSERT INTO supply_category (category_id, category_name)
-VALUES (400, "KITCHEN_SUPPLY");
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (500, "Klopapier", "BATHROOM_SUPPLY");
 
-INSERT INTO supply_category (category_id, category_name)
-VALUES (401, "BATHROOM_SUPPLY");
-
-INSERT INTO supply_category (category_id, category_name)
-VALUES (402, "CLEANING_SUPPLY");
-
-
-INSERT INTO item_preset (preset_id, preset_name, category_id)
-VALUES (500, "Klopapier", 400);
-
-INSERT INTO item_preset (preset_id, preset_name, category_id)
-VALUES (501, "Küchenrolle", 401);
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (501, "Küchenrolle", "KITCHEN_SUPPLY");
 
 
 INSERT INTO task (task_id, task_title, description, task_status, publishing_date)

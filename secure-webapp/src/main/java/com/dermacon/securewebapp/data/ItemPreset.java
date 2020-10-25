@@ -4,6 +4,8 @@ import org.hibernate.annotations.Cascade;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,16 +23,15 @@ public class ItemPreset {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long presetId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id")
-    private SupplyCategory category;
+    @Enumerated(EnumType.STRING)
+    private SupplyCategory supplyCategory;
 
     private String presetName;
 
     public ItemPreset() {}
 
-    public ItemPreset(SupplyCategory category, String presetName) {
-        this.category = category;
+    public ItemPreset(SupplyCategory supplyCategory, String presetName) {
+        this.supplyCategory = supplyCategory;
         this.presetName = presetName;
     }
 
@@ -42,12 +43,12 @@ public class ItemPreset {
         this.presetId = presetId;
     }
 
-    public SupplyCategory getCategory() {
-        return category;
+    public SupplyCategory getSupplyCategory() {
+        return supplyCategory;
     }
 
-    public void setCategory(SupplyCategory category) {
-        this.category = category;
+    public void setSupplyCategory(SupplyCategory supplyCategory) {
+        this.supplyCategory = supplyCategory;
     }
 
     public String getPresetName() {
@@ -62,7 +63,7 @@ public class ItemPreset {
     public String toString() {
         return "ItemPreset{" +
                 "presetId=" + presetId +
-                ", category=" + category +
+                ", supplyCategory=" + supplyCategory +
                 ", presetName='" + presetName + '\'' +
                 '}';
     }
