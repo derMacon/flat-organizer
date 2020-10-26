@@ -187,6 +187,7 @@ a {
 
     .listContainer {
         display: flex;
+        justify-content: space-around;
     }
 
     .gridItem {
