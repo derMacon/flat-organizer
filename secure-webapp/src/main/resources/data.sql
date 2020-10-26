@@ -78,7 +78,7 @@ INSERT INTO user (user_id, username, password, role) VALUES (4, "lena", "tschent
 INSERT INTO user (user_id, username, password, role) VALUES (5, "kira", "jehns1606", "ROLE_USER");
 INSERT INTO user (user_id, username, password, role) VALUES (6, "silas", "hoffmann1706", "ROLE_USER");
 INSERT INTO user (user_id, username, password, role) VALUES (7, "lina", "velte1607", "ROLE_USER");
-INSERT INTO user (user_id, username, password, role) VALUES (8, "felixR", "reinhardt2"ROLE_USER"7", "ROLE_USER");
+INSERT INTO user (user_id, username, password, role) VALUES (8, "felixR", "reinhardt2907", "ROLE_USER");
 INSERT INTO user (user_id, username, password, role) VALUES (9, "ole", "ribbeck0108", "ROLE_USER");
 INSERT INTO user (user_id, username, password, role) VALUES (10, "jules", "kocher0108", "ROLE_USER");
 INSERT INTO user (user_id, username, password, role) VALUES (11, "hannah", "dürkop1708", "ROLE_USER");
