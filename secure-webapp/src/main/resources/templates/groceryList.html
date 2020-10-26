@@ -18,7 +18,8 @@
     <div class="grid" id="groceryListView">
 
         <div class="listContainer">
-            <div align="center">
+            <div id="itemSet" align="center">
+
                 <form action="#" id="itemFormContainer" method="post" th:action="@{/groceryList}"
                       th:object="${item}" th:placeholder="Produkt">
 
@@ -45,6 +46,7 @@
                     </div>
 
                 </form>
+
             </div>
 
             <div align="center">
