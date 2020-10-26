@@ -180,7 +180,7 @@ public class GroceryListController {
      */
     private void updateOldItems() {
         Date curr = new Date(System.currentTimeMillis());
-        if (getDateDiff(lastPurchase, curr, TimeUnit.DAYS) > 1) {
+        if (getDateDiff(lastPurchase, curr, TimeUnit.DAYS) > 0) {
 
             LoggerSingleton.getInstance().info("latest purchase too old, will be removed. Last " +
                     "Purchase (" + lastPurchase + "), current date (" + curr + ")");
