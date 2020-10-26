@@ -5,43 +5,16 @@ import org.hibernate.annotations.Cascade;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
-public class UserRole {
+public enum UserRole {
+    ROLE_USER("user"), ROLE_ADMIN("admin");
 
-    @Id
-    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
-    private long roleId;
+    private final String roleName;
 
-    private String userRole;
-
-    public UserRole() {}
-
-    public UserRole(long roleId, String userRole) {
-        this.roleId = roleId;
-        this.userRole = userRole;
+    UserRole(String roleName) {
+        this.roleName = roleName;
     }
 
-    public long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(long roleId) {
-        this.roleId = roleId;
-    }
-
-    public String getUserRole() {
-        return userRole;
-    }
-
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
-    }
-
-    @Override
-    public String toString() {
-        return "UserRole{" +
-                "roleId=" + roleId +
-                ", userRole='" + userRole + '\'' +
-                '}';
+    public String getRoleName() {
+        return roleName;
     }
 }
