@@ -97,8 +97,8 @@ public class Item extends BaseObject {
 
     public boolean isValid() {
         return this.getItemCount() > 0
-                && !this.getItemName().isBlank()
-                && !this.getItemName().isEmpty();
+                && !this.itemName.isBlank()
+                && !this.itemName.isEmpty();
     }
 
     @Override

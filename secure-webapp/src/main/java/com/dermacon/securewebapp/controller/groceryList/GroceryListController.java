@@ -9,6 +9,8 @@ import com.dermacon.securewebapp.data.ItemRepository;
 import com.dermacon.securewebapp.data.LivingSpace;
 import com.dermacon.securewebapp.data.LivingSpaceRepository;
 import com.dermacon.securewebapp.data.Room;
+import com.dermacon.securewebapp.data.SelectedSupplyCategory;
+import com.dermacon.securewebapp.data.SupplyCategory;
 import com.dermacon.securewebapp.data.TaskRepository;
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRepository;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -86,6 +89,14 @@ public class GroceryListController {
 
         // used to display preset options
         model.addAttribute("saved_presets", itemPresetRepository.findAll());
+
+        // used when adding a new preset to determine the category type of new preset
+
+        Iterable<SupplyCategory> categories = Arrays.asList(SupplyCategory.values());
+//        Iterable<String> categories =
+//                Arrays.asList(SupplyCategory.values()).stream().map(SupplyCategory::getCategoryName).collect(Collectors.toList());
+        model.addAttribute("available_categories", categories);
+        model.addAttribute("new_preset", new ItemPreset());
 
         // todo delete this
 //        Long id = (long)300;
@@ -217,7 +228,16 @@ public class GroceryListController {
 
 
     @PostMapping("/addNewPreset")
-    public String addNewPreset(@ModelAttribute("item") Item item) {
+    public String addNewPreset(@ModelAttribute("new_preset") ItemPreset itemPreset) {
+
+        ItemPreset alreadySavedPreset = itemPresetRepository
+                .findItemPresetsByPresetName(itemPreset.getPresetName());
+
+        // preset name must be unique
+        if (alreadySavedPreset == null) {
+            LoggerSingleton.getInstance().info("add new item preset: " + itemPreset);
+            itemPresetRepository.save(itemPreset);
+        }
 
         return "redirect:/groceryList";
     }
