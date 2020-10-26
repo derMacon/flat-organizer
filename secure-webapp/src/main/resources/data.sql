@@ -6,7 +6,8 @@ SET FOREIGN_KEY_CHECKS=0;
 CREATE TABLE user (
   user_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(500) NOT NULL,
-  password VARCHAR(5000) NOT NULL
+  password VARCHAR(5000) NOT NULL,
+  role VARCHAR(5000) NOT NULL
 );
 
 CREATE TABLE room (
@@ -70,19 +71,18 @@ CREATE TABLE item_preset (
   supply_category VARCHAR(30) NOT NULL
 );
 
-
-INSERT INTO user (user_id, username, password) VALUES (1, "felixS", "schwart1201");
-INSERT INTO user (user_id, username, password) VALUES (2, "sinje", "cremer0704");
-INSERT INTO user (user_id, username, password) VALUES (3, "kathi", "nadler1005");
-INSERT INTO user (user_id, username, password) VALUES (4, "lena", "tschentscher2505");
-INSERT INTO user (user_id, username, password) VALUES (5, "kira", "jehns1606");
-INSERT INTO user (user_id, username, password) VALUES (6, "silas", "hoffmann1706");
-INSERT INTO user (user_id, username, password) VALUES (7, "lina", "velte1607");
-INSERT INTO user (user_id, username, password) VALUES (8, "felixR", "reinhardt2907");
-INSERT INTO user (user_id, username, password) VALUES (9, "ole", "ribbeck0108");
-INSERT INTO user (user_id, username, password) VALUES (10, "jules", "kocher0108");
-INSERT INTO user (user_id, username, password) VALUES (11, "hannah", "dürkop1708");
-INSERT INTO user (user_id, username, password) VALUES (12, "linshu", "gao2709");
+INSERT INTO user (user_id, username, password, role) VALUES (1, "felixS", "schwart1201", "ROLE_USER");
+INSERT INTO user (user_id, username, password, role) VALUES (2, "sinje", "cremer0704", "ROLE_USER");
+INSERT INTO user (user_id, username, password, role) VALUES (3, "kathi", "nadler1005", "ROLE_USER");
+INSERT INTO user (user_id, username, password, role) VALUES (4, "lena", "tschentscher2505", "ROLE_USER");
+INSERT INTO user (user_id, username, password, role) VALUES (5, "kira", "jehns1606", "ROLE_USER");
+INSERT INTO user (user_id, username, password, role) VALUES (6, "silas", "hoffmann1706", "ROLE_USER");
+INSERT INTO user (user_id, username, password, role) VALUES (7, "lina", "velte1607", "ROLE_USER");
+INSERT INTO user (user_id, username, password, role) VALUES (8, "felixR", "reinhardt2"ROLE_USER"7", "ROLE_USER");
+INSERT INTO user (user_id, username, password, role) VALUES (9, "ole", "ribbeck0108", "ROLE_USER");
+INSERT INTO user (user_id, username, password, role) VALUES (10, "jules", "kocher0108", "ROLE_USER");
+INSERT INTO user (user_id, username, password, role) VALUES (11, "hannah", "dürkop1708", "ROLE_USER");
+INSERT INTO user (user_id, username, password, role) VALUES (12, "linshu", "gao2709", "ROLE_USER");
 
 
 INSERT INTO room (room_id, room_number, level, room_description)

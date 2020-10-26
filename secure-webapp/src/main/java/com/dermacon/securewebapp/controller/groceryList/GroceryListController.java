@@ -28,6 +28,7 @@ import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -101,6 +102,11 @@ public class GroceryListController {
         // todo delete this
 //        Long id = (long)300;
 //        Set<Task> tasks = taskRepository.findAllByResponsibleFlatmates_flatmateId(id);
+
+        Iterable<User> allUsers = userRepository.findAll();
+        for (User u : allUsers) {
+
+        }
 
         return "groceryList";
     }
