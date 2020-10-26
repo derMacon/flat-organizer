@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -66,5 +67,16 @@ public class ItemPreset {
                 ", supplyCategory=" + supplyCategory +
                 ", presetName='" + presetName + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ItemPreset other = (ItemPreset) o;
+
+        return this.supplyCategory == other.supplyCategory
+                && this.presetName.toLowerCase().equals(other.presetName.toLowerCase());
     }
 }
