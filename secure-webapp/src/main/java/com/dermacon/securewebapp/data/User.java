@@ -1,10 +1,14 @@
 package com.dermacon.securewebapp.data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -18,12 +22,17 @@ public class User {
 
     private String password;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    protected Set<UserRole> userRole;
+
+
     protected User() {
     }
 
-    public User(String username, String password) {
+    public User(String username, String password, Set<UserRole> userRole) {
         this.username = username;
         this.password = password;
+        this.userRole = userRole;
     }
 
     public long getUserId() {
@@ -50,12 +59,21 @@ public class User {
         this.password = password;
     }
 
+    public Set<UserRole> getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(Set<UserRole> userRole) {
+        this.userRole = userRole;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "id=" + userId +
+                "userId=" + userId +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", userRole=" + userRole +
                 '}';
     }
 }
