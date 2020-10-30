@@ -200,6 +200,10 @@ a {
 
 }
 
+.itemInputBox {
+    background: blue;
+}
+
 .flexBtn {
     display: flex;
 }
