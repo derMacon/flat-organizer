@@ -12,28 +12,28 @@
 
                 <li class="navigation__item">
                     <a th:class="${#strings.equals(selectedDomain, 'home')} ? 'is-active' : ''"
-                        class="navigation__item"><a class="is-active" href="/flat-organizer">Home
-                </a></li>
+                       th:href="@{/}">Home</a>
+                </li>
 
                 <li class="navigation__item">
                     <a th:class="${#strings.equals(selectedDomain, 'groceryList')} ? 'is-active' : ''"
-                        href="/flat-organizer/groceryList">Einkaufsliste</a>
+                        th:href="@{/groceryList}">Einkaufsliste</a>
                 </li>
 
                 <li class="navigation__item">
                     <a th:class="${#strings.equals(selectedDomain, 'noSecurity')} ? 'is-active' : ''"
-                        href="/flat-organizer/noSecurity">noSecurity endpoint</a>
+                        th:href="@{/noSecurity}">noSecurity endpoint</a>
                 </li>
 
                 <li class="navigation__item">
                     <a th:class="${#strings.equals(selectedDomain, 'minutes')} ? 'is-active' : ''"
-                        href="/flat-organizer/minutes">WG-Treffen</a>
+                        th:href="@{/minutes}">WG-Treffen</a>
                 </li>
 
                 <li class="navigation__item">
                     <a
                             th:class="${#strings.equals(selectedDomain, 'information')} ? 'is-active' : ''"
-                        href="/flat-organizer/information">Information</a>
+                        th:href="@{/information}">Information</a>
                 </li>
             </ul>
         </nav>

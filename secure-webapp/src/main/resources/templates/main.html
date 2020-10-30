@@ -9,31 +9,8 @@
 </head>
 <body>
 
-<header class="header sticky sticky--top js-header">
+<div th:replace="fragments/header :: header"></div>
 
-    <div class="grid">
-
-        <nav class="navigation">
-            <ul class="navigation__list navigation__list--inline">
-                <li
-                        class="navigation__item"><a class="is-active" href="/">Home
-                </a></li>
-                <li
-                        class="navigation__item"><a href="/flat-organizer/groceryList">Einkaufsliste
-                </a></li>
-                <li class="navigation__item"><a href="/flat-organizer/noSecurity">noSecurity endpoint</a></li>
-                <li
-                        class="navigation__item"><a href="/flat-organizer/minutes">Protokoll
-                </a></li>
-                <li class="navigation__item"><a href="/flat-organizer/information">Information</a></li>
-            </ul>
-        </nav>
-
-    </div>
-
-</header>
-
-<!--<div th:insert="fragments/header :: header"></div>-->
 
 <main class="main">
 
