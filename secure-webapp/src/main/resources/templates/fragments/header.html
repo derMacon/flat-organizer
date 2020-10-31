@@ -21,16 +21,6 @@
                 </li>
 
                 <li class="navigation__item">
-                    <a th:class="${#strings.equals(selectedDomain, 'noSecurity')} ? 'is-active' : ''"
-                        th:href="@{/noSecurity}">noSecurity endpoint</a>
-                </li>
-
-                <li class="navigation__item">
-                    <a th:class="${#strings.equals(selectedDomain, 'minutes')} ? 'is-active' : ''"
-                        th:href="@{/minutes}">WG-Treffen</a>
-                </li>
-
-                <li class="navigation__item">
                     <a
                             th:class="${#strings.equals(selectedDomain, 'information')} ? 'is-active' : ''"
                         th:href="@{/information}">Information</a>

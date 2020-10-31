@@ -20,9 +20,10 @@
             <tr>
                 <th>Vorname</th>
                 <th>Nachname</th>
-                <th>Geburtstag</th>
                 <th>Stockwerk</th>
                 <th>Zimmer</th>
+                <th>Küche</th>
+                <th>Badezimmer</th>
             </tr>
             </thead>
             <tbody>
@@ -34,10 +35,11 @@
             <tr th:each="fm : ${flatmates}">
                 <td><span th:text="${fm.firstname}"> firstname </span></td>
                 <td><span th:text="${fm.surname}"> surname </span></td>
-                <td><span th:text="${fm.birthday}"> surname </span></td>
                 <td><span th:text="${fm.livingSpace.bedroom.level}"> level </span></td>
                 <td><span th:text="${fm.livingSpace.bedroom.roomDescription}"> description
                 </span></td>
+                <td><span th:text="${fm.livingSpace.kitchen.roomDescription}"> kitchen </span></td>
+                <td><span th:text="${fm.livingSpace.bathroom.roomDescription}"> bathroom </span></td>
             </tr>
         </table>
     </div>

@@ -1,3 +1,4 @@
+DROP DATABASE flat_app;
 CREATE DATABASE flat_app;
 
 USE flat_app;
