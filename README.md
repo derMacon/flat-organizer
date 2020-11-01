@@ -10,6 +10,11 @@ In our flat every roommate has a specific set of chores he / she has to do. This
 ## Database Schema
 ![schema](database_schema/db_schema.png)
 
+
+### ⚠️ Incomplete configuration
+* For privacy reasons the [data set](./secure-webapp/src/main/resources/data.sql) for the database may be incomplete in this public repository.
+* The [credentials](./secure-webapp/src/main/resources/application.properties) for the database must also be filled out before the application can start.
+
 ## Frameworks
 * Spring Boot
 * Hibernate
