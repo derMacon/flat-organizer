@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+
+### Own stuff ###
+data_set.sql
+*.log
