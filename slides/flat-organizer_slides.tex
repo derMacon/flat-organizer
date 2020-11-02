@@ -1,0 +1,37 @@
+\documentclass[10pt]{beamer}
+% to hide notes set beamer option
+%\documentclass[10pt, handout]{beamer} % exportiere Frames ohne Animation
+
+% template preamble
+\usepackage{pgfpages} % Notizen am Rand
+\usepackage[ngerman]{babel} % Deutsch
+
+\usetheme[
+	subsectionpage=progressbar, 
+	progressbar=frametitle, 
+	sectionpage=progressbar, 
+	block=fill
+]{metropolis}
+
+\title{flat-organizer}
+\date{\today}
+\author{Silas Hoffmann}
+\institute{Fachhochschule Wedel}
+\titlegraphic{\hfill\includegraphics[height=1.5cm]{_img/logo_alpha}}
+
+
+% pdfpages - Einstellungen (Notizen)
+%\setbeameroption{hide notes} % Only slides
+%\setbeameroption{show only notes} % Only notes
+\setbeameroption{show notes on second screen=right} % Both
+
+
+
+\begin{document}
+
+\maketitle
+  
+\input{projektbeschreibung/projektbeschreibung}
+\input{implementierung/implementierung}
+  
+\end{document}
