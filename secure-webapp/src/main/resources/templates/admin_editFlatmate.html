@@ -1,0 +1,51 @@
+<!--source: https://codepen.io/marcobiedermann/pen/gReMQy-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<h3>create flatmate</h3>
+
+<form action="#" method="post"
+      th:action="@{/groceryList/admin/createFlatmate}"
+      th:object="${inputFlatmate}"
+      th:placeholder="Person">
+
+    <input th:field="*{firstname}"
+           th:value="${inputFlatmate.firstname}"
+           th:placeholder="firstname"
+           type="text"/>
+
+    <input th:field="*{surname}"
+           th:value="${inputFlatmate.surname}"
+           th:placeholder="surname"
+           type="text"/>
+
+    <input th:field="*{birthday}"
+           th:value="${inputFlatmate.birthday}"
+           th:placeholder="birthday"
+           type="date"/>
+
+    <select class="selectableElement" th:field="*{livingSpace.livingSpaceId}">
+        <option th:each="currRoom : ${emptyLivingSpaces}"
+                th:value="${currRoom.livingSpaceId}"
+                th:text="${currRoom.bedroom.roomDescription}"></option>
+    </select>
+
+    <button type="submit" value="add">
+        create announcement
+    </button>
+
+</form>
+
+
+
+<div th:insert="fragments/footer :: footer"></div>
+</body>
+</html>

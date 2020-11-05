@@ -1,6 +1,7 @@
 package com.dermacon.securewebapp.data;
 
 import org.hibernate.annotations.Cascade;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -34,6 +35,7 @@ public class Flatmate {
     private String surname;
 
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -43,7 +45,7 @@ public class Flatmate {
     @ManyToMany (mappedBy = "responsibleFlatmates")
     private Set<Task> tasks = new HashSet<>();
 
-    Flatmate() {}
+    public Flatmate() {}
 
     public Flatmate(User user, String firstname, String surname, Date birthday, LivingSpace livingSpace) {
         this.user = user;

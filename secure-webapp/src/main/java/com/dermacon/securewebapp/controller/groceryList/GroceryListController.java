@@ -59,6 +59,12 @@ public class GroceryListController {
 
     private Date lastPurchase = new Date(System.currentTimeMillis());
 
+
+    @RequestMapping(value = "/", method= RequestMethod.GET)
+    public String displayGroceryList() {
+        return "redirect:/groceryList";
+    }
+
     /**
      * Initializes model with
      * - item instance that will overwritten when a new item will be added
