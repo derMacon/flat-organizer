@@ -2,6 +2,7 @@ package com.dermacon.securewebapp.controller.admin;
 
 import com.dermacon.securewebapp.data.Flatmate;
 import com.dermacon.securewebapp.data.FlatmateRepository;
+import com.dermacon.securewebapp.data.LivingSpace;
 import com.dermacon.securewebapp.data.LivingSpaceRepository;
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRepository;
@@ -13,6 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Controller
 public class AdminController {
@@ -26,7 +31,13 @@ public class AdminController {
     @RequestMapping(value = "/groceryList/admin", method= RequestMethod.GET)
     public String displayAdmin(Model model) {
         model.addAttribute("inputFlatmate", new Flatmate());
-        model.addAttribute("emptyLivingSpaces", livingSpaceRepository.findAll());
+
+        Set<LivingSpace> emptyLivingSpaces =
+                StreamSupport.stream(livingSpaceRepository.findAll().spliterator(), false)
+                .filter(e -> flatmateRepository.findByLivingSpace(e) == null)
+                .collect(Collectors.toSet());
+
+        model.addAttribute("emptyLivingSpaces", emptyLivingSpaces);
 
         return "admin_editFlatmate";
     }
