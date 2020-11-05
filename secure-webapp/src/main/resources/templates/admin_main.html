@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div th:insert="fragments/admin_createFlatmate :: body"></div>
+<div th:insert="fragments/admin_removeFlatmate :: body"></div>
+
+<div th:insert="fragments/footer :: footer"></div>
+</body>
+</html>

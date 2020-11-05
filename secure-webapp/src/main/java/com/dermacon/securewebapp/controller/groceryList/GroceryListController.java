@@ -76,8 +76,6 @@ public class GroceryListController {
     @RequestMapping(value = "/groceryList", method= RequestMethod.GET)
     public String displayGroceryList(Model model) {
 
-        Iterable<ItemPreset> p = itemPresetRepository.findAll();
-
         // adding item which will be set in the thymeleaf form and used
         // and overwritten when a new item will be added
         model.addAttribute("item", new Item());
@@ -100,19 +98,8 @@ public class GroceryListController {
         // used when adding a new preset to determine the category type of new preset
 
         Iterable<SupplyCategory> categories = Arrays.asList(SupplyCategory.values());
-//        Iterable<String> categories =
-//                Arrays.asList(SupplyCategory.values()).stream().map(SupplyCategory::getCategoryName).collect(Collectors.toList());
         model.addAttribute("available_categories", categories);
         model.addAttribute("new_preset", new ItemPreset());
-
-        // todo delete this
-//        Long id = (long)300;
-//        Set<Task> tasks = taskRepository.findAllByResponsibleFlatmates_flatmateId(id);
-
-        Iterable<User> allUsers = userRepository.findAll();
-        for (User u : allUsers) {
-
-        }
 
         return "groceryList";
     }

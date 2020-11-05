@@ -1,5 +1,3 @@
-<!--source: https://codepen.io/marcobiedermann/pen/gReMQy-->
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -8,10 +6,7 @@
 </head>
 <body>
 
-<div th:replace="fragments/header :: header"></div>
-
 <h3>create flatmate</h3>
-
 
 <div th:if="${emptyLivingSpaces.empty}">
     <p>Keine Zimmer frei um neuen Mitbewohner hinzuzufügen</p>
@@ -53,7 +48,5 @@
     </form>
 </div>
 
-
-<div th:insert="fragments/footer :: footer"></div>
 </body>
 </html>

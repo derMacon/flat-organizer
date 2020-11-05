@@ -1,5 +1,6 @@
 package com.dermacon.securewebapp.controller.admin;
 
+import com.dermacon.securewebapp.controller.services.FlatmateService;
 import com.dermacon.securewebapp.data.Flatmate;
 import com.dermacon.securewebapp.data.FlatmateRepository;
 import com.dermacon.securewebapp.data.LivingSpace;
@@ -15,12 +16,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.transaction.Transactional;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Controller
+@Transactional
 public class AdminController {
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private FlatmateRepository flatmateRepository;
@@ -28,24 +36,33 @@ public class AdminController {
     @Autowired
     private LivingSpaceRepository livingSpaceRepository;
 
-    @RequestMapping(value = "/groceryList/admin", method= RequestMethod.GET)
+    @Autowired
+    private FlatmateService flatmateService;
+
+    @RequestMapping(value = "/groceryList/admin", method = RequestMethod.GET)
     public String displayAdmin(Model model) {
+        model.addAttribute("allFlatmates", flatmateRepository.findAll());
+
+        // empty flatmate object -> filled in input box
         model.addAttribute("inputFlatmate", new Flatmate());
+
+        // empty flatmate list wrapper -> filled in selection box
+        model.addAttribute("selectedFlatmates", new SelectedFlatmates());
 
         Set<LivingSpace> emptyLivingSpaces =
                 StreamSupport.stream(livingSpaceRepository.findAll().spliterator(), false)
-                .filter(e -> flatmateRepository.findByLivingSpace(e) == null)
-                .collect(Collectors.toSet());
+                        .filter(e -> flatmateRepository.findByLivingSpace(e) == null)
+                        .collect(Collectors.toSet());
 
         model.addAttribute("emptyLivingSpaces", emptyLivingSpaces);
 
-        return "admin_editFlatmate";
+        return "admin_main";
     }
 
     @RequestMapping(value = "/groceryList/admin/createFlatmate", method = RequestMethod.POST)
-    public String createNewWorkshop_post(@ModelAttribute(value="inputFlatmate") Flatmate flatmate) {
+    public String createNewWorkshop_post(@ModelAttribute(value = "inputFlatmate") Flatmate flatmate) {
 
-        // todo error
+        // todo handling error
         String firstname = flatmate.getFirstname();
         String surname = flatmate.getSurname();
         if (flatmateRepository.findByFirstnameAndSurname(firstname, surname) != null) {
@@ -71,6 +88,7 @@ public class AdminController {
 
     /**
      * generate user (username: <firstname>; pw: <lastname><birthday>)
+     *
      * @param flatmate
      * @return
      */
@@ -100,6 +118,39 @@ public class AdminController {
     private String generatePassword(Flatmate flatmate) {
         String shortened_birthday = flatmate.getBirthday().toString().replaceAll(".", "");
         return flatmate.getSurname() + shortened_birthday;
+    }
+
+
+    @RequestMapping(value = "/groceryList/admin/removeFlatmate", method = RequestMethod.POST)
+    public String removeFlatmate_post(@ModelAttribute(value = "selectedFlatmates") SelectedFlatmates selectedFlatmateIds) {
+        // translate selected flatmate ids to actual flatmate instances from the db
+        Set<Flatmate> selectedFlatmates = selectedFlatmateIds.getCheckedFlatmates()
+                .stream()
+                .map(flatmateRepository::findById)
+                .map(Optional::get).collect(Collectors.toSet());
+
+        // foreach flatmate first remove user and then the entity itself
+//        selectedFlatmates.forEach(flatmateService::saveDeleteFlatmate);
+//        selectedFlatmates.forEach(e -> {
+//            System.out.println("remove " + e.getUser().getUserId());
+//            userRepository.deleteByUserId(e.getUser().getUserId());
+//            userRepository.delete(e.getUser());
+//            e.setUser(null);
+//            flatmateRepository.delete(e);
+//        });
+
+        for (Flatmate f : selectedFlatmates) {
+            User u = f.getUser();
+            f.setUser(null);
+            f.setLivingSpace(null);
+//            f = flatmateRepository.findById(f.getFlatmateId()).get();
+            userRepository.delete(u);
+            flatmateRepository.delete(f);
+        }
+
+
+
+        return "redirect:/groceryList/admin";
     }
 
 

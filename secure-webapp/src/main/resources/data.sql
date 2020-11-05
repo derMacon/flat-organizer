@@ -32,9 +32,9 @@ CREATE TABLE living_space (
 
 CREATE TABLE flatmate (
   flatmate_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  user_id INT(6) UNSIGNED NOT NULL,
+  user_id INT(6) UNSIGNED,
   FOREIGN KEY (user_id) REFERENCES user (user_id),
-  living_space_id INT(6) UNSIGNED NOT NULL,
+  living_space_id INT(6) UNSIGNED,
   FOREIGN KEY (living_space_id) REFERENCES room (room_id),
   firstname VARCHAR(500) NOT NULL,
   surname VARCHAR(500) NOT NULL,

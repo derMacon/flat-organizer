@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+</head>
+<body>
+
+<h3>create flatmate</h3>
+
+<form action="#" method="post" th:action="@{/groceryList/admin/removeFlatmate}"
+      th:object="${selectedFlatmates}">
+
+    <table>
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Produkt</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:if="${allFlatmates.empty}">
+            <td colspan="2">Keine Mitbewohner vorhanden!</td>
+        </tr>
+
+        <tr th:each="flatmate : ${allFlatmates}">
+            <td><input th:field="*{checkedFlatmates}" th:value="${flatmate.flatmateId}"
+                       type="checkbox"/></td>
+            <td><span th:text="${flatmate.firstname}"> item name </span></td>
+        </tr>
+    </table>
+
+    <div class="flexBtn">
+
+        <input id="itemSubmitBtn" type="submit" value="Produkte entfernen"/>
+
+    </div>
+
+</form>
+
+</body>
+</html>
