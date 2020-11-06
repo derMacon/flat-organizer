@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.transaction.Transactional;
+import java.util.Calendar;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -127,8 +129,13 @@ public class AdminController {
     }
 
     private String generatePassword(Flatmate flatmate) {
-        String shortened_birthday = flatmate.getBirthday().toString().replaceAll(".", "");
-        return flatmate.getSurname() + shortened_birthday;
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
+        cal.setTime(flatmate.getBirthday());
+
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        return flatmate.getSurname() + day + month;
     }
 
 
