@@ -20,7 +20,7 @@
               th:object="${inputFlatmate}"
               th:placeholder="Person">
 
-            <div id="test" class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between">
                 <input class="col" th:field="*{firstname}"
                        th:value="${inputFlatmate.firstname}"
                        th:placeholder="firstname"
@@ -37,7 +37,7 @@
                        type="date"/>
             </div>
 
-            <div id="test" class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between">
                 <div class="flex-fill">
                     <select class="selectableElement"
                             th:field="*{livingSpace.livingSpaceId}">
