@@ -14,8 +14,9 @@
     <table>
         <thead>
         <tr>
-            <th>Username</th>
-            <th>Produkt</th>
+            <th>Auswahl</th>
+            <th>Mitbewohner</th>
+            <th>Zimmer</th>
         </tr>
         </thead>
         <tbody>
@@ -28,6 +29,8 @@
             <td><input th:field="*{checkedElements}" th:value="${flatmate.flatmateId}"
                        type="checkbox"/></td>
             <td><span th:text="${flatmate.firstname}"> item name </span></td>
+            <td><span th:text="${flatmate.livingSpace.bedroom.roomDescription}"> item name
+            </span></td>
         </tr>
     </table>
 

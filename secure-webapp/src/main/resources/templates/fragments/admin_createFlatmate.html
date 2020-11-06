@@ -6,47 +6,56 @@
 </head>
 <body>
 
-<h3>create flatmate</h3>
+    <h3>create flatmate</h3>
 
-<div th:if="${emptyLivingSpaces.empty}">
-    <p>Keine Zimmer frei um neuen Mitbewohner hinzuzufügen</p>
-</div>
+    <div th:if="${emptyLivingSpaces.empty}">
+        <p>Keine Zimmer frei um neuen Mitbewohner hinzuzufügen</p>
+    </div>
 
 
-<div th:if="${!emptyLivingSpaces.empty}">
+    <div th:if="${!emptyLivingSpaces.empty}">
 
-    <form action="#" method="post"
-          th:action="@{/groceryList/admin/createFlatmate}"
-          th:object="${inputFlatmate}"
-          th:placeholder="Person">
+        <form action="#" method="post"
+              th:action="@{/groceryList/admin/createFlatmate}"
+              th:object="${inputFlatmate}"
+              th:placeholder="Person">
 
-        <input th:field="*{firstname}"
-               th:value="${inputFlatmate.firstname}"
-               th:placeholder="firstname"
-               type="text"/>
+            <div id="test" class="d-flex justify-content-between">
+                <input class="col" th:field="*{firstname}"
+                       th:value="${inputFlatmate.firstname}"
+                       th:placeholder="firstname"
+                       type="text"/>
 
-        <input th:field="*{surname}"
-               th:value="${inputFlatmate.surname}"
-               th:placeholder="surname"
-               type="text"/>
+                <input class="col" th:field="*{surname}"
+                       th:value="${inputFlatmate.surname}"
+                       th:placeholder="surname"
+                       type="text"/>
 
-        <input th:field="*{birthday}"
-               th:value="${inputFlatmate.birthday}"
-               th:placeholder="birthday"
-               type="date"/>
+                <input class="col" th:field="*{birthday}"
+                       th:value="${inputFlatmate.birthday}"
+                       th:placeholder="birthday"
+                       type="date"/>
+            </div>
 
-        <select class="selectableElement" th:field="*{livingSpace.livingSpaceId}">
-            <option th:each="currRoom : ${emptyLivingSpaces}"
-                    th:value="${currRoom.livingSpaceId}"
-                    th:text="${currRoom.bedroom.roomDescription}"></option>
-        </select>
+            <div id="test" class="d-flex justify-content-between">
+                <div class="flex-fill">
+                    <select class="selectableElement"
+                            th:field="*{livingSpace.livingSpaceId}">
+                        <option th:each="currRoom : ${emptyLivingSpaces}"
+                                th:value="${currRoom.livingSpaceId}"
+                                th:text="${currRoom.bedroom.roomDescription}"></option>
+                    </select>
+                </div>
 
-        <button type="submit" value="add">
-            create announcement
-        </button>
+                <div class="flex-fill">
+                    <button class="col" type="submit" value="add">
+                        create announcement
+                    </button>
+                </div>
+            </div>
 
-    </form>
-</div>
+        </form>
+    </div>
 
 </body>
 </html>

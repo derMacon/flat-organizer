@@ -29,9 +29,6 @@ import java.util.stream.StreamSupport;
 public class AdminController {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private FlatmateRepository flatmateRepository;
 
     @Autowired
