@@ -3,6 +3,10 @@
     background-color: red;
 }
 
+#outer {
+    background-color: blue;
+}
+
 #newFM_form {
     max-width: 500px;
     background-color: blue;
