@@ -25,7 +25,7 @@
         </tr>
 
         <tr th:each="flatmate : ${allFlatmates}">
-            <td><input th:field="*{checkedFlatmates}" th:value="${flatmate.flatmateId}"
+            <td><input th:field="*{checkedElements}" th:value="${flatmate.flatmateId}"
                        type="checkbox"/></td>
             <td><span th:text="${flatmate.firstname}"> item name </span></td>
         </tr>

@@ -3,6 +3,7 @@ package com.dermacon.securewebapp.controller.admin;
 import com.dermacon.securewebapp.controller.services.FlatmateService;
 import com.dermacon.securewebapp.data.Flatmate;
 import com.dermacon.securewebapp.data.FlatmateRepository;
+import com.dermacon.securewebapp.data.ItemPresetRepository;
 import com.dermacon.securewebapp.data.LivingSpace;
 import com.dermacon.securewebapp.data.LivingSpaceRepository;
 import com.dermacon.securewebapp.data.User;
@@ -39,6 +40,10 @@ public class AdminController {
     @Autowired
     private FlatmateService flatmateService;
 
+    @Autowired
+    private ItemPresetRepository itemPresetRepository;
+
+
     @RequestMapping(value = "/groceryList/admin", method = RequestMethod.GET)
     public String displayAdmin(Model model) {
         model.addAttribute("allFlatmates", flatmateRepository.findAll());
@@ -47,7 +52,9 @@ public class AdminController {
         model.addAttribute("inputFlatmate", new Flatmate());
 
         // empty flatmate list wrapper -> filled in selection box
-        model.addAttribute("selectedFlatmates", new SelectedFlatmates());
+        model.addAttribute("selectedFlatmates", new SelectedElements());
+
+        initModel_removePresetTemplate(model);
 
         Set<LivingSpace> emptyLivingSpaces =
                 StreamSupport.stream(livingSpaceRepository.findAll().spliterator(), false)
@@ -57,6 +64,13 @@ public class AdminController {
         model.addAttribute("emptyLivingSpaces", emptyLivingSpaces);
 
         return "admin_main";
+    }
+
+    private void initModel_removePresetTemplate(Model model) {
+        model.addAttribute("allItemPresets", itemPresetRepository.findAll());
+        // empty flatmate list wrapper -> filled in selection box
+        model.addAttribute("selectedItemPresets", new SelectedElements());
+
     }
 
     @RequestMapping(value = "/groceryList/admin/createFlatmate", method = RequestMethod.POST)
@@ -122,10 +136,10 @@ public class AdminController {
 
 
     @RequestMapping(value = "/groceryList/admin/removeFlatmate", method = RequestMethod.POST)
-    public String removeFlatmate_post(@ModelAttribute(value = "selectedFlatmates") SelectedFlatmates selectedFlatmateIds) {
+    public String removeFlatmate_post(@ModelAttribute(value = "selectedFlatmates") SelectedElements selectedFlatmateIds) {
         // translate selected flatmate ids to actual flatmate instances from the db
         Stream<Flatmate> selectedFlatmates =
-                selectedFlatmateIds.getCheckedFlatmates()
+                selectedFlatmateIds.getCheckedElements()
                 .stream()
                 .map(flatmateRepository::findById)
                 .map(Optional::get);
@@ -136,5 +150,13 @@ public class AdminController {
         return "redirect:/groceryList/admin";
     }
 
+
+    @RequestMapping(value = "/groceryList/admin/removePreset", method = RequestMethod.POST)
+    public String removePreset_post(@ModelAttribute(value = "selectedItemPreset") SelectedElements selectedPresets) {
+        selectedPresets.getCheckedElements()
+                .stream()
+                .forEach(itemPresetRepository::deleteByPresetId);
+        return "redirect:/groceryList/admin";
+    }
 
 }
