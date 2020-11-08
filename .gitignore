@@ -27,4 +27,5 @@ hs_err_pid*
 
 # own stuff
 *.log
+*.log.*
 data_set.sql # private information

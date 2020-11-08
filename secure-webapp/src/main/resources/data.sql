@@ -35,7 +35,7 @@ CREATE TABLE flatmate (
   user_id INT(6) UNSIGNED,
   FOREIGN KEY (user_id) REFERENCES user (user_id),
   living_space_id INT(6) UNSIGNED,
-  FOREIGN KEY (living_space_id) REFERENCES room (room_id),
+  FOREIGN KEY (living_space_id) REFERENCES living_space (living_space_id),
   firstname VARCHAR(500) NOT NULL,
   surname VARCHAR(500) NOT NULL,
   birthday DATE NOT NULL

@@ -42,6 +42,9 @@ public class AdminController {
     @Autowired
     private ItemPresetRepository itemPresetRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
 
     @RequestMapping(value = "/groceryList/admin", method = RequestMethod.GET)
     public String displayAdmin(Model model) {
@@ -88,8 +91,9 @@ public class AdminController {
         Long formInput_id = flatmate.getLivingSpace().getLivingSpaceId();
         flatmate.setLivingSpace(livingSpaceRepository.findById(formInput_id).get());
 
-        // generate user (username: <firstname>; pw: <lastname><birthday>)
+        // generate user (username: <firstname>; pw: <lastname><birthday-day><birthday-month>)
         User newUser = generateUser(flatmate);
+        newUser = userRepository.save(newUser);
         flatmate.setUser(newUser);
 
         // save in database
