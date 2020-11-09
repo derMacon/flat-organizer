@@ -9,19 +9,12 @@
           integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
           crossorigin="anonymous">
 
-    <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style_bs.css}"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
 
-<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
-<!--&lt;!&ndash;    <link th:href="@{/resources/css/bootstrap-3.4.1-dist/bootstrap.min.css}" rel="stylesheet" />&ndash;&gt;-->
-<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
-<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>-->
+    <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style_bs.css}"/>
 
     <link th:rel="stylesheet" th:href="@{assets/bootstrap4-toggle/bootstrap4-toggle.min.css}"/>
     <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
-
-<!--    <link rel="stylesheet" th:href="@{/webjars/Semantic-UI/semantic.css}">-->
-<!--    <link rel="stylesheet" href="/bootstrap-4.0.0/css/bootstrap.min.css" />-->
-<!--    <script src="/bootstrap-4.0.0/js/bootstrap.min.js"></script>-->
 </head>
 <body>
 
@@ -41,7 +34,19 @@
     </div>
 </div>
 
-<div th:insert="fragments/footer :: footer"></div>
+<!-- Footer -->
+<footer class="page-footer font-small mt-4">
+
+    <!-- Copyright -->
+    <div class="bg-dark footer-copyright text-center py-3 text-muted">© 2020 Copyright:
+        <a class="text-light" href="https://github.com/derMacon"> github.com/derMacon </a>
+    </div>
+    <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+<!--<div th:insert="fragments/footer :: footer"></div>-->
 
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
