@@ -22,7 +22,6 @@ public class DefaultController {
     @Autowired
     UserRepository userRepository;
 
-
     @RequestMapping("/")
     public String index(Model model) {
         return "redirect:/groceryList";

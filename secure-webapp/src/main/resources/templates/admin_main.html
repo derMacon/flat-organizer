@@ -11,6 +11,17 @@
 
     <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style_bs.css}"/>
 
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
+<!--&lt;!&ndash;    <link th:href="@{/resources/css/bootstrap-3.4.1-dist/bootstrap.min.css}" rel="stylesheet" />&ndash;&gt;-->
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>-->
+
+    <link th:rel="stylesheet" th:href="@{assets/bootstrap4-toggle/bootstrap4-toggle.min.css}"/>
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+
+<!--    <link rel="stylesheet" th:href="@{/webjars/Semantic-UI/semantic.css}">-->
+<!--    <link rel="stylesheet" href="/bootstrap-4.0.0/css/bootstrap.min.css" />-->
+<!--    <script src="/bootstrap-4.0.0/js/bootstrap.min.js"></script>-->
 </head>
 <body>
 
@@ -31,5 +42,11 @@
 </div>
 
 <div th:insert="fragments/footer :: footer"></div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{assets/bootstrap4-toggle/bootstrap4-toggle.min.js}"></script>
+
 </body>
 </html>
