@@ -18,3 +18,24 @@ In our flat every roommate has a specific set of chores he / she has to do. This
 ## Frameworks
 * Spring Boot
 * Hibernate
+* Bootstrap 4
+* Thymeleaf
+
+## Roadmap
+* [x] Setup Apache Server
+* [x] Setup mySql Database Server
+* [x] Create database schema
+* [x] Create Spring dummy project
+   * deploy it on server
+* [x] Grocery list backend
+* [x] Secure form login (spring security starter)
+* [x] Thymeleaf template frontend
+* [x] Admin page back- / Frontend (Bootstrap)
+* [x] Present project to roomates (first official release)
+* [ ] Create demo version for showcasing
+   * [ ] Update main page with bootstrap components
+* [ ] Hash Passwords (BCrypt)
+* [ ] Create secure endpoints (JWT)
+* [x] Create Flutter demo app
+* [ ] Create Flutter mobile app
+	 
