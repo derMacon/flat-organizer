@@ -11,6 +11,7 @@ import com.dermacon.securewebapp.data.UserRepository;
 import com.dermacon.securewebapp.data.UserRole;
 import com.dermacon.securewebapp.logger.LoggerSingleton;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -44,6 +45,9 @@ public class AdminController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     @RequestMapping(value = "/groceryList/admin", method = RequestMethod.GET)
@@ -113,7 +117,8 @@ public class AdminController {
         User newUser = new User();
 
         newUser.setUsername(generateUsername(flatmate));
-        newUser.setPassword(generatePassword(flatmate));
+        String hash = passwordEncoder.encode(generatePassword(flatmate));
+        newUser.setPassword(hash);
         newUser.setRole(UserRole.ROLE_USER);
 
         return newUser;

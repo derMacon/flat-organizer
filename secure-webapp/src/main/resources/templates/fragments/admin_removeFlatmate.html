@@ -27,11 +27,30 @@
             </tr>
 
             <tr th:each="flatmate : ${allFlatmates}">
-                <td><input th:field="*{checkedElements}" th:value="${flatmate.flatmateId}"
+                <td style="text-align:center;"><input th:field="*{checkedElements}"
+                           th:value="${flatmate.flatmateId}"
                            type="checkbox"/></td>
-                <td><span th:text="${flatmate.firstname}"> item name </span></td>
-                <td><span th:text="${flatmate.livingSpace.bedroom.roomDescription}"> item name
-            </span></td>
+                <td><span th:text="${flatmate.firstname} + ' ' + ${flatmate.surname}"> flatmate name
+                </span></td>
+
+                <td th:if="${flatmate.livingSpace.bedroom.level &lt; 1}"><span
+                        th:text="${flatmate.livingSpace.bedroom.roomDescription} + ' (EG)'">
+                                </span></td>
+
+                <td th:if="${flatmate.livingSpace.bedroom.level &gt; 0}"><span
+                        th:text="${flatmate.livingSpace.bedroom.roomDescription} + ' ('
+                        + ${flatmate.livingSpace.bedroom.level} + ' OG)'">
+                                </span></td>
+
+
+                <!--                <td th:if="${flatmate.livingSpace.bedroom.level} &gt; 0}"><span-->
+                <!--                        th:text="${flatmate.livingSpace.bedroom.roomDescription} + ' (' + ${flatmate.livingSpace.bedroom.level} + ' OG)'">-->
+                <!--                </span></td>-->
+
+                <!--                <td th:if="${flatmate.livingSpace.bedroom.level &le; 0}"><span-->
+                <!--                        th:text="${flatmate.livingSpace.bedroom.roomDescription} + ' (EG)'">-->
+                <!--                </span></td>-->
+
             </tr>
         </table>
     </div>
