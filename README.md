@@ -6,6 +6,7 @@ In our flat every roommate has a specific set of chores he / she has to do. This
 
 ## Screenshot
 ![screenshot](images/screenshot_01.png)
+![screenshot](images/screenshot_02.png)
 
 ## Database Schema
 ![schema](database_schema/db_schema.png)
