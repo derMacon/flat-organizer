@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.StreamSupport;
 
 /**
  * Controller for the grocery list endpoint
@@ -104,6 +105,15 @@ public class GroceryListController {
         return "groceryList";
     }
 
+    @RequestMapping(value = "/checkAllItems", method= RequestMethod.GET)
+    public String checkAllItems(Model model) {
+        // select all non selected checkboxes
+        for (Item item : itemRepository.findAllByStatus(false)) {
+            item.setStatus(true);
+        }
+        return "redirect:/groceryList";
+    }
+
     /**
      * Removes the selected items from the database
      * @param selectedItems object which holds a list of item ids which should be deleted
@@ -122,7 +132,6 @@ public class GroceryListController {
             updateLastShoppingList(item);
 
             LoggerSingleton.getInstance().info("moving item to old items table: " + item);
-//
         }
 
         return "redirect:/groceryList";
