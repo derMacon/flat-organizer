@@ -70,6 +70,7 @@ public class AdminController {
         model.addAttribute("emptyLivingSpaces", emptyLivingSpaces);
 
         return "admin_main";
+//        return "construction";
     }
 
     private void initModel_removePresetTemplate(Model model) {

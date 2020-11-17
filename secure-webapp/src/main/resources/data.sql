@@ -241,4 +241,22 @@ VALUES (518, "Sonnenblumenöl", "KITCHEN_SUPPLY");
 INSERT INTO item_preset (preset_id, preset_name, supply_category)
 VALUES (519, "Spüli", "CLEANING_SUPPLY");
 
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (520, "Natron", "CLEANING_SUPPLY");
+
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (521, "Backpulver", "KITCHEN_SUPPLY");
+
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (522, "Essigessenz", "KITCHEN_SUPPLY");
+
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (523, "Abflussreiniger", "CLEANING_SUPPLY");
+
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (524, "Bratöl", "KITCHEN_SUPPLY");
+
+INSERT INTO item_preset (preset_id, preset_name, supply_category)
+VALUES (525, "Bioabfalltüten", "KITCHEN_SUPPLY");
+
 

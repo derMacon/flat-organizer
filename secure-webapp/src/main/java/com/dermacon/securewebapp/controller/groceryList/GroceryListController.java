@@ -101,7 +101,8 @@ public class GroceryListController {
         model.addAttribute("available_categories", categories);
         model.addAttribute("new_preset", new ItemPreset());
 
-        return "groceryList";
+//        return "groceryList";
+        return "construction";
     }
 
     @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "updateAll")
