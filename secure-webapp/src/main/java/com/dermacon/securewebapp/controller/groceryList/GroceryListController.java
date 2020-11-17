@@ -97,7 +97,6 @@ public class GroceryListController {
         model.addAttribute("saved_presets", itemPresetRepository.findAll());
 
         // used when adding a new preset to determine the category type of new preset
-
         Iterable<SupplyCategory> categories = Arrays.asList(SupplyCategory.values());
         model.addAttribute("available_categories", categories);
         model.addAttribute("new_preset", new ItemPreset());
@@ -105,8 +104,8 @@ public class GroceryListController {
         return "groceryList";
     }
 
-    @RequestMapping(value = "/checkAllItems", method= RequestMethod.GET)
-    public String checkAllItems(Model model) {
+    @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "updateAll")
+    public String checkAllItems() {
         // select all non selected checkboxes
         for (Item item : itemRepository.findAllByStatus(false)) {
             item.setStatus(true);
