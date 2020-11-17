@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.StreamSupport;
 
 /**
  * Controller for the grocery list endpoint
@@ -96,12 +97,21 @@ public class GroceryListController {
         model.addAttribute("saved_presets", itemPresetRepository.findAll());
 
         // used when adding a new preset to determine the category type of new preset
-
         Iterable<SupplyCategory> categories = Arrays.asList(SupplyCategory.values());
         model.addAttribute("available_categories", categories);
         model.addAttribute("new_preset", new ItemPreset());
 
         return "groceryList";
+//        return "construction";
+    }
+
+    @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "updateAll")
+    public String checkAllItems() {
+        // select all non selected checkboxes
+        for (Item item : itemRepository.findAllByStatus(false)) {
+            item.setStatus(true);
+        }
+        return "redirect:/groceryList";
     }
 
     /**
@@ -122,7 +132,6 @@ public class GroceryListController {
             updateLastShoppingList(item);
 
             LoggerSingleton.getInstance().info("moving item to old items table: " + item);
-//
         }
 
         return "redirect:/groceryList";

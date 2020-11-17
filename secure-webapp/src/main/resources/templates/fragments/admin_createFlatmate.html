@@ -48,7 +48,7 @@
                     th:field="*{livingSpace.livingSpaceId}">
                 <option th:each="currRoom : ${emptyLivingSpaces}"
                         th:value="${currRoom.livingSpaceId}"
-                        th:text="${currRoom.bedroom.roomDescription}"></option>
+                        th:text="${currRoom.bedroom.roomDescription} + ' (' + ${currRoom.bedroom.level} + '. OG)'"></option>
             </select>
         </div>
 

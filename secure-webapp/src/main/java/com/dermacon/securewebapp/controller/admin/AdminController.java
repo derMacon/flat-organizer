@@ -70,6 +70,7 @@ public class AdminController {
         model.addAttribute("emptyLivingSpaces", emptyLivingSpaces);
 
         return "admin_main";
+//        return "construction";
     }
 
     private void initModel_removePresetTemplate(Model model) {
@@ -125,16 +126,20 @@ public class AdminController {
     }
 
     private String generateUsername(Flatmate flatmate) {
-        String username = flatmate.getFirstname();
+        String username = flatmate.getFirstname().toLowerCase();
         // flatmate with same firstname already exists
         // -> append as much letters from surname as needed to make it unique
         int i = 0;
-        String surname = flatmate.getSurname();
+        String surname = capitalizeWord(flatmate.getSurname());
         while (flatmateRepository.findByFirstname(username) != null && i < surname.length()) {
             username += flatmate.getSurname().substring(i, i + 1);
             i++;
         }
         return username;
+    }
+
+    private String capitalizeWord(String word) {
+        return word.substring(0, 1).toUpperCase() + word.substring(1);
     }
 
     private String generatePassword(Flatmate flatmate) {
@@ -153,7 +158,7 @@ public class AdminController {
                 ? "0" + day
                 : "" + day;
 
-        return flatmate.getSurname() + day_str + month_str;
+        return flatmate.getSurname().toLowerCase() + day_str + month_str;
     }
 
 
