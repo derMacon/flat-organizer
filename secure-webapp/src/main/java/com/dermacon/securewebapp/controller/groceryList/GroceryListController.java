@@ -101,7 +101,7 @@ public class GroceryListController {
         model.addAttribute("available_categories", categories);
         model.addAttribute("new_preset", new ItemPreset());
 
-        return "groceryList";
+        return "groceryListNew";
 //        return "construction";
     }
 
