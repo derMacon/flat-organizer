@@ -31,9 +31,9 @@ On the admin page it is possible to remove an user from the app and modify the i
 * [x] Thymeleaf template frontend
 * [x] Admin page back- / Frontend (Bootstrap)
 * [x] Present project to roomates (first official release)
-* [ ] Create demo version for showcasing
+* [x] Create demo version for showcasing
    * [ ] Update main page with bootstrap components
-* [ ] Hash Passwords (BCrypt)
+* [x] Hash Passwords (BCrypt)
 * [ ] Create secure endpoints (JWT)
 * [x] Create Flutter demo app
 * [ ] Create Flutter mobile app
