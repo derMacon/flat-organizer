@@ -22,73 +22,11 @@
 
 <div class="container pt-5">
 
-    <form class="form-inline"
-          action="#"
-          id="itemFormContainer"
-          method="post"
-          th:action="@{/groceryList}"
-          th:object="${item}" th:placeholder="Produkt">
-
-        <select th:field="*{itemName}" class="custom-select custom-select-sm">
-            <option value="">Produktart</option>
-            <option th:each="preset : ${saved_presets}"
-                    th:value="${preset.presetName}"
-                    th:text="${preset.presetName}"></option>
-        </select>
-
-        <input th:field="*{itemCount}"
-               th:value="${item.itemCount}" type="number"/><br/>
-
-
-        <div class="flexBtn">
-            <button id="btnNewProd" class="selectableElement" type="submit" value="add">
-                Produkt hinzufügen
-            </button>
-        </div>
-
-    </form>
-
-
-    <form th:action="@{/groceryList}">
-        <div class="form-group">
-            <label for="itemName">Produktname:</label>
-            <input type="text" class="form-control" id="itemName">
-
-        </div>
-        <div class="form-group">
-            <label for="pwd">Password:</label>
-            <input type="password" class="form-control" id="pwd">
-        </div>
-        <div class="checkbox">
-            <label><input type="checkbox"> Remember me</label>
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-    </form>
-
-
-    <div class="row">
-        <div class="col-md-4 mb-2">
-            <p>
-                asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf
-                asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf
-                asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf
-                asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf
-                asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf
-                asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf
-                asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf
-                asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf
-                asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf
-                asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf
-                asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf
-                asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf
-                asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf
-                asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf
-                asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf
-                asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf
-                asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf asdfasdfasdfasdfasdfasdf
-            </p>
-        </div>
-    </div>
+<!--    <div class="row">-->
+<!--        <div class="col-sd-12">-->
+            <div th:insert="fragments/horiForm :: body"></div>
+<!--        </div>-->
+<!--    </div>-->
 
 </div>
 
