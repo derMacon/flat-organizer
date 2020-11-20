@@ -26,10 +26,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 /**
@@ -86,15 +90,15 @@ public class GroceryListController {
         // add list of active and inactive elements, will be used to display
         // what is currently in the grocery list and what was bought at the
         // last shopping trip
-        model.addAttribute("newItems", itemRepository.findAllByStatus(false));
-        model.addAttribute("oldItems", itemRepository.findAllByStatus(true));
+        model.addAttribute("newItems", sort(itemRepository.findAllByStatus(false)));
+        model.addAttribute("oldItems", sort(itemRepository.findAllByStatus(true)));
         model.addAttribute("selectedItems", new SelectedItems());
 
         // used in header to select which of the title segments should be highlighted
         model.addAttribute("selectedDomain", "groceryList");
 
         // used to display preset options
-        model.addAttribute("saved_presets", itemPresetRepository.findAll());
+        model.addAttribute("saved_presets", sort(itemPresetRepository.findAll()));
 
         // used when adding a new preset to determine the category type of new preset
         Iterable<SupplyCategory> categories = Arrays.asList(SupplyCategory.values());
@@ -103,6 +107,11 @@ public class GroceryListController {
 
         return "groceryListNew";
 //        return "construction";
+    }
+
+    private <T> Iterable<T> sort(Iterable<T> it) {
+        Stream<T> stream = StreamSupport.stream(it.spliterator(), false);
+        return stream.sorted().collect(Collectors.toList());
     }
 
     @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "updateAll")
@@ -229,6 +238,8 @@ public class GroceryListController {
             persistItem(item);
 
             LoggerSingleton.getInstance().info("added new item: " + item);
+        } else {
+            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).warning("can't add item: " + item);
         }
 
         return "redirect:/groceryList";

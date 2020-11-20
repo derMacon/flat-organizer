@@ -18,7 +18,7 @@ import java.util.Date;
 
 
 @Entity
-public class ItemPreset {
+public class ItemPreset implements Comparable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,5 +78,15 @@ public class ItemPreset {
 
         return this.supplyCategory == other.supplyCategory
                 && this.presetName.toLowerCase().equals(other.presetName.toLowerCase());
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (!(o instanceof ItemPreset)) {
+            return -1;
+        }
+
+        ItemPreset it = (ItemPreset)o;
+        return this.presetName.compareToIgnoreCase(it.presetName);
     }
 }
