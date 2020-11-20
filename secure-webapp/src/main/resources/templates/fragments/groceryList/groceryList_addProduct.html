@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<div>
+<div id="outerDiv_admin">
 
     <h3>Produkt hinzufügen:</h3>
 
@@ -14,25 +14,12 @@
     <form action="#"
           id="itemFormContainer"
           method="post"
-          th:action="@{/templates/fragments/groceryList}"
+          th:action="@{/groceryList}"
           th:object="${item}" th:placeholder="Produkt">
 
 
         <div class="row">
-            <div id="outer" class="col-sd-8">
-<!--                <select th:field="*{itemName}"-->
-<!--                        class="form-control">-->
-<!--                    <option th:each="preset : ${saved_presets}"-->
-<!--                            th:value="${preset.presetName}"-->
-<!--                            th:text="${preset.presetName}"></option>-->
-<!--                </select>-->
-                test
-            </div>
-        </div>
-
-
-        <div id="outerDiv_admin" class="row">
-            <div class="col-4">
+            <div class="col-3">
                 <div class="form-group">
                     <select th:field="*{itemName}"
                             class="form-control">
@@ -43,7 +30,7 @@
                 </div>
             </div>
 
-            <div class="col-1 form-group">
+            <div class="col-2 form-group">
                 <input class="form-control"
                        th:field="*{itemCount}"
                        th:value="${item.itemCount}" type="number"/><br/>
@@ -51,7 +38,7 @@
             </div>
 
 
-            <div class="col-1 form-group">
+            <div class="col-2 form-group">
                 <button id="btnNewProd"
                         class="btn btn-default"
                         type="submit"
