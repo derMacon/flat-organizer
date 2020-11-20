@@ -6,10 +6,9 @@
 </head>
 <body>
 
-<div id="outerDiv_admin">
+<div>
 
-    <h3>Produkt hinzufügen:</h3>
-
+    <h3 class="pl-2">Produkt hinzufügen:</h3>
 
     <form action="#"
           id="itemFormContainer"
@@ -17,23 +16,20 @@
           th:action="@{/groceryList}"
           th:object="${item}" th:placeholder="Produkt">
 
+        <div class="d-flex flex-row text-white">
 
-        <div class="d-flex p-3 flex-row bg-secondary text-white">
-            <div class="form-group">
-                <select class="form-control"
-                        th:field="*{itemName}">
-                    <option th:each="preset : ${saved_presets}"
-                            th:text="${preset.presetName}"
-                            th:value="${preset.presetName}"
-                            class="form-control mr-2 ml-2"></option>
-                </select>
-            </div>
+            <select class="form-control"
+                    th:field="*{itemName}">
+                <option th:each="preset : ${saved_presets}"
+                        th:text="${preset.presetName}"
+                        th:value="${preset.presetName}"
+                        class="form-control mr-2 ml-2"></option>
+            </select>
 
             <input class="form-control mr-2 ml-2"
                    th:field="*{itemCount}"
                    th:value="${item.itemCount}"
                    type="number"/>
-
 
             <button class="btn btn-default mr-2 ml-2"
                     id="btnNewProd"
@@ -41,6 +37,7 @@
                     value="add">
                 Produkt hinzufügen
             </button>
+
         </div>
 
     </form>

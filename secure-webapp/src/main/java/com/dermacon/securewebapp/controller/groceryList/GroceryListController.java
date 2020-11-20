@@ -1,5 +1,6 @@
 package com.dermacon.securewebapp.controller.groceryList;
 
+import com.dermacon.securewebapp.controller.admin.SelectedElements;
 import com.dermacon.securewebapp.data.Flatmate;
 import com.dermacon.securewebapp.data.FlatmateRepository;
 import com.dermacon.securewebapp.data.Item;
@@ -104,6 +105,8 @@ public class GroceryListController {
         Iterable<SupplyCategory> categories = Arrays.asList(SupplyCategory.values());
         model.addAttribute("available_categories", categories);
         model.addAttribute("new_preset", new ItemPreset());
+
+        model.addAttribute("selectedItemPresets", new SelectedElements());
 
         return "groceryListNew";
 //        return "construction";
