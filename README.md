@@ -11,7 +11,7 @@ In our flat every roommate has a specific set of chores he / she has to do. This
 On the admin page it is possible to remove an user from the app and modify the item defaults (category, etc.).
 
 ## Screenshot
-![screenshot](images/screenshot_01.png)
+![screenshot](images/screenshot_03.png)
 ![screenshot](images/screenshot_02.png)
 
 ## Frameworks

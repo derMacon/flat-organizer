@@ -10,7 +10,6 @@ import com.dermacon.securewebapp.data.ItemRepository;
 import com.dermacon.securewebapp.data.LivingSpace;
 import com.dermacon.securewebapp.data.LivingSpaceRepository;
 import com.dermacon.securewebapp.data.Room;
-import com.dermacon.securewebapp.data.SelectedSupplyCategory;
 import com.dermacon.securewebapp.data.SupplyCategory;
 import com.dermacon.securewebapp.data.TaskRepository;
 import com.dermacon.securewebapp.data.User;
@@ -27,10 +26,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -108,7 +105,7 @@ public class GroceryListController {
 
         model.addAttribute("selectedItemPresets", new SelectedElements());
 
-        return "groceryListNew";
+        return "groceryList";
 //        return "construction";
     }
 

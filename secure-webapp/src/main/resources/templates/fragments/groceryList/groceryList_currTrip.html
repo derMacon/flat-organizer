@@ -31,10 +31,12 @@
                 </tr>
 
                 <tr th:each="item : ${newItems}">
-                    <td style="text-align:center;"><input th:field="*{checkedItems}" th:value="${item.itemId}"
-                               type="checkbox"/></td>
+                    <td style="text-align:center;"><input th:field="*{checkedItems}"
+                                                          th:value="${item.itemId}"
+                                                          type="checkbox"/></td>
                     <td><span th:text="${item.itemName}"> item name </span></td>
-                    <td style="text-align:center;"><span th:text="${item.itemCount}"> item count </span></td>
+                    <td style="text-align:center;"><span
+                            th:text="${item.itemCount}"> item count </span></td>
                     <td><span
                             th:text="${item.destination.roomDescription}"> flatmate name </span>
                     </td>
@@ -42,14 +44,14 @@
 
             </table>
 
-            <div style="text-align:center;" class="d-flex">
-                <input class="btn btn-light"
-                        type="submit" name="update"
+            <div style="text-align:center;" class="d-flex justify-content-around">
+                <input class="btn btn-default"
+                       type="submit" name="update"
                        value="Produkte einkaufen"/>
-                <input class="btn btn-light"
-                        type="submit" name="remove"
+                <input class="btn btn-default"
+                       type="submit" name="remove"
                        value="Produkte entfernen"/>
-                <input class="btn btn-light"
+                <input class="btn btn-default"
                        type="submit" name="updateAll"
                        value="Alles einkaufen"/>
             </div>
