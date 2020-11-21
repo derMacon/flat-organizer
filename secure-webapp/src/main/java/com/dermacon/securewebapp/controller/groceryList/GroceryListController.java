@@ -1,5 +1,6 @@
 package com.dermacon.securewebapp.controller.groceryList;
 
+import com.dermacon.securewebapp.controller.admin.SelectedElements;
 import com.dermacon.securewebapp.data.Flatmate;
 import com.dermacon.securewebapp.data.FlatmateRepository;
 import com.dermacon.securewebapp.data.Item;
@@ -9,7 +10,6 @@ import com.dermacon.securewebapp.data.ItemRepository;
 import com.dermacon.securewebapp.data.LivingSpace;
 import com.dermacon.securewebapp.data.LivingSpaceRepository;
 import com.dermacon.securewebapp.data.Room;
-import com.dermacon.securewebapp.data.SelectedSupplyCategory;
 import com.dermacon.securewebapp.data.SupplyCategory;
 import com.dermacon.securewebapp.data.TaskRepository;
 import com.dermacon.securewebapp.data.User;
@@ -28,8 +28,10 @@ import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 /**
@@ -86,23 +88,30 @@ public class GroceryListController {
         // add list of active and inactive elements, will be used to display
         // what is currently in the grocery list and what was bought at the
         // last shopping trip
-        model.addAttribute("newItems", itemRepository.findAllByStatus(false));
-        model.addAttribute("oldItems", itemRepository.findAllByStatus(true));
+        model.addAttribute("newItems", sort(itemRepository.findAllByStatus(false)));
+        model.addAttribute("oldItems", sort(itemRepository.findAllByStatus(true)));
         model.addAttribute("selectedItems", new SelectedItems());
 
         // used in header to select which of the title segments should be highlighted
         model.addAttribute("selectedDomain", "groceryList");
 
         // used to display preset options
-        model.addAttribute("saved_presets", itemPresetRepository.findAll());
+        model.addAttribute("saved_presets", sort(itemPresetRepository.findAll()));
 
         // used when adding a new preset to determine the category type of new preset
         Iterable<SupplyCategory> categories = Arrays.asList(SupplyCategory.values());
         model.addAttribute("available_categories", categories);
         model.addAttribute("new_preset", new ItemPreset());
 
+        model.addAttribute("selectedItemPresets", new SelectedElements());
+
         return "groceryList";
 //        return "construction";
+    }
+
+    private <T> Iterable<T> sort(Iterable<T> it) {
+        Stream<T> stream = StreamSupport.stream(it.spliterator(), false);
+        return stream.sorted().collect(Collectors.toList());
     }
 
     @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "updateAll")
@@ -229,6 +238,8 @@ public class GroceryListController {
             persistItem(item);
 
             LoggerSingleton.getInstance().info("added new item: " + item);
+        } else {
+            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).warning("can't add item: " + item);
         }
 
         return "redirect:/groceryList";

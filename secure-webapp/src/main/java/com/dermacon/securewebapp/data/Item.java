@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 @Entity
-public class Item extends BaseObject {
+public class Item extends BaseObject implements Comparable {
 
     @Id
     @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
@@ -112,4 +112,16 @@ public class Item extends BaseObject {
                 && this.destination.equals(other.destination)
                 && this.status.equals(other.status);
     }
+
+    @Override
+    public int compareTo(Object o) {
+        if (!(o instanceof Item)) {
+            return -1;
+        }
+
+        Item it = (Item)o;
+        return this.itemName.compareToIgnoreCase(it.itemName);
+    }
+
+
 }

@@ -1,177 +1,66 @@
-<!--source: https://codepen.io/marcobiedermann/pen/gReMQy-->
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>Einkausliste</title>
-    <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}"/>
+    <title>Liste</title>
+
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+          crossorigin="anonymous">
+
     <meta content="width=device-width, initial-scale=1" name="viewport">
 
+    <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style_bs.css}"/>
+
+    <link th:rel="stylesheet" th:href="@{assets/bootstrap4-toggle/bootstrap4-toggle.min.css}"/>
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
 </head>
 <body>
 
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/header_bootstrap :: header_bootstrap"></div>
 
-<main class="main">
+<div class="container pt-5">
 
+    <div class="row">
 
-    <div class="grid" id="groceryListView">
-
-        <div class="listContainer">
-            <div align="center">
-            <div id="itemInputBox" align="center">
-
-                <form action="#" id="itemFormContainer" method="post" th:action="@{/groceryList}"
-                      th:object="${item}" th:placeholder="Produkt">
-
-
-                    <div id="flexColumn">
-
-                        <select class="selectableElement" th:field="*{itemName}">
-                            <option value="">Produktart</option>
-                            <option th:each="preset : ${saved_presets}"
-                                    th:value="${preset.presetName}"
-                                    th:text="${preset.presetName}"></option>
-                        </select>
-
-                        <input id="itemCnt" th:field="*{itemCount}"
-                               th:value="${item.itemCount}" type="number"/><br/>
-
-                    </div>
-
-                    <div class="flexBtn">
-
-                        <button id="btnNewProd" class="selectableElement" type="submit" value="add">
-                            Produkt hinzufügen
-                        </button>
-                    </div>
-
-                </form>
-
-            </div>
-        </div>
-
-            <div align="center">
-                <form action="#" id="categoryContainer" method="post" th:action="@{/addNewPreset}"
-                      th:object="${new_preset}" th:placeholder="Produkt">
-                    <input id="presetName" th:field="*{presetName}"
-                           th:placeholder="Produkt" type="text"/><br/>
-
-                    <div id="flexColumn">
-
-                        <select class="selectableElement" th:field="*{supplyCategory}">
-                            <option value="">Kategorie</option>
-                            <option th:each="category : ${available_categories}"
-                                    th:value="${category.name()}"
-                                    th:text="${category.getCategoryName()}"></option>
-                        </select>
-
-
-                        <div class="flexBtn">
-
-                            <button class="selectableElement" type="submit" value="add">
-                                Default hinzufügen
-                            </button>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-        </div>
-
-        <br/>
-
-        <div class="listContainer">
-            <div class="gridItem">
-
-                <h2>Aktuelle Einkaufsliste</h2>
-
-                <form action="#" method="post" th:action="@{/processForm}"
-                      th:object="${selectedItems}">
-
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Status</th>
-                            <th>Produkt</th>
-                            <th>Menge</th>
-                            <th>Zimmer</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        <tr th:if="${newItems.empty}">
-                            <td colspan="4"> Keine Produkte in der Einkaufsliste!</td>
-                        </tr>
-
-                        <tr th:each="item : ${newItems}">
-                            <td><input th:field="*{checkedItems}" th:value="${item.itemId}"
-                                       type="checkbox"/></td>
-                            <td><span th:text="${item.itemName}"> item name </span></td>
-                            <td><span th:text="${item.itemCount}"> item count </span></td>
-                            <td><span
-                                    th:text="${item.destination.roomDescription}"> flatmate name </span>
-                            </td>
-                        </tr>
-                    </table>
-
-                    <div class="flexBtn">
-
-                        <input id="itemSubmitBtn" type="submit" name="update"
-                               value="Produkte einkaufen"/>
-                        <input id="itemSubmitBtn" type="submit" name="remove"
-                               value="Produkte entfernen"/>
-                        <input id="itemSubmitBtn" type="submit" name="updateAll"
-                               value="Alles einkaufen"/>
-
-                    </div>
-
-                </form>
-
-            </div>
-
+        <div class="col-lg-6">
+            <div th:insert="fragments/groceryList/groceryList_addProduct :: body"></div>
             <br>
+            <div th:insert="fragments/groceryList/groceryList_addType :: body"></div>
+            <br>
+            <div th:insert="fragments/groceryList/groceryList_removePreset :: body"></div>
+            <br>
+        </div>
 
-            <div class="gridItem">
-                <h2>Letzter Einkauf</h2>
-
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Status</th>
-                        <th>Produkt</th>
-                        <th>Menge</th>
-                        <th>Zimmer</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <tr th:if="${oldItems.empty}">
-                        <td colspan="3"> Keine Produkte in der Einkaufsliste!</td>
-                    </tr>
-
-                    <tr th:each="item : ${oldItems}">
-                        <!--                            <td><input th:field="*{checkedItems}" th:value="${item.itemId}"-->
-                        <!--                                       type="checkbox"/></td>-->
-                        <td><input type="checkbox" disabled="disabled" checked/></td>
-                        <td><span th:text="${item.itemName}"> item name </span></td>
-                        <td><span th:text="${item.itemCount}"> item count </span></td>
-                        <td><span
-                                th:text="${item.destination.roomDescription}"> flatmate name </span>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
+        <div class="col-lg-6">
+            <div th:insert="fragments/groceryList/groceryList_currTrip :: body"></div>
+            <br>
+            <div th:insert="fragments/groceryList/groceryList_pastTrip :: body"></div>
         </div>
 
     </div>
 
-    </div>
+</div>
 
+<!-- Footer -->
+<!--<footer class="page-footer font-small mt-4">-->
 
-</main>
-<div th:insert="fragments/footer :: footer"></div>
+<!--    &lt;!&ndash; Copyright &ndash;&gt;-->
+<!--    <div class="bg-dark footer-copyright text-center py-3 text-muted">© 2020 Copyright:-->
+<!--        <a class="text-light" href="https://github.com/derMacon"> github.com/derMacon </a>-->
+<!--    </div>-->
+<!--    &lt;!&ndash; Copyright &ndash;&gt;-->
+
+<!--</footer>-->
+<!-- Footer -->
+
+<!--<div th:insert="fragments/footer :: footer"></div>-->
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{assets/bootstrap4-toggle/bootstrap4-toggle.min.js}"></script>
+
 </body>
 </html>
