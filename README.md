@@ -1,5 +1,5 @@
 # flat-organizer
-Fullstack webapp used for coordination with roommates in larger flats.
+Website used for coordination with roommates in larger flats.
 
 Feel free to test the following dummy project.
 * Live Server (Dummy): http://168.119.120.2:8080/flat-organizer-demo/groceryList/
