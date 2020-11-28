@@ -27,20 +27,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
-//    @Autowired
-//    @Qualifier("dataSource")
-//    private DataSource dataSource;
+    @Autowired
+    @Qualifier("dataSource")
+    private DataSource dataSource;
 
     /**
      * source: http://cristianruizblog.com/spring-security-persistent-token-2/
      * @return
      */
-//    @Bean
-//    public PersistentTokenRepository persistentTokenRepository() {
-//        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
-//        tokenRepository.setDataSource(dataSource);
-//        return tokenRepository;
-//    }
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+        tokenRepository.setDataSource(dataSource);
+        return tokenRepository;
+    }
 
 
     @Override
@@ -49,12 +49,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().formLogin().permitAll()
                 .and()
-                .rememberMe();
+                .rememberMe()
 //                    .tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(100))
-//                    .tokenRepository(persistentTokenRepository())
-//                    .userDetailsService(userDetailsService);
+                    .tokenValiditySeconds((int)60)
+                    .tokenRepository(persistentTokenRepository())
+                    .userDetailsService(userDetailsService)
                     // random key, todo put into application.properties
-//                    .key("45lk432j5;lj435;l432j");
+                    .key("45lk432j5;lj435;l432j");
     }
 
     @Autowired
