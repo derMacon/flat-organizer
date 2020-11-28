@@ -19,7 +19,7 @@
 
 /* helpers/sticky.css */
 
-.sticky {
+.sticky-footer {
     position: sticky;
     will-change: transform;
 }
