@@ -83,8 +83,8 @@ public class WebSecurityConfig {
                     .permitAll()
                     .and()
                     .rememberMe()
-//                    .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(100))
-                    .tokenValiditySeconds((int)60)
+                    .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(100))
+//                    .tokenValiditySeconds((int)60)
                     .tokenRepository(persistentTokenRepository())
                     .userDetailsService(userDetailsService)
                     // random key, todo put into application.properties

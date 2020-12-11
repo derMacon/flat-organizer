@@ -1,6 +1,7 @@
 package com.dermacon.securewebapp.controller.groceryList;
 
 import com.dermacon.securewebapp.controller.admin.SelectedElements;
+import com.dermacon.securewebapp.controller.services.ItemService;
 import com.dermacon.securewebapp.data.Flatmate;
 import com.dermacon.securewebapp.data.FlatmateRepository;
 import com.dermacon.securewebapp.data.Item;
@@ -59,6 +60,9 @@ public class GroceryListController {
     @Autowired
     ItemPresetRepository itemPresetRepository;
 
+    @Autowired
+    ItemService itemService;
+
 
     private Date lastPurchase = new Date(System.currentTimeMillis());
 
@@ -88,8 +92,8 @@ public class GroceryListController {
         // add list of active and inactive elements, will be used to display
         // what is currently in the grocery list and what was bought at the
         // last shopping trip
-        model.addAttribute("newItems", sort(itemRepository.findAllByStatus(false)));
-        model.addAttribute("oldItems", sort(itemRepository.findAllByStatus(true)));
+        model.addAttribute("newItems", itemService.getSortedItems_nextPurchase());
+        model.addAttribute("oldItems", itemService.getSortedItems_prevPurchase());
         model.addAttribute("dateLastPurchase", lastPurchase);
         model.addAttribute("selectedItems", new SelectedItems());
 
