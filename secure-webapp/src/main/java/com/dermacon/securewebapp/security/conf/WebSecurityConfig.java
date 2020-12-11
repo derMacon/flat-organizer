@@ -39,11 +39,11 @@ public class WebSecurityConfig {
 //                    .anyRequest()
 //                    .authenticated()
                     .and()
-//                    .antMatcher("/api/admin/*")
-//                        .authorizeRequests()
-//                        .anyRequest()
-//                        .hasAnyRole("ADMIN")
-//                    .and()
+                    .antMatcher("/api/admin/*")
+                        .authorizeRequests()
+                        .anyRequest()
+                        .hasAnyRole("ADMIN")
+                    .and()
                     .httpBasic();
         }
     }
