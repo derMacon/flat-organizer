@@ -30,19 +30,12 @@ public class WebSecurityConfig {
     @Order(1)
     public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
         protected void configure(HttpSecurity http) throws Exception {
+            // todo permit /api/admin/ only for admin users
             http
-//                    .authorizeRequests()
                     .antMatcher("/api/groceryList/*")
                         .authorizeRequests()
                         .anyRequest()
                         .hasAnyRole("USER", "ADMIN")
-//                    .anyRequest()
-//                    .authenticated()
-                    .and()
-                    .antMatcher("/api/admin/*")
-                        .authorizeRequests()
-                        .anyRequest()
-                        .hasAnyRole("ADMIN")
                     .and()
                     .httpBasic();
         }
