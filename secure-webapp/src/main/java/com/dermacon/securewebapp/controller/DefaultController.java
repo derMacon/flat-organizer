@@ -2,6 +2,7 @@ package com.dermacon.securewebapp.controller;
 
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRepository;
+import com.dermacon.securewebapp.logger.LoggerSingleton;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,9 +24,8 @@ public class DefaultController {
     UserRepository userRepository;
 
     @RequestMapping("/")
-    public String index(Model model) {
+    public String index() {
         return "redirect:/groceryList";
-//        return "construction";
     }
 
     @ModelAttribute

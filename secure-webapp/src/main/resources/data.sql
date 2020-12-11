@@ -80,6 +80,14 @@ CREATE TABLE item_preset
     supply_category VARCHAR(30)  NOT NULL
 );
 
+create table if not exists persistent_logins
+(
+    username  VARCHAR(500) not null,
+    series    varchar(64) primary key,
+    token     varchar(64) not null,
+    last_used timestamp   not null
+);
+
 
 
 INSERT INTO room (room_id, room_number, level, room_description)

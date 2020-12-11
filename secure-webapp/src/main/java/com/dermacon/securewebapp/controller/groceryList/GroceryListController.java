@@ -90,6 +90,7 @@ public class GroceryListController {
         // last shopping trip
         model.addAttribute("newItems", sort(itemRepository.findAllByStatus(false)));
         model.addAttribute("oldItems", sort(itemRepository.findAllByStatus(true)));
+        model.addAttribute("dateLastPurchase", lastPurchase);
         model.addAttribute("selectedItems", new SelectedItems());
 
         // used in header to select which of the title segments should be highlighted
@@ -106,7 +107,6 @@ public class GroceryListController {
         model.addAttribute("selectedItemPresets", new SelectedElements());
 
         return "groceryList";
-//        return "construction";
     }
 
     private <T> Iterable<T> sort(Iterable<T> it) {
