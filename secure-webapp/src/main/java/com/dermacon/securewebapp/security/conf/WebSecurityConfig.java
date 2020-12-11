@@ -20,6 +20,8 @@ import javax.sql.DataSource;
 import java.time.Year;
 import java.util.concurrent.TimeUnit;
 
+import static com.dermacon.securewebapp.data.UserRole.ROLE_USER;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -45,9 +47,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/noSecurity").permitAll()
-                .anyRequest().authenticated()
-                .and().formLogin().permitAll()
+        http
+                .authorizeRequests()
+                .antMatchers("/noSecurity").permitAll()
+                .antMatchers("/test").hasRole(ROLE_USER.name())
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin()
+                .permitAll()
                 .and()
                 .rememberMe()
 //                    .tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(100))
