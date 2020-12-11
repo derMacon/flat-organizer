@@ -51,6 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/noSecurity", "/css/*").permitAll()
                 .antMatchers("/test").hasRole("ADMIN")
+                .antMatchers("/groceryList/admin").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -58,8 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .rememberMe()
-//                    .tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(100))
-                    .tokenValiditySeconds((int)60)
+                    .tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(100))
+//                    .tokenValiditySeconds((int)60)
                     .tokenRepository(persistentTokenRepository())
                     .userDetailsService(userDetailsService)
                     // random key, todo put into application.properties
