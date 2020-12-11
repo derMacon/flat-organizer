@@ -22,21 +22,37 @@ import java.util.concurrent.TimeUnit;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-
+    /**
+     * Https endpoint for api requests.
+     * Uses basic authentication.
+     */
     @Configuration
     @Order(1)
     public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
         protected void configure(HttpSecurity http) throws Exception {
             http
-                    .antMatcher("/test")
-                    .authorizeRequests()
-                    .anyRequest().hasRole("ADMIN")
+//                    .authorizeRequests()
+                    .antMatcher("/api/groceryList/*")
+                        .authorizeRequests()
+                        .anyRequest()
+                        .hasAnyRole("USER", "ADMIN")
+//                    .anyRequest()
+//                    .authenticated()
                     .and()
+//                    .antMatcher("/api/admin/*")
+//                        .authorizeRequests()
+//                        .anyRequest()
+//                        .hasAnyRole("ADMIN")
+//                    .and()
                     .httpBasic();
         }
     }
 
 
+    /**
+     * Http endpoint for standard get requests by the browser to display the website.
+     * Uses form login for authentication
+     */
     @Configuration
     public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
@@ -67,7 +83,6 @@ public class WebSecurityConfig {
                     .authorizeRequests()
                     .antMatchers("/noSecurity", "/css/*").permitAll()
                     .antMatchers("/test").hasRole("ADMIN")
-                    .antMatchers("/groceryList/admin").hasRole("ADMIN")
                     .anyRequest()
                     .authenticated()
                     .and()
@@ -75,8 +90,8 @@ public class WebSecurityConfig {
                     .permitAll()
                     .and()
                     .rememberMe()
-                    .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(100))
-//                    .tokenValiditySeconds((int)60)
+//                    .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(100))
+                    .tokenValiditySeconds((int)60)
                     .tokenRepository(persistentTokenRepository())
                     .userDetailsService(userDetailsService)
                     // random key, todo put into application.properties
