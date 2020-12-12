@@ -57,6 +57,6 @@ data_set.sql # private information
 
 # dart 
 pubspec.lock
-.dart-tool/
+.dart_tool/
 .packages
 

@@ -1,4 +1,4 @@
-name: api-call
+name: apiCall
 dependencies:
   flutter:
     sdk: flutter
