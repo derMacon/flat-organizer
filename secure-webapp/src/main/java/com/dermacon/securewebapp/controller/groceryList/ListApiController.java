@@ -20,12 +20,12 @@ public class ListApiController {
     private ItemService itemService;
 
     @RequestMapping(path = "/getNewItems")
-    public List<String> getNewItems() {
+    public Iterable<Item> getNewItems() {
         return itemService.getSortedItems_nextPurchase();
     }
 
     @RequestMapping(path = "/getOldItems")
-    public List<String> getOldItems() {
+    public Iterable<Item> getOldItems() {
         return itemService.getSortedItems_prevPurchase();
     }
 
