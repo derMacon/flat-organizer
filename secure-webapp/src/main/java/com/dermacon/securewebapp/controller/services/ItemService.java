@@ -5,22 +5,24 @@ import com.dermacon.securewebapp.data.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Service
+@Transactional
 public class ItemService {
 
     @Autowired
     private ItemRepository itemRepository;
 
-    public List<String> getSortedItems_nextPurchase() {
+    public Iterable<Item> getSortedItems_nextPurchase() {
         return sort(itemRepository.findAllByStatus(false));
     }
 
-    public List<String> getSortedItems_prevPurchase() {
+    public Iterable<Item> getSortedItems_prevPurchase() {
         return sort(itemRepository.findAllByStatus(true));
     }
 
@@ -30,9 +32,9 @@ public class ItemService {
      * @param <T> element type of the iterable elements
      * @return sorted Iterable instance
      */
-    private List<String> sort(Iterable<Item> it) {
+    private Iterable<Item> sort(Iterable<Item> it) {
         Stream<Item> stream = StreamSupport.stream(it.spliterator(), false);
-        return stream.sorted().map(Item::toString).collect(Collectors.toList());
+        return stream.sorted().collect(Collectors.toList());
     }
 
 
