@@ -34,7 +34,9 @@ On the admin page it is possible to remove an user from the app and modify the i
 * [x] Create demo version for showcasing
    * [ ] Update main page with bootstrap components
 * [x] Hash Passwords (BCrypt)
-* [ ] Create secure endpoints (JWT)
+* [x] Create secure endpoints
+* [ ] Create groceryList api
+* [ ] Create admin api
 * [x] Create Flutter demo app
 * [ ] Create Flutter mobile app
 
