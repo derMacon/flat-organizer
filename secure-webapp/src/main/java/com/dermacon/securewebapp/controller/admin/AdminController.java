@@ -52,7 +52,9 @@ public class AdminController {
 
     @RequestMapping(value = "/groceryList/admin", method = RequestMethod.GET)
     public String displayAdmin(Model model) {
-        model.addAttribute("allFlatmates", flatmateRepository.findAll());
+        model.addAttribute("allFlatmates", flatmateService.getAllFlatmates());
+        model.addAttribute("emptyLivingSpaces", flatmateService.findEmptyLivingSpaces());
+        model.addAttribute("allItemPresets", itemPresetRepository.findAll());
 
         // empty flatmate object -> filled in input box
         model.addAttribute("inputFlatmate", new Flatmate());
@@ -60,23 +62,10 @@ public class AdminController {
         // empty flatmate list wrapper -> filled in selection box
         model.addAttribute("selectedFlatmates", new SelectedElements());
 
-        initModel_removePresetTemplate(model);
-
-        Set<LivingSpace> emptyLivingSpaces =
-                StreamSupport.stream(livingSpaceRepository.findAll().spliterator(), false)
-                        .filter(e -> flatmateRepository.findByLivingSpace(e) == null)
-                        .collect(Collectors.toSet());
-
-        model.addAttribute("emptyLivingSpaces", emptyLivingSpaces);
-
-        return "admin_main";
-    }
-
-    private void initModel_removePresetTemplate(Model model) {
-        model.addAttribute("allItemPresets", itemPresetRepository.findAll());
         // empty flatmate list wrapper -> filled in selection box
         model.addAttribute("selectedItemPresets", new SelectedElements());
 
+        return "admin_main";
     }
 
     @RequestMapping(value = "/groceryList/admin/createFlatmate", method = RequestMethod.POST)
