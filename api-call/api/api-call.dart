@@ -19,7 +19,7 @@ const String _endpoint_oldItems = "/api/groceryList/getOldItems";
  */
 Future<List<Item>> getNewItems() async {
   Response response = await _getRequest(_endpoint_newItems);
-  return parseItemLst(response.body);
+  return _parseItemLst(response.body);
 }
 
 /**
@@ -27,7 +27,7 @@ Future<List<Item>> getNewItems() async {
  */
 Future<List<Item>> getOldItems() async {
   Response response = await _getRequest(_endpoint_oldItems);
-  return parseItemLst(response.body);
+  return _parseItemLst(response.body);
 }
 
 
@@ -58,7 +58,7 @@ Map<String, String> _createHeaderInfo() {
 /**
  * Creates a list of items from a given json string
  */
-List<Item> parseItemLst(String json) {
+List<Item> _parseItemLst(String json) {
   var parsed = jsonDecode(json);
   List<Item> item_lst =
       (parsed as List).map((data) => new Item.fromJson(data)).toList();
