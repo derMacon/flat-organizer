@@ -1,4 +1,4 @@
-import './Destination.dart';
+import './destination.dart';
 
 class Item {
 
@@ -27,24 +27,4 @@ class Item {
       + "status: " + status.toString() + "}";
   }
 
-}
-
-
-main() {
-  Map<String, dynamic> map = {
-        "itemId": 3,
-        "itemCount": 1,
-        "itemName": "Backpapier",
-        "destination": {
-            "roomId": 115,
-            "roomNumber": 1,
-            "level": 2,
-            "roomDescription": "Küche 2. OG"
-        },
-        "status": false,
-        "valid": true
-    };
-
-    Item it = new Item.fromJson(map);
-    print(it);
 }

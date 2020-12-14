@@ -24,17 +24,3 @@ class Destination {
   }
 
 }
-
-main() {
-  Map<String, dynamic> map = {
-            "roomId": 115,
-            "roomNumber": 1,
-            "level": 2,
-            "roomDescription": "Küche 2. OG"
-        };
-
-  print(map);
-
-  Destination dest = new Destination.fromJson(map);
-  print(dest);
-}

@@ -1,12 +1,14 @@
-import './api-call.dart';
-import './item.dart';
+import 'api/api-call.dart';
+import 'data/item.dart';
 
 main() async {
-  print("new items:\n");
   List<Item> newItems = await getNewItems();
+  List<Item> oldItems = await getOldItems();
+
+  print("\nnew items:\n");
   print(newItems);
 
-  print("old items:\n");
-  List<Item> oldItems = await getNewItems();
+  print("\nold items:\n");
   print(oldItems);
+  print("\n");
 }

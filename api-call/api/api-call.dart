@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart';
-import './item.dart';
+import '../data/item.dart';
 
 // ----- private constants -----
 
@@ -64,4 +64,3 @@ List<Item> parseItemLst(String json) {
       (parsed as List).map((data) => new Item.fromJson(data)).toList();
   return item_lst;
 }
-
