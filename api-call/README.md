@@ -3,3 +3,6 @@ the commandline:
 
 `flutter packages get`
 
+then: 
+
+`dart ./main.dart`
