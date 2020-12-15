@@ -77,16 +77,9 @@ public class AdminController {
 
     @RequestMapping(value = "/groceryList/admin/removeFlatmate", method = RequestMethod.POST)
     public String removeFlatmate_post(@ModelAttribute(value = "selectedFlatmates") SelectedElements selectedFlatmateIds) {
-        // translate selected flatmate ids to actual flatmate instances from the db
-        Stream<Flatmate> selectedFlatmates =
-                selectedFlatmateIds.getCheckedElements()
-                .stream()
-                .map(flatmateRepository::findById)
-                .map(Optional::get);
-
         // foreach flatmate first remove user and then the entity itself
-        selectedFlatmates.forEach(flatmateService::saveDeleteFlatmate);
-
+//        selectedFlatmateIds.getCheckedElements().stream()
+//                .forEach(flatmateService::saveDeleteFlatmate);
         return "redirect:/groceryList/admin";
     }
 

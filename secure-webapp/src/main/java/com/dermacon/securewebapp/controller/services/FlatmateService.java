@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
@@ -40,15 +41,23 @@ public class FlatmateService {
 
     /**
      * first remove user and then the entity itself
-     * @param flatmate flatmate entity that will be removed
+     * @param flatmateId flatmate id that will be removed
      */
-    public void saveDeleteFlatmate(Flatmate flatmate) {
+    public boolean saveDeleteFlatmate(long flatmateId) {
+        Optional<Flatmate> flatmate_opt = flatmateRepository.findById(flatmateId);
+        if (!flatmate_opt.isPresent()) {
+            return false;
+        }
+
+        Flatmate flatmate = flatmate_opt.get();
         User user = flatmate.getUser();
         LoggerSingleton.getInstance().info("delete user: " + user);
         userRepository.delete(user);
         flatmate.setUser(null);
         flatmate.setLivingSpace(null);
         flatmateRepository.delete(flatmate);
+
+        return true; // successful deletion
     }
 
     public Iterable<Flatmate> getAllFlatmates() {
