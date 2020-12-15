@@ -1,0 +1,62 @@
+package com.dermacon.securewebapp.data;
+
+import java.util.Date;
+
+public class InputPerson {
+
+    private String firstname;
+    private String surname;
+    private Date birthday;
+    private long livingSpaceId;
+
+    public InputPerson() {}
+
+    public InputPerson(String firstname, String surname, Date birthday, long livingSpaceId) {
+        this.firstname = firstname;
+        this.surname = surname;
+        this.birthday = birthday;
+        this.livingSpaceId = livingSpaceId;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public long getLivingSpaceId() {
+        return livingSpaceId;
+    }
+
+    public void setLivingSpaceId(long livingSpaceId) {
+        this.livingSpaceId = livingSpaceId;
+    }
+
+    @Override
+    public String toString() {
+        return "InputPerson{" +
+                "firstname='" + firstname + '\'' +
+                ", surname='" + surname + '\'' +
+                ", birthday=" + birthday +
+                ", livingSpaceId=" + livingSpaceId +
+                '}';
+    }
+}

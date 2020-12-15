@@ -3,13 +3,16 @@ package com.dermacon.securewebapp.controller.admin;
 import com.dermacon.securewebapp.controller.services.FlatmateService;
 import com.dermacon.securewebapp.data.Flatmate;
 import com.dermacon.securewebapp.data.FlatmateRepository;
+import com.dermacon.securewebapp.data.InputPerson;
 import com.dermacon.securewebapp.data.ItemPresetRepository;
 import com.dermacon.securewebapp.data.LivingSpace;
 import com.dermacon.securewebapp.data.LivingSpaceRepository;
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRepository;
 import com.dermacon.securewebapp.data.UserRole;
+import com.dermacon.securewebapp.exception.FlatmateExistsException;
 import com.dermacon.securewebapp.logger.LoggerSingleton;
+import com.fasterxml.jackson.databind.deser.impl.ObjectIdReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -46,8 +49,6 @@ public class AdminController {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
 
     @RequestMapping(value = "/groceryList/admin", method = RequestMethod.GET)
@@ -57,7 +58,7 @@ public class AdminController {
         model.addAttribute("allItemPresets", itemPresetRepository.findAll());
 
         // empty flatmate object -> filled in input box
-        model.addAttribute("inputFlatmate", new Flatmate());
+        model.addAttribute("inputPerson", new InputPerson());
 
         // empty flatmate list wrapper -> filled in selection box
         model.addAttribute("selectedFlatmates", new SelectedElements());
@@ -69,85 +70,17 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/groceryList/admin/createFlatmate", method = RequestMethod.POST)
-    public String createNewWorkshop_post(@ModelAttribute(value = "inputFlatmate") Flatmate flatmate) {
-
-        // todo handling error
-        String firstname = flatmate.getFirstname();
-        String surname = flatmate.getSurname();
-        if (flatmateRepository.findByFirstnameAndSurname(firstname, surname) != null) {
-            // todo throw error
-            LoggerSingleton.getInstance().warning("flatmate already exists");
-            return "redirect:/groceryList/admin";
+    public String createNewFlatmate_post(@ModelAttribute(value = "inputPerson") InputPerson person) {
+        try {
+            flatmateService.createAndSafeFlatmate(person);
+        } catch (FlatmateExistsException e) {
+            // todo handling error
+            System.out.println(e.getGeneralDescription());
         }
-
-        // form only sets living space id -> necessary to load whole entity
-        Long formInput_id = flatmate.getLivingSpace().getLivingSpaceId();
-        flatmate.setLivingSpace(livingSpaceRepository.findById(formInput_id).get());
-
-        // generate user (username: <firstname>; pw: <lastname><birthday-day><birthday-month>)
-        User newUser = generateUser(flatmate);
-        newUser = userRepository.save(newUser);
-        flatmate.setUser(newUser);
-
-        // save in database
-        LoggerSingleton.getInstance().info("save flatmate: " + flatmate);
-        flatmateRepository.save(flatmate);
         return "redirect:/groceryList/admin";
     }
 
 
-    /**
-     * generate user (username: <firstname>; pw: <lastname><birthday>)
-     *
-     * @param flatmate
-     * @return
-     */
-    private User generateUser(Flatmate flatmate) {
-        User newUser = new User();
-
-        newUser.setUsername(generateUsername(flatmate));
-        String hash = passwordEncoder.encode(generatePassword(flatmate));
-        newUser.setPassword(hash);
-        newUser.setRole(UserRole.ROLE_USER);
-
-        return newUser;
-    }
-
-    private String generateUsername(Flatmate flatmate) {
-        String username = flatmate.getFirstname().toLowerCase();
-        // flatmate with same firstname already exists
-        // -> append as much letters from surname as needed to make it unique
-        int i = 0;
-        String surname = capitalizeWord(flatmate.getSurname());
-        while (flatmateRepository.findByFirstname(username) != null && i < surname.length()) {
-            username += flatmate.getSurname().substring(i, i + 1);
-            i++;
-        }
-        return username;
-    }
-
-    private String capitalizeWord(String word) {
-        return word.substring(0, 1).toUpperCase() + word.substring(1);
-    }
-
-    private String generatePassword(Flatmate flatmate) {
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
-        cal.setTime(flatmate.getBirthday());
-
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        // for some reason the month of january will evaluate to month == 0
-        int month = cal.get(Calendar.MONTH) + 1;
-
-        String month_str = month < 10
-                ? "0" + month
-                : "" + month;
-
-        String day_str = day < 10
-                ? "0" + day
-                : "" + day;
-
-        return flatmate.getSurname().toLowerCase() + day_str + month_str;
-    }
 
 
     @RequestMapping(value = "/groceryList/admin/removeFlatmate", method = RequestMethod.POST)
