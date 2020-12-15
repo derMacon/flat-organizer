@@ -70,13 +70,13 @@ public class FlatmateService {
                 .collect(Collectors.toSet());
     }
 
-    public void createAndSafeFlatmate(InputPerson person) throws FlatmateExistsException {
+    public boolean createAndSafeFlatmate(InputPerson person) {
         String firstname = person.getFirstname();
         String surname = person.getSurname();
         Flatmate fm = flatmateRepository.findByFirstnameAndSurname(firstname, surname);
         if (fm != null) {
             LoggerSingleton.getInstance().warning("flatmate already exists");
-            throw new FlatmateExistsException(person, fm);
+            return false; // unsuccessful return
         }
 
         // form only sets living space id -> necessary to load whole entity
@@ -97,7 +97,7 @@ public class FlatmateService {
         // save in database
         LoggerSingleton.getInstance().info("save flatmate: " + person);
         flatmateRepository.save(flatmate);
-
+        return true; // successful return
     }
 
     /**

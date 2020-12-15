@@ -36,9 +36,6 @@ import java.util.stream.StreamSupport;
 public class AdminController {
 
     @Autowired
-    private FlatmateRepository flatmateRepository;
-
-    @Autowired
     private FlatmateService flatmateService;
 
     @Autowired
@@ -65,11 +62,9 @@ public class AdminController {
 
     @RequestMapping(value = "/createFlatmate", method = RequestMethod.POST)
     public String createNewFlatmate_post(@ModelAttribute(value = "inputPerson") InputPerson person) {
-        try {
-            flatmateService.createAndSafeFlatmate(person);
-        } catch (FlatmateExistsException e) {
+        if (!flatmateService.createAndSafeFlatmate(person)) {
             // todo handling error
-            System.out.println(e.getGeneralDescription());
+            System.out.println("todo handle error - AdminController, createNewFlatmate_post");
         }
         return "redirect:/groceryList/admin/";
     }

@@ -32,7 +32,7 @@ public class WebSecurityConfig {
         protected void configure(HttpSecurity http) throws Exception {
             // todo permit /api/admin/ only for admin users
             http
-                    .antMatcher("/api/groceryList/*")
+                    .antMatcher("/api/*")
                         .authorizeRequests()
                         .anyRequest()
                         .hasAnyRole("USER", "ADMIN")
