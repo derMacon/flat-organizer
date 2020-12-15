@@ -81,8 +81,6 @@ public class AdminController {
     }
 
 
-
-
     @RequestMapping(value = "/groceryList/admin/removeFlatmate", method = RequestMethod.POST)
     public String removeFlatmate_post(@ModelAttribute(value = "selectedFlatmates") SelectedElements selectedFlatmateIds) {
         // translate selected flatmate ids to actual flatmate instances from the db

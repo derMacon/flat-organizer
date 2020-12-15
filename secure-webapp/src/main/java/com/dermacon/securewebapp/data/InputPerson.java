@@ -1,12 +1,21 @@
 package com.dermacon.securewebapp.data;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 
 public class InputPerson {
 
     private String firstname;
+
     private String surname;
+
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
+
     private long livingSpaceId;
 
     public InputPerson() {}
@@ -60,3 +69,4 @@ public class InputPerson {
                 '}';
     }
 }
+
