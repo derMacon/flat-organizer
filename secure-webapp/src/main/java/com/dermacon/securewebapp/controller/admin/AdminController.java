@@ -32,23 +32,17 @@ import java.util.stream.StreamSupport;
 
 @Controller
 @Transactional
+@RequestMapping("groceryList/admin")
 public class AdminController {
 
     @Autowired
     private FlatmateRepository flatmateRepository;
 
     @Autowired
-    private LivingSpaceRepository livingSpaceRepository;
-
-    @Autowired
     private FlatmateService flatmateService;
 
     @Autowired
     private ItemPresetRepository itemPresetRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
 
 
     @RequestMapping(value = "/groceryList/admin", method = RequestMethod.GET)
