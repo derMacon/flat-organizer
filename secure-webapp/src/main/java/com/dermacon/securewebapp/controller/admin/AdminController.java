@@ -45,7 +45,7 @@ public class AdminController {
     private ItemPresetRepository itemPresetRepository;
 
 
-    @RequestMapping(value = "/groceryList/admin", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String displayAdmin(Model model) {
         model.addAttribute("allFlatmates", flatmateService.getAllFlatmates());
         model.addAttribute("emptyLivingSpaces", flatmateService.findEmptyLivingSpaces());
@@ -63,7 +63,7 @@ public class AdminController {
         return "admin_main";
     }
 
-    @RequestMapping(value = "/groceryList/admin/createFlatmate", method = RequestMethod.POST)
+    @RequestMapping(value = "/createFlatmate", method = RequestMethod.POST)
     public String createNewFlatmate_post(@ModelAttribute(value = "inputPerson") InputPerson person) {
         try {
             flatmateService.createAndSafeFlatmate(person);
@@ -71,25 +71,25 @@ public class AdminController {
             // todo handling error
             System.out.println(e.getGeneralDescription());
         }
-        return "redirect:/groceryList/admin";
+        return "redirect:/groceryList/admin/";
     }
 
 
-    @RequestMapping(value = "/groceryList/admin/removeFlatmate", method = RequestMethod.POST)
+    @RequestMapping(value = "/removeFlatmate", method = RequestMethod.POST)
     public String removeFlatmate_post(@ModelAttribute(value = "selectedFlatmates") SelectedElements selectedFlatmateIds) {
         // foreach flatmate first remove user and then the entity itself
-//        selectedFlatmateIds.getCheckedElements().stream()
-//                .forEach(flatmateService::saveDeleteFlatmate);
-        return "redirect:/groceryList/admin";
+        selectedFlatmateIds.getCheckedElements().stream()
+                .forEach(flatmateService::saveDeleteFlatmate);
+        return "redirect:/groceryList/admin/";
     }
 
 
-    @RequestMapping(value = "/groceryList/admin/removePreset", method = RequestMethod.POST)
+    @RequestMapping(value = "/removePreset", method = RequestMethod.POST)
     public String removePreset_post(@ModelAttribute(value = "selectedItemPreset") SelectedElements selectedPresets) {
         selectedPresets.getCheckedElements()
                 .stream()
                 .forEach(itemPresetRepository::deleteByPresetId);
-        return "redirect:/groceryList/admin";
+        return "redirect:/groceryList/admin/";
     }
 
 }
