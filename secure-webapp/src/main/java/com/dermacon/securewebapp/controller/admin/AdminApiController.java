@@ -4,6 +4,10 @@ import com.dermacon.securewebapp.controller.services.FlatmateService;
 import com.dermacon.securewebapp.data.Flatmate;
 import com.dermacon.securewebapp.data.InputPerson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,15 +27,15 @@ public class AdminApiController {
         return flatmateService.getAllFlatmates();
     }
 
-//    @RequestMapping(path = "/addFlatmate_param")
-//    public boolean addFlatmate(@RequestParam String firstname,
-//                               @RequestParam String surname,
-//                               @RequestParam Date birthday,
-//                               @RequestParam long livingSpaceId
-//    ) {
-//        InputPerson person = new InputPerson(firstname, surname, birthday, livingSpaceId);
-//        return flatmateService.createAndSafeFlatmate(person);
-//    }
+    @RequestMapping(path = "/addFlatmate_param")
+    public boolean addFlatmate(@RequestParam String firstname,
+                               @RequestParam String surname,
+                               @RequestParam Date birthday,
+                               @RequestParam long livingSpaceId
+    ) {
+        InputPerson person = new InputPerson(firstname, surname, birthday, livingSpaceId);
+        return flatmateService.createAndSafeFlatmate(person);
+    }
 
     @RequestMapping(path = "/addFlatmate")
     public boolean addFlatmate(@RequestParam InputPerson person) {
@@ -39,10 +43,9 @@ public class AdminApiController {
     }
 
 
-    @RequestMapping(path = "/removeFlatmate")
-    public boolean removeFlatmate(@RequestParam long id) {
+    @PostMapping(value = "/removeFlatmate")
+        public boolean removeFlatmate(@RequestParam long id) {
         return flatmateService.saveDeleteFlatmate(id);
     }
-
 
 }
