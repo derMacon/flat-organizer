@@ -1,9 +1,12 @@
 package com.dermacon.securewebapp.controller.services;
 
 import com.dermacon.securewebapp.controller.groceryList.SelectedItems;
+import com.dermacon.securewebapp.data.Flatmate;
 import com.dermacon.securewebapp.data.InputItem;
 import com.dermacon.securewebapp.data.Item;
+import com.dermacon.securewebapp.data.ItemPreset;
 import com.dermacon.securewebapp.data.ItemRepository;
+import com.dermacon.securewebapp.data.LivingSpace;
 import com.dermacon.securewebapp.data.Room;
 import com.dermacon.securewebapp.data.RoomRepository;
 import com.dermacon.securewebapp.logger.LoggerSingleton;
@@ -28,6 +31,12 @@ public class ItemService {
 
     @Autowired
     private RoomRepository roomRepository;
+
+    @Autowired
+    private FlatmateService flatmateService;
+
+    @Autowired
+    private ItemPresetService itemPresetService;
 
 
     private Date lastPurchase = new Date(System.currentTimeMillis());
@@ -85,9 +94,93 @@ public class ItemService {
                 inputItem.isStatus()
         );
 
-        // todo
+        return addItem(convertedItem);
+    }
 
-        return true;
+
+    public boolean addItem(Item item) {
+        boolean validItem = item != null && item.isValid();
+        if (validItem) {
+            Flatmate loggedInFlatmate = flatmateService.getLoggedInFlatmate();
+            item.setStatus(false);
+            updateItem_flatmateDestination(item, loggedInFlatmate);
+            persistItem(item);
+
+            LoggerSingleton.getInstance().info("added new item: " + item);
+        } else {
+            // todo fix logger
+//            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).warning("can't add item: " + item);
+        }
+
+        return validItem;
+    }
+
+    /**
+     * Checks if an item with the same name, destination and shipping status already exists,
+     * if so the appropriate entity will be updated otherwise the given entity will be saved
+     * to the database as it is.
+     * @param item item to persist
+     */
+    private void persistItem(Item item) {
+        Item alreadySavedItem = getItemWithSameName_and_Destination_and_status(item);
+        // overwrite item if necessary
+        if (alreadySavedItem != null) {
+            alreadySavedItem.setItemCount(item.getItemCount() + alreadySavedItem.getItemCount());
+            LoggerSingleton.getInstance().info("overwrites already saved item: " + item);
+        } else {
+            itemRepository.save(item);
+            LoggerSingleton.getInstance().info("no existing item entity, persist new: " + item);
+        }
+    }
+
+    /**
+     * Get equivalent item to given input
+     * @param inputItem input item to check
+     * @return equivalent item to given input
+     */
+    private Item getItemWithSameName_and_Destination_and_status(Item inputItem) {
+        Item out = null;
+
+        for (Item currItem : itemRepository.findAll()) {
+            if (currItem.equals(inputItem)
+                    && currItem.getItemId() != inputItem.getItemId()) {
+                out = currItem;
+            }
+        }
+
+        return out;
+    }
+
+
+    /**
+     * The destination field of the item will be filled.
+     *
+     * Depending where the item is neede (e.g. kitchen vs. bathroom supply)
+     * the
+     * @param item
+     * @param flatmate
+     */
+    private void updateItem_flatmateDestination(Item item, Flatmate flatmate) {
+        LivingSpace livingSpace = flatmate.getLivingSpace();
+        Room destination;
+
+        ItemPreset preset = itemPresetService.getPreset(item);
+        switch (preset.getSupplyCategory()) {
+            case KITCHEN_SUPPLY:
+                destination = livingSpace.getKitchen();
+                break;
+            case BATHROOM_SUPPLY:
+                destination = livingSpace.getBathroom();
+                break;
+            case CLEANING_SUPPLY:
+                destination = livingSpace.getStorage();
+                break;
+            default:
+                destination = livingSpace.getBedroom();
+        }
+
+        item.setDestination(destination);
+        LoggerSingleton.getInstance().info("updated item with destination: " + item);
     }
 
 

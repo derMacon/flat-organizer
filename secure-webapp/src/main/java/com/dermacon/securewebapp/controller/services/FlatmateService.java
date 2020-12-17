@@ -11,6 +11,7 @@ import com.dermacon.securewebapp.data.UserRole;
 import com.dermacon.securewebapp.exception.FlatmateExistsException;
 import com.dermacon.securewebapp.logger.LoggerSingleton;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -151,5 +152,36 @@ public class FlatmateService {
                 : "" + day;
 
         return person.getSurname().toLowerCase() + day_str + month_str;
+    }
+
+
+    /**
+     * Returns the Flatmate entity of the currently logged in user.
+     * @return the Flatmate entity of the currently logged in user.
+     */
+    public Flatmate getLoggedInFlatmate() {
+        User currUser = getLoggedInUser();
+        // todo use flatmateRepository for this
+        Flatmate loggedInFlatmate = null;
+        for (Flatmate fm : flatmateRepository.findAll()) {
+            if (fm.getUser().getUserId() == currUser.getUserId()) {
+                loggedInFlatmate = fm;
+            }
+        }
+        return loggedInFlatmate;
+    }
+
+    /**
+     * Determines the currently logged in user
+     * @return the currently logged in user
+     */
+    private User getLoggedInUser() {
+        // for some reason the id is always 0
+        String user_name = ((User) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal()).getUsername();
+
+        return userRepository.findByUsername(user_name);
     }
 }

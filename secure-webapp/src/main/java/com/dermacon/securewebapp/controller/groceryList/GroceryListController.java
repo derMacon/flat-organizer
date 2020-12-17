@@ -1,6 +1,7 @@
 package com.dermacon.securewebapp.controller.groceryList;
 
 import com.dermacon.securewebapp.controller.admin.SelectedElements;
+import com.dermacon.securewebapp.controller.services.ItemPresetService;
 import com.dermacon.securewebapp.controller.services.ItemService;
 import com.dermacon.securewebapp.data.Flatmate;
 import com.dermacon.securewebapp.data.FlatmateRepository;
@@ -44,25 +45,28 @@ import java.util.stream.StreamSupport;
 public class GroceryListController {
 
     @Autowired
-    ItemRepository itemRepository;
+    private ItemRepository itemRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    FlatmateRepository flatmateRepository;
+    private FlatmateRepository flatmateRepository;
 
     @Autowired
-    LivingSpaceRepository livingSpaceRepository;
+    private LivingSpaceRepository livingSpaceRepository;
 
     @Autowired
-    TaskRepository taskRepository;
+    private TaskRepository taskRepository;
 
     @Autowired
-    ItemPresetRepository itemPresetRepository;
+    private ItemPresetRepository itemPresetRepository;
 
     @Autowired
-    ItemService itemService;
+    private ItemService itemService;
+
+    @Autowired
+    private ItemPresetService itemPresetService;
 
 
     /**
@@ -155,138 +159,16 @@ public class GroceryListController {
     // todo update mapping
     @PostMapping("/addItem")
     public String addNewItem(@ModelAttribute("item") Item item) {
-
-        if (item != null && item.isValid()) {
-            Flatmate loggedInFlatmate = getLoggedInFlatmate();
-            item.setStatus(false);
-            updateItem_flatmateDestination(item, loggedInFlatmate);
-            persistItem(item);
-
-            LoggerSingleton.getInstance().info("added new item: " + item);
-        } else {
-            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).warning("can't add item: " + item);
-        }
-
+        itemService.addItem(item);
         return "redirect:/groceryList/";
     }
 
 
     @PostMapping("/addNewPreset")
     public String addNewPreset(@ModelAttribute("new_preset") ItemPreset itemPreset) {
-
-        ItemPreset alreadySavedPreset = itemPresetRepository
-                .findItemPresetsByPresetName(itemPreset.getPresetName());
-
-        // preset name must be unique
-        if (alreadySavedPreset == null) {
-            LoggerSingleton.getInstance().info("add new item preset: " + itemPreset);
-            // todo throws java.sql.SQLIntegrityConstraintViolationException
-            // when supply_category is null, this should be displayed to the error page
-            itemPresetRepository.save(itemPreset);
-        }
-
+        itemPresetService.addNewPreset(itemPreset);
         return "redirect:/groceryList/";
     }
-
-
-
-    /**
-     * Checks if an item with the same name, destination and shipping status already exists,
-     * if so the appropriate entity will be updated otherwise the given entity will be saved
-     * to the database as it is.
-     * @param item item to persist
-     */
-    private void persistItem(Item item) {
-        Item alreadySavedItem = getItemWithSameName_and_Destination_and_status(item);
-        // overwrite item if necessary
-        if (alreadySavedItem != null) {
-            alreadySavedItem.setItemCount(item.getItemCount() + alreadySavedItem.getItemCount());
-            LoggerSingleton.getInstance().info("overwrites already saved item: " + item);
-        } else {
-            itemRepository.save(item);
-            LoggerSingleton.getInstance().info("no existing item entity, persist new: " + item);
-        }
-    }
-
-    /**
-     * Returns the Flatmate entity of the currently logged in user.
-     * @return the Flatmate entity of the currently logged in user.
-     */
-    private Flatmate getLoggedInFlatmate() {
-        User currUser = getLoggedInUser();
-        // todo use flatmateRepository for this
-        Flatmate loggedInFlatmate = null;
-        for (Flatmate fm : flatmateRepository.findAll()) {
-            if (fm.getUser().getUserId() == currUser.getUserId()) {
-                loggedInFlatmate = fm;
-            }
-        }
-        return loggedInFlatmate;
-    }
-
-    /**
-     * The destination field of the item will be filled.
-     *
-     * Depending where the item is neede (e.g. kitchen vs. bathroom supply)
-     * the
-     * @param item
-     * @param flatmate
-     */
-    private void updateItem_flatmateDestination(Item item, Flatmate flatmate) {
-        LivingSpace livingSpace = flatmate.getLivingSpace();
-        Room destination;
-
-        ItemPreset preset = itemPresetRepository.findItemPresetsByPresetName(item.getItemName());
-        switch (preset.getSupplyCategory()) {
-            case KITCHEN_SUPPLY:
-                destination = livingSpace.getKitchen();
-                break;
-            case BATHROOM_SUPPLY:
-                destination = livingSpace.getBathroom();
-                break;
-            case CLEANING_SUPPLY:
-                destination = livingSpace.getStorage();
-                break;
-            default:
-                destination = livingSpace.getBedroom();
-        }
-
-        item.setDestination(destination);
-        LoggerSingleton.getInstance().info("updated item with destination: " + item);
-    }
-
-    /**
-     * Get equivalent item to given input
-     * @param inputItem input item to check
-     * @return equivalent item to given input
-     */
-    private Item getItemWithSameName_and_Destination_and_status(Item inputItem) {
-        Item out = null;
-
-        for (Item currItem : itemRepository.findAll()) {
-            if (currItem.equals(inputItem)
-                    && currItem.getItemId() != inputItem.getItemId()) {
-                out = currItem;
-            }
-        }
-
-        return out;
-    }
-
-    /**
-     * Determines the currently logged in user
-     * @return the currently logged in user
-     */
-    private User getLoggedInUser() {
-        // for some reason the id is always 0
-        String user_name = ((User) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal()).getUsername();
-
-        return userRepository.findByUsername(user_name);
-    }
-
 
     @RequestMapping(value = "/removePreset", method = RequestMethod.POST)
     public String removePreset_post(@ModelAttribute(value = "selectedItemPreset") SelectedElements selectedPresets) {
