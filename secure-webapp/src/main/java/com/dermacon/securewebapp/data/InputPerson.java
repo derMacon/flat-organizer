@@ -6,6 +6,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
 
+/**
+ * Class used by the form or api input.
+ * This class will be used to get the user input, it will be converted to a
+ * complete flatmate instance that will be saved in the database
+ */
 public class InputPerson {
 
     private String firstname;
