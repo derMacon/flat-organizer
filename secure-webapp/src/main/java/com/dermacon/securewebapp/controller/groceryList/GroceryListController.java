@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.transaction.Transactional;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -38,6 +40,7 @@ import java.util.stream.StreamSupport;
  */
 @Transactional
 @Controller
+@RequestMapping("groceryList")
 public class GroceryListController {
 
     @Autowired
@@ -62,13 +65,6 @@ public class GroceryListController {
     ItemService itemService;
 
 
-
-
-    @RequestMapping(value = "/", method= RequestMethod.GET)
-    public String displayGroceryList() {
-        return "redirect:/groceryList";
-    }
-
     /**
      * Initializes model with
      * - item instance that will overwritten when a new item will be added
@@ -77,7 +73,7 @@ public class GroceryListController {
      * @param model model provided by the framework
      * @return grocery list thymeleaf template
      */
-    @RequestMapping(value = "/groceryList", method= RequestMethod.GET)
+    @RequestMapping(value = "/", method= RequestMethod.GET)
     public String displayGroceryList(Model model) {
 
         // adding item which will be set in the thymeleaf form and used
@@ -120,7 +116,7 @@ public class GroceryListController {
     @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "updateAll")
     public String checkAllItems() {
         itemService.checkAllItems();
-        return "redirect:/groceryList";
+        return "redirect:/groceryList/";
     }
 
     /**
@@ -137,7 +133,7 @@ public class GroceryListController {
             // todo handle error
         }
 
-        return "redirect:/groceryList";
+        return "redirect:/groceryList/";
     }
 
 
@@ -147,7 +143,7 @@ public class GroceryListController {
         Iterable<Long> itemIds = selectedItems.getCheckedItems();
         itemService.removeSelectedItems(itemIds);
 
-        return "redirect:/groceryList";
+        return "redirect:/groceryList/";
     }
 
 
@@ -156,7 +152,8 @@ public class GroceryListController {
      * @param item item provided by the html form
      * @return grocery list thymeleaf template
      */
-    @PostMapping("/groceryList")
+    // todo update mapping
+    @PostMapping("/addItem")
     public String addNewItem(@ModelAttribute("item") Item item) {
 
         if (item != null && item.isValid()) {
@@ -170,7 +167,7 @@ public class GroceryListController {
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).warning("can't add item: " + item);
         }
 
-        return "redirect:/groceryList";
+        return "redirect:/groceryList/";
     }
 
 
@@ -183,10 +180,12 @@ public class GroceryListController {
         // preset name must be unique
         if (alreadySavedPreset == null) {
             LoggerSingleton.getInstance().info("add new item preset: " + itemPreset);
+            // todo throws java.sql.SQLIntegrityConstraintViolationException
+            // when supply_category is null, this should be displayed to the error page
             itemPresetRepository.save(itemPreset);
         }
 
-        return "redirect:/groceryList";
+        return "redirect:/groceryList/";
     }
 
 
@@ -294,6 +293,6 @@ public class GroceryListController {
         selectedPresets.getCheckedElements()
                 .stream()
                 .forEach(itemPresetRepository::deleteByPresetId);
-        return "redirect:/groceryList";
+        return "redirect:/groceryList/";
     }
 }
