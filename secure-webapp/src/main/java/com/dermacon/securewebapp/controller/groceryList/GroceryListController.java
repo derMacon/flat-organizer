@@ -27,9 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -64,7 +62,6 @@ public class GroceryListController {
     ItemService itemService;
 
 
-    private Date lastPurchase = new Date(System.currentTimeMillis());
 
 
     @RequestMapping(value = "/", method= RequestMethod.GET)
@@ -94,13 +91,14 @@ public class GroceryListController {
         // last shopping trip
         model.addAttribute("newItems", itemService.getSortedItems_nextPurchase());
         model.addAttribute("oldItems", itemService.getSortedItems_prevPurchase());
-        model.addAttribute("dateLastPurchase", lastPurchase);
+        model.addAttribute("dateLastPurchase", itemService.getLastPurchase());
         model.addAttribute("selectedItems", new SelectedItems());
 
         // used in header to select which of the title segments should be highlighted
         model.addAttribute("selectedDomain", "groceryList");
 
         // used to display preset options
+        // todo put into service
         model.addAttribute("saved_presets", sort(itemPresetRepository.findAll()));
 
         // used when adding a new preset to determine the category type of new preset
@@ -113,6 +111,7 @@ public class GroceryListController {
         return "groceryList";
     }
 
+    // todo remove this
     private <T> Iterable<T> sort(Iterable<T> it) {
         Stream<T> stream = StreamSupport.stream(it.spliterator(), false);
         return stream.sorted().collect(Collectors.toList());
@@ -120,10 +119,7 @@ public class GroceryListController {
 
     @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "updateAll")
     public String checkAllItems() {
-        // select all non selected checkboxes
-        for (Item item : itemRepository.findAllByStatus(false)) {
-            item.setStatus(true);
-        }
+        itemService.checkAllItems();
         return "redirect:/groceryList";
     }
 
@@ -135,95 +131,23 @@ public class GroceryListController {
     @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "update")
     public String processCheckboxForm(@ModelAttribute(value="selectedItems") SelectedItems selectedItems) {
 
-        updateOldItems();
-
-        List<Long> checkedItems = selectedItems.getCheckedItems();
-        for (Long currId : checkedItems) {
-            Item item = itemRepository.findByItemId(currId);
-            LoggerSingleton.getInstance().info("persist item: " + item);
-
-            updateLastShoppingList(item);
-
-            LoggerSingleton.getInstance().info("moving item to old items table: " + item);
+        Iterable<Long> itemIds = selectedItems.getCheckedItems();
+        boolean ableToSelectAllItems = !itemService.shopSelectedItems(itemIds);
+        if (!ableToSelectAllItems) {
+            // todo handle error
         }
 
         return "redirect:/groceryList";
     }
 
-    private void updateLastShoppingList(Item inputItem) {
-
-        Item alreadySavedItem = null;
-
-        for (Item currItem : itemRepository.findAll()) {
-            if (currItem.getItemName().toLowerCase().equals(inputItem.getItemName().toLowerCase())
-                    && currItem.getDestination().equals(inputItem.getDestination())
-                    && currItem.getItemId() != inputItem.getItemId()) {
-
-                alreadySavedItem = currItem;
-
-            }
-        }
-
-        if (alreadySavedItem == null) {
-            inputItem.setStatus(true);
-        } else {
-            alreadySavedItem.setItemCount(alreadySavedItem.getItemCount() + inputItem.getItemCount());
-            // delete entity from database
-            itemRepository.delete(inputItem);
-        }
-    }
 
     @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "remove")
     public String removeItems(@ModelAttribute(value="selectedItems") SelectedItems selectedItems) {
 
-        List<Long> checkedItems = selectedItems.getCheckedItems();
-        for (Long curr : checkedItems) {
-            Item item = itemRepository.findByItemId(curr);
-            item.setDestination(null);
-            LoggerSingleton.getInstance().info("persist item: " + item);
-            itemRepository.delete(item);
-        }
+        Iterable<Long> itemIds = selectedItems.getCheckedItems();
+        itemService.removeSelectedItems(itemIds);
 
         return "redirect:/groceryList";
-    }
-
-    /**
-     * When the user wants to move new items to the right column the old items
-     * will be removed, given that the last move action was at the last day
-     *
-     * Needed to keep the old items column up to date
-     */
-    private void updateOldItems() {
-        Date curr = new Date(System.currentTimeMillis());
-        if (getDateDiff(lastPurchase, curr, TimeUnit.HOURS) > 0) {
-
-            LoggerSingleton.getInstance().info("latest purchase too old, will be removed. Last " +
-                    "Purchase (" + lastPurchase + "), current date (" + curr + ")");
-
-            lastPurchase = curr;
-
-            for (Item item : itemRepository.findAllByStatus(true)) {
-                item.setDestination(null);
-                // delete entity from database
-                itemRepository.delete(item);
-
-                LoggerSingleton.getInstance().info("removed item: " + item);
-            }
-
-        }
-    }
-
-    /**
-     * Get a diff between two dates
-     * https://stackoverflow.com/questions/1555262/calculating-the-difference-between-two-java-date-instances
-     * @param date1 the oldest date
-     * @param date2 the newest date
-     * @param timeUnit the unit in which you want the diff
-     * @return the diff value, in the provided unit
-     */
-    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
-        long diffInMillies = date2.getTime() - date1.getTime();
-        return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
     }
 
 
@@ -364,4 +288,12 @@ public class GroceryListController {
         return userRepository.findByUsername(user_name);
     }
 
+
+    @RequestMapping(value = "/removePreset", method = RequestMethod.POST)
+    public String removePreset_post(@ModelAttribute(value = "selectedItemPreset") SelectedElements selectedPresets) {
+        selectedPresets.getCheckedElements()
+                .stream()
+                .forEach(itemPresetRepository::deleteByPresetId);
+        return "redirect:/groceryList";
+    }
 }

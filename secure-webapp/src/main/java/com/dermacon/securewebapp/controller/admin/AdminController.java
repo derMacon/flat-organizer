@@ -79,12 +79,4 @@ public class AdminController {
     }
 
 
-    @RequestMapping(value = "/removePreset", method = RequestMethod.POST)
-    public String removePreset_post(@ModelAttribute(value = "selectedItemPreset") SelectedElements selectedPresets) {
-        selectedPresets.getCheckedElements()
-                .stream()
-                .forEach(itemPresetRepository::deleteByPresetId);
-        return "redirect:/groceryList/admin/";
-    }
-
 }
