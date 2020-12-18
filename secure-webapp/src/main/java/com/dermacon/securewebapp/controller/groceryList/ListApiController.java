@@ -40,7 +40,7 @@ public class ListApiController {
     @PostMapping(value = "/addItem")
     public boolean addItem(@RequestBody InputItem inputItem) {
         System.out.println(inputItem);
-        return true;
+        return itemService.addItem(inputItem);
     }
 
     @DeleteMapping(value = "/removeItem/{id}")

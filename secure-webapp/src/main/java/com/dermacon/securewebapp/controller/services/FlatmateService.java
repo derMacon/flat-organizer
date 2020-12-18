@@ -12,6 +12,7 @@ import com.dermacon.securewebapp.exception.FlatmateExistsException;
 import com.dermacon.securewebapp.logger.LoggerSingleton;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -177,7 +178,7 @@ public class FlatmateService {
      */
     private User getLoggedInUser() {
         // for some reason the id is always 0
-        String user_name = ((User) SecurityContextHolder
+        String user_name = ((UserDetails) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal()).getUsername();

@@ -9,7 +9,6 @@ public class InputItem {
     private int itemCount = 1;
     private String itemName;
 
-
     public InputItem() {}
 
     public InputItem(int itemCount, String itemName) {
