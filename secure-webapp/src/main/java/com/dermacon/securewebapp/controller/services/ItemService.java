@@ -1,6 +1,5 @@
 package com.dermacon.securewebapp.controller.services;
 
-import com.dermacon.securewebapp.controller.groceryList.SelectedItems;
 import com.dermacon.securewebapp.data.Flatmate;
 import com.dermacon.securewebapp.data.InputItem;
 import com.dermacon.securewebapp.data.Item;
@@ -15,9 +14,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -43,12 +41,27 @@ public class ItemService {
 
     /* ---------- Item Info ---------- */
 
+    /**
+     * Get a diff between two dates
+     * https://stackoverflow.com/questions/1555262/calculating-the-difference-between-two-java-date-instances
+     *
+     * @param date1    the oldest date
+     * @param date2    the newest date
+     * @param timeUnit the unit in which you want the diff
+     * @return the diff value, in the provided unit
+     */
+    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+        long diffInMillies = date2.getTime() - date1.getTime();
+        return timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
+    }
+
     public Date getLastPurchase() {
         return lastPurchase;
     }
 
     /**
      * Returns the items in the current shopping cart
+     *
      * @return the items in the current shopping cart
      */
     public Iterable<Item> getSortedItems_nextPurchase() {
@@ -57,14 +70,19 @@ public class ItemService {
 
     /**
      * the items in the last shopping cart
+     *
      * @return the items in the last shopping cart
      */
     public Iterable<Item> getSortedItems_prevPurchase() {
         return sort(itemRepository.findAllByStatus(true));
     }
 
+
+    /* ---------- add new Items ---------- */
+
     /**
      * Sorts a given iterable instance
+     *
      * @param it iterable instance to sort
      * @return sorted Iterable instance
      */
@@ -73,52 +91,55 @@ public class ItemService {
         return stream.sorted().collect(Collectors.toList());
     }
 
-
-    /* ---------- add new Items ---------- */
-
     /**
      * Add new Item to the current shopping list
+     *
      * @param inputItem new Item to add
      * @return false if destination wasn't present, else true
      */
     public boolean addItem(InputItem inputItem) {
-        Optional<Room> destination = roomRepository.findById(inputItem.getRoomId());
-        if (!destination.isPresent()) {
-            return false;
-        }
-
-        Item convertedItem = new Item(
-                inputItem.getItemCount(),
-                inputItem.getItemName(),
-                destination.get(),
-                inputItem.isStatus()
-        );
-
-        return addItem(convertedItem);
-    }
-
-
-    public boolean addItem(Item item) {
-        boolean validItem = item != null && item.isValid();
+        boolean validItem = inputItem != null && inputItem.isValid();
         if (validItem) {
-            Flatmate loggedInFlatmate = flatmateService.getLoggedInFlatmate();
-            item.setStatus(false);
-            updateItem_flatmateDestination(item, loggedInFlatmate);
-            persistItem(item);
+            // todo implement builder
+            Item newItem = new Item(
+                    inputItem.getItemCount(),
+                    inputItem.getItemName(),
+                    getDestination(inputItem),
+                    false
+            );
+            persistItem(newItem);
 
-            LoggerSingleton.getInstance().info("added new item: " + item);
-        } else {
             // todo fix logger
-//            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).warning("can't add item: " + item);
+            LoggerSingleton.getInstance().info("added new item: " + inputItem);
+        } else {
+            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).warning("can't add item: " + inputItem);
         }
 
         return validItem;
     }
 
+//    public boolean addItem(Item item) {
+//        boolean validItem = item != null && item.isValid();
+//        if (validItem) {
+//            Flatmate loggedInFlatmate = flatmateService.getLoggedInFlatmate();
+//            item.setStatus(false);
+//            getDestination(item, loggedInFlatmate);
+//            persistItem(item);
+//
+//            LoggerSingleton.getInstance().info("added new item: " + item);
+//        } else {
+//            // todo fix logger
+////            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).warning("can't add item: " + item);
+//        }
+//
+//        return validItem;
+//    }
+
     /**
      * Checks if an item with the same name, destination and shipping status already exists,
      * if so the appropriate entity will be updated otherwise the given entity will be saved
      * to the database as it is.
+     *
      * @param item item to persist
      */
     private void persistItem(Item item) {
@@ -135,6 +156,7 @@ public class ItemService {
 
     /**
      * Get equivalent item to given input
+     *
      * @param inputItem input item to check
      * @return equivalent item to given input
      */
@@ -152,16 +174,19 @@ public class ItemService {
     }
 
 
+    /* ---------- shop items ---------- */
+
     /**
      * The destination field of the item will be filled.
-     *
+     * <p>
      * Depending where the item is neede (e.g. kitchen vs. bathroom supply)
      * the
-     * @param item
-     * @param flatmate
+     *
+     * @param item input item (containing name and quantity)
      */
-    private void updateItem_flatmateDestination(Item item, Flatmate flatmate) {
-        LivingSpace livingSpace = flatmate.getLivingSpace();
+    private Room getDestination(InputItem item) {
+        Flatmate loggedInFlatmate = flatmateService.getLoggedInFlatmate();
+        LivingSpace livingSpace = loggedInFlatmate.getLivingSpace();
         Room destination;
 
         ItemPreset preset = itemPresetService.getPreset(item);
@@ -179,17 +204,15 @@ public class ItemService {
                 destination = livingSpace.getBedroom();
         }
 
-        item.setDestination(destination);
         LoggerSingleton.getInstance().info("updated item with destination: " + item);
+        return destination;
     }
-
-
-    /* ---------- shop items ---------- */
 
     /**
      * Selects all given items in the current shopping list.
      * All the selected items are already in the database. No
      * need to further persist the data.
+     *
      * @param ids item ids to shop
      * @return true if all Items ware selectable
      */
@@ -199,11 +222,10 @@ public class ItemService {
         return moveItemsToOldCart(items);
     }
 
-
     /**
      * When the user wants to move new items to the right column the old items
      * will be removed, given that the last move action was at the last day
-     *
+     * <p>
      * Necessary when keeping the old items column up to date
      */
     public void removeOldItems() {
@@ -227,21 +249,8 @@ public class ItemService {
     }
 
     /**
-     * Get a diff between two dates
-     * https://stackoverflow.com/questions/1555262/calculating-the-difference-between-two-java-date-instances
-     * @param date1 the oldest date
-     * @param date2 the newest date
-     * @param timeUnit the unit in which you want the diff
-     * @return the diff value, in the provided unit
-     */
-    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
-        long diffInMillies = date2.getTime() - date1.getTime();
-        return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
-    }
-
-
-    /**
      * Iterates over a given list of items and
+     *
      * @return
      */
     public boolean moveItemsToOldCart(Iterable<Item> items) {
@@ -264,10 +273,11 @@ public class ItemService {
     /**
      * Checks if a given is already present in the last shopping trip list
      * - if not the status of the item will be simply be put to true (to signal that this item
-     *   was already bought)
+     * was already bought)
      * - if the item already exists in the last shopping trip list, the input item's count will
-     *   be summed up with the already existing item's count. Then the input Item will be deleted
-     *   from the database
+     * be summed up with the already existing item's count. Then the input Item will be deleted
+     * from the database
+     *
      * @param inputItem selected Item in the current shopping list (must have a status == false)
      */
     private void moveToOldShoppingList(Item inputItem) {

@@ -6,19 +6,15 @@ package com.dermacon.securewebapp.data;
  */
 public class InputItem {
 
-    private int itemCount;
+    private int itemCount = 1;
     private String itemName;
-    private long roomId;
-    private boolean status;
 
 
     public InputItem() {}
 
-    public InputItem(int itemCount, String itemName, long roomId, boolean status) {
+    public InputItem(int itemCount, String itemName) {
         this.itemCount = itemCount;
         this.itemName = itemName;
-        this.roomId = roomId;
-        this.status = status;
     }
 
     public int getItemCount() {
@@ -37,29 +33,17 @@ public class InputItem {
         this.itemName = itemName;
     }
 
-    public long getRoomId() {
-        return roomId;
-    }
-
-    public void setRoomId(long roomId) {
-        this.roomId = roomId;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
     @Override
     public String toString() {
         return "InputItem{" +
                 "itemCount=" + itemCount +
                 ", itemName='" + itemName + '\'' +
-                ", roomId=" + roomId +
-                ", status=" + status +
                 '}';
+    }
+
+    public boolean isValid() {
+        return this.getItemCount() > 0
+                && !this.itemName.isBlank()
+                && !this.itemName.isEmpty();
     }
 }

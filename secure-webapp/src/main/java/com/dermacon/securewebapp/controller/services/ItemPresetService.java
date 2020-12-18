@@ -1,5 +1,6 @@
 package com.dermacon.securewebapp.controller.services;
 
+import com.dermacon.securewebapp.data.InputItem;
 import com.dermacon.securewebapp.data.Item;
 import com.dermacon.securewebapp.data.ItemPreset;
 import com.dermacon.securewebapp.data.ItemPresetRepository;
@@ -28,7 +29,7 @@ public class ItemPresetService {
         }
     }
 
-    public ItemPreset getPreset(Item item) {
+    public ItemPreset getPreset(InputItem item) {
         return itemPresetRepository.findItemPresetsByPresetName(item.getItemName());
     }
 

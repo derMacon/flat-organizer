@@ -5,6 +5,7 @@ import com.dermacon.securewebapp.controller.services.ItemPresetService;
 import com.dermacon.securewebapp.controller.services.ItemService;
 import com.dermacon.securewebapp.data.Flatmate;
 import com.dermacon.securewebapp.data.FlatmateRepository;
+import com.dermacon.securewebapp.data.InputItem;
 import com.dermacon.securewebapp.data.Item;
 import com.dermacon.securewebapp.data.ItemPreset;
 import com.dermacon.securewebapp.data.ItemPresetRepository;
@@ -82,7 +83,7 @@ public class GroceryListController {
 
         // adding item which will be set in the thymeleaf form and used
         // and overwritten when a new item will be added
-        model.addAttribute("item", new Item());
+        model.addAttribute("item", new InputItem());
 
         model.addAttribute("preset", new ItemPreset());
 
@@ -158,7 +159,7 @@ public class GroceryListController {
      */
     // todo update mapping
     @PostMapping("/addItem")
-    public String addNewItem(@ModelAttribute("item") Item item) {
+    public String addNewItem(@ModelAttribute("item") InputItem item) {
         itemService.addItem(item);
         return "redirect:/groceryList/";
     }
