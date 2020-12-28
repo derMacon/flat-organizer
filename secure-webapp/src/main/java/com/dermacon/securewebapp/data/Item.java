@@ -44,6 +44,13 @@ public class Item extends BaseObject implements Comparable {
         this.status = status;
     }
 
+    public Item(int itemCount, String itemName, Room destination, Boolean status) {
+        this.itemCount = itemCount;
+        this.itemName = itemName;
+        this.destination = destination;
+        this.status = status;
+    }
+
     public long getItemId() {
         return itemId;
     }

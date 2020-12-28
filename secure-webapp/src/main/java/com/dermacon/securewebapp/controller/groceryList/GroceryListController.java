@@ -1,9 +1,11 @@
 package com.dermacon.securewebapp.controller.groceryList;
 
 import com.dermacon.securewebapp.controller.admin.SelectedElements;
+import com.dermacon.securewebapp.controller.services.ItemPresetService;
 import com.dermacon.securewebapp.controller.services.ItemService;
 import com.dermacon.securewebapp.data.Flatmate;
 import com.dermacon.securewebapp.data.FlatmateRepository;
+import com.dermacon.securewebapp.data.InputItem;
 import com.dermacon.securewebapp.data.Item;
 import com.dermacon.securewebapp.data.ItemPreset;
 import com.dermacon.securewebapp.data.ItemPresetRepository;
@@ -26,10 +28,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.transaction.Transactional;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -40,37 +42,33 @@ import java.util.stream.StreamSupport;
  */
 @Transactional
 @Controller
+@RequestMapping("groceryList")
 public class GroceryListController {
 
     @Autowired
-    ItemRepository itemRepository;
+    private ItemRepository itemRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    FlatmateRepository flatmateRepository;
+    private FlatmateRepository flatmateRepository;
 
     @Autowired
-    LivingSpaceRepository livingSpaceRepository;
+    private LivingSpaceRepository livingSpaceRepository;
 
     @Autowired
-    TaskRepository taskRepository;
+    private TaskRepository taskRepository;
 
     @Autowired
-    ItemPresetRepository itemPresetRepository;
+    private ItemPresetRepository itemPresetRepository;
 
     @Autowired
-    ItemService itemService;
+    private ItemService itemService;
 
+    @Autowired
+    private ItemPresetService itemPresetService;
 
-    private Date lastPurchase = new Date(System.currentTimeMillis());
-
-
-    @RequestMapping(value = "/", method= RequestMethod.GET)
-    public String displayGroceryList() {
-        return "redirect:/groceryList";
-    }
 
     /**
      * Initializes model with
@@ -80,12 +78,12 @@ public class GroceryListController {
      * @param model model provided by the framework
      * @return grocery list thymeleaf template
      */
-    @RequestMapping(value = "/groceryList", method= RequestMethod.GET)
+    @RequestMapping(value = "/", method= RequestMethod.GET)
     public String displayGroceryList(Model model) {
 
         // adding item which will be set in the thymeleaf form and used
         // and overwritten when a new item will be added
-        model.addAttribute("item", new Item());
+        model.addAttribute("item", new InputItem());
 
         model.addAttribute("preset", new ItemPreset());
 
@@ -94,13 +92,14 @@ public class GroceryListController {
         // last shopping trip
         model.addAttribute("newItems", itemService.getSortedItems_nextPurchase());
         model.addAttribute("oldItems", itemService.getSortedItems_prevPurchase());
-        model.addAttribute("dateLastPurchase", lastPurchase);
+        model.addAttribute("dateLastPurchase", itemService.getLastPurchase());
         model.addAttribute("selectedItems", new SelectedItems());
 
         // used in header to select which of the title segments should be highlighted
         model.addAttribute("selectedDomain", "groceryList");
 
         // used to display preset options
+        // todo put into service
         model.addAttribute("saved_presets", sort(itemPresetRepository.findAll()));
 
         // used when adding a new preset to determine the category type of new preset
@@ -113,6 +112,7 @@ public class GroceryListController {
         return "groceryList";
     }
 
+    // todo remove this
     private <T> Iterable<T> sort(Iterable<T> it) {
         Stream<T> stream = StreamSupport.stream(it.spliterator(), false);
         return stream.sorted().collect(Collectors.toList());
@@ -120,11 +120,8 @@ public class GroceryListController {
 
     @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "updateAll")
     public String checkAllItems() {
-        // select all non selected checkboxes
-        for (Item item : itemRepository.findAllByStatus(false)) {
-            item.setStatus(true);
-        }
-        return "redirect:/groceryList";
+        itemService.checkAllItems();
+        return "redirect:/groceryList/";
     }
 
     /**
@@ -135,95 +132,23 @@ public class GroceryListController {
     @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "update")
     public String processCheckboxForm(@ModelAttribute(value="selectedItems") SelectedItems selectedItems) {
 
-        updateOldItems();
-
-        List<Long> checkedItems = selectedItems.getCheckedItems();
-        for (Long currId : checkedItems) {
-            Item item = itemRepository.findByItemId(currId);
-            LoggerSingleton.getInstance().info("persist item: " + item);
-
-            updateLastShoppingList(item);
-
-            LoggerSingleton.getInstance().info("moving item to old items table: " + item);
+        Iterable<Long> itemIds = selectedItems.getCheckedItems();
+        boolean ableToSelectAllItems = !itemService.shopSelectedItems(itemIds);
+        if (!ableToSelectAllItems) {
+            // todo handle error
         }
 
-        return "redirect:/groceryList";
+        return "redirect:/groceryList/";
     }
 
-    private void updateLastShoppingList(Item inputItem) {
-
-        Item alreadySavedItem = null;
-
-        for (Item currItem : itemRepository.findAll()) {
-            if (currItem.getItemName().toLowerCase().equals(inputItem.getItemName().toLowerCase())
-                    && currItem.getDestination().equals(inputItem.getDestination())
-                    && currItem.getItemId() != inputItem.getItemId()) {
-
-                alreadySavedItem = currItem;
-
-            }
-        }
-
-        if (alreadySavedItem == null) {
-            inputItem.setStatus(true);
-        } else {
-            alreadySavedItem.setItemCount(alreadySavedItem.getItemCount() + inputItem.getItemCount());
-            // delete entity from database
-            itemRepository.delete(inputItem);
-        }
-    }
 
     @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "remove")
     public String removeItems(@ModelAttribute(value="selectedItems") SelectedItems selectedItems) {
 
-        List<Long> checkedItems = selectedItems.getCheckedItems();
-        for (Long curr : checkedItems) {
-            Item item = itemRepository.findByItemId(curr);
-            item.setDestination(null);
-            LoggerSingleton.getInstance().info("persist item: " + item);
-            itemRepository.delete(item);
-        }
+        Iterable<Long> itemIds = selectedItems.getCheckedItems();
+        itemService.removeSelectedItems(itemIds);
 
-        return "redirect:/groceryList";
-    }
-
-    /**
-     * When the user wants to move new items to the right column the old items
-     * will be removed, given that the last move action was at the last day
-     *
-     * Needed to keep the old items column up to date
-     */
-    private void updateOldItems() {
-        Date curr = new Date(System.currentTimeMillis());
-        if (getDateDiff(lastPurchase, curr, TimeUnit.HOURS) > 0) {
-
-            LoggerSingleton.getInstance().info("latest purchase too old, will be removed. Last " +
-                    "Purchase (" + lastPurchase + "), current date (" + curr + ")");
-
-            lastPurchase = curr;
-
-            for (Item item : itemRepository.findAllByStatus(true)) {
-                item.setDestination(null);
-                // delete entity from database
-                itemRepository.delete(item);
-
-                LoggerSingleton.getInstance().info("removed item: " + item);
-            }
-
-        }
-    }
-
-    /**
-     * Get a diff between two dates
-     * https://stackoverflow.com/questions/1555262/calculating-the-difference-between-two-java-date-instances
-     * @param date1 the oldest date
-     * @param date2 the newest date
-     * @param timeUnit the unit in which you want the diff
-     * @return the diff value, in the provided unit
-     */
-    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
-        long diffInMillies = date2.getTime() - date1.getTime();
-        return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+        return "redirect:/groceryList/";
     }
 
 
@@ -232,136 +157,25 @@ public class GroceryListController {
      * @param item item provided by the html form
      * @return grocery list thymeleaf template
      */
-    @PostMapping("/groceryList")
-    public String addNewItem(@ModelAttribute("item") Item item) {
-
-        if (item != null && item.isValid()) {
-            Flatmate loggedInFlatmate = getLoggedInFlatmate();
-            item.setStatus(false);
-            updateItem_flatmateDestination(item, loggedInFlatmate);
-            persistItem(item);
-
-            LoggerSingleton.getInstance().info("added new item: " + item);
-        } else {
-            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).warning("can't add item: " + item);
-        }
-
-        return "redirect:/groceryList";
+    // todo update mapping
+    @PostMapping("/addItem")
+    public String addNewItem(@ModelAttribute("item") InputItem item) {
+        itemService.addItem(item);
+        return "redirect:/groceryList/";
     }
 
 
     @PostMapping("/addNewPreset")
     public String addNewPreset(@ModelAttribute("new_preset") ItemPreset itemPreset) {
-
-        ItemPreset alreadySavedPreset = itemPresetRepository
-                .findItemPresetsByPresetName(itemPreset.getPresetName());
-
-        // preset name must be unique
-        if (alreadySavedPreset == null) {
-            LoggerSingleton.getInstance().info("add new item preset: " + itemPreset);
-            itemPresetRepository.save(itemPreset);
-        }
-
-        return "redirect:/groceryList";
+        itemPresetService.addNewPreset(itemPreset);
+        return "redirect:/groceryList/";
     }
 
-
-
-    /**
-     * Checks if an item with the same name, destination and shipping status already exists,
-     * if so the appropriate entity will be updated otherwise the given entity will be saved
-     * to the database as it is.
-     * @param item item to persist
-     */
-    private void persistItem(Item item) {
-        Item alreadySavedItem = getItemWithSameName_and_Destination_and_status(item);
-        // overwrite item if necessary
-        if (alreadySavedItem != null) {
-            alreadySavedItem.setItemCount(item.getItemCount() + alreadySavedItem.getItemCount());
-            LoggerSingleton.getInstance().info("overwrites already saved item: " + item);
-        } else {
-            itemRepository.save(item);
-            LoggerSingleton.getInstance().info("no existing item entity, persist new: " + item);
-        }
+    @RequestMapping(value = "/removePreset", method = RequestMethod.POST)
+    public String removePreset_post(@ModelAttribute(value = "selectedItemPreset") SelectedElements selectedPresets) {
+        selectedPresets.getCheckedElements()
+                .stream()
+                .forEach(itemPresetRepository::deleteByPresetId);
+        return "redirect:/groceryList/";
     }
-
-    /**
-     * Returns the Flatmate entity of the currently logged in user.
-     * @return the Flatmate entity of the currently logged in user.
-     */
-    private Flatmate getLoggedInFlatmate() {
-        User currUser = getLoggedInUser();
-        // todo use flatmateRepository for this
-        Flatmate loggedInFlatmate = null;
-        for (Flatmate fm : flatmateRepository.findAll()) {
-            if (fm.getUser().getUserId() == currUser.getUserId()) {
-                loggedInFlatmate = fm;
-            }
-        }
-        return loggedInFlatmate;
-    }
-
-    /**
-     * The destination field of the item will be filled.
-     *
-     * Depending where the item is neede (e.g. kitchen vs. bathroom supply)
-     * the
-     * @param item
-     * @param flatmate
-     */
-    private void updateItem_flatmateDestination(Item item, Flatmate flatmate) {
-        LivingSpace livingSpace = flatmate.getLivingSpace();
-        Room destination;
-
-        ItemPreset preset = itemPresetRepository.findItemPresetsByPresetName(item.getItemName());
-        switch (preset.getSupplyCategory()) {
-            case KITCHEN_SUPPLY:
-                destination = livingSpace.getKitchen();
-                break;
-            case BATHROOM_SUPPLY:
-                destination = livingSpace.getBathroom();
-                break;
-            case CLEANING_SUPPLY:
-                destination = livingSpace.getStorage();
-                break;
-            default:
-                destination = livingSpace.getBedroom();
-        }
-
-        item.setDestination(destination);
-        LoggerSingleton.getInstance().info("updated item with destination: " + item);
-    }
-
-    /**
-     * Get equivalent item to given input
-     * @param inputItem input item to check
-     * @return equivalent item to given input
-     */
-    private Item getItemWithSameName_and_Destination_and_status(Item inputItem) {
-        Item out = null;
-
-        for (Item currItem : itemRepository.findAll()) {
-            if (currItem.equals(inputItem)
-                    && currItem.getItemId() != inputItem.getItemId()) {
-                out = currItem;
-            }
-        }
-
-        return out;
-    }
-
-    /**
-     * Determines the currently logged in user
-     * @return the currently logged in user
-     */
-    private User getLoggedInUser() {
-        // for some reason the id is always 0
-        String user_name = ((User) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal()).getUsername();
-
-        return userRepository.findByUsername(user_name);
-    }
-
 }
