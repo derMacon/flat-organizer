@@ -17,6 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Default controller handling all actions with no direct cohesion to the rest of the controller
+ * components
+ */
 @Controller
 public class DefaultController {
 
@@ -28,6 +32,7 @@ public class DefaultController {
         return "redirect:/groceryList";
     }
 
+    // todo is this really necessary
     @ModelAttribute
     public void addAttributes(Model model) {
         List<User> users = (List<User>) userRepository.findAll();

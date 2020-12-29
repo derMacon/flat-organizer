@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+/**
+ * Api controller mapping requests for the grocery list
+ */
 @RestController
 @RequestMapping("api/groceryList")
 public class ListApiController {

@@ -189,6 +189,12 @@ public class GroceryListController {
         }
     }
 
+    /**
+     * Removes selected items from the current grocery list.
+     * Selected items will be moved to the previous grocery list table
+     * @param selectedItems user selected items
+     * @return grocery list redirect
+     */
     @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "remove")
     public String removeItems(@ModelAttribute(value="selectedItems") SelectedItems selectedItems) {
 
@@ -265,7 +271,11 @@ public class GroceryListController {
         return "redirect:/groceryList";
     }
 
-
+    /**
+     * takes in a new preset which was created by the user
+     * @param itemPreset user created item preset
+     * @return grocery list redirect
+     */
     @PostMapping("/addNewPreset")
     public String addNewPreset(@ModelAttribute("new_preset") ItemPreset itemPreset) {
 
@@ -320,10 +330,10 @@ public class GroceryListController {
     /**
      * The destination field of the item will be filled.
      *
-     * Depending where the item is neede (e.g. kitchen vs. bathroom supply)
-     * the
-     * @param item
-     * @param flatmate
+     * Depending where the item is needed (e.g. kitchen vs. bathroom supply)
+     * the destination will be set accordingly
+     * @param item item to update
+     * @param flatmate flatmate instance of a specified user
      */
     private void updateItem_flatmateDestination(Item item, Flatmate flatmate) {
         LivingSpace livingSpace = flatmate.getLivingSpace();
