@@ -63,7 +63,9 @@ public class GroceryListController {
     @Autowired
     ItemService itemService;
 
-
+    /**
+     * time stamp of the last shopping trip
+     */
     private Date lastPurchase = new Date(System.currentTimeMillis());
 
 
@@ -113,11 +115,21 @@ public class GroceryListController {
         return "groceryList";
     }
 
+    /**
+     * Sorts a given list
+     * @param it data to sort
+     * @param <T> type of the list elements
+     * @return sorted list
+     */
     private <T> Iterable<T> sort(Iterable<T> it) {
         Stream<T> stream = StreamSupport.stream(it.spliterator(), false);
         return stream.sorted().collect(Collectors.toList());
     }
 
+    /**
+     * Sets the shopping status for all items
+     * @return Redicrect address
+     */
     @RequestMapping(value = "/processForm", method=RequestMethod.POST, params = "updateAll")
     public String checkAllItems() {
         // select all non selected checkboxes
@@ -150,6 +162,10 @@ public class GroceryListController {
         return "redirect:/groceryList";
     }
 
+    /**
+     * Transfers an item from the current shopping last to the previous shopping list
+     * @param inputItem item to transfer
+     */
     private void updateLastShoppingList(Item inputItem) {
 
         Item alreadySavedItem = null;
