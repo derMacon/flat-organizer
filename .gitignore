@@ -55,3 +55,8 @@ hs_err_pid*
 *.log.*
 data_set.sql # private information
 
+# dart 
+pubspec.lock
+.dart_tool/
+.packages
+
