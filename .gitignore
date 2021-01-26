@@ -55,8 +55,12 @@ hs_err_pid*
 *.log.*
 data_set.sql # private information
 
+# git secret files must be ignored
+**/data.sql
+
 # dart 
 pubspec.lock
 .dart_tool/
 .packages
 
+.gitsecret/keys/random_seed
