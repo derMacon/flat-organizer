@@ -22,14 +22,18 @@
 
 <div class="container pt-5">
 
-    <h3>Help</h3>
-    <p>Work in Progress, coming soon!</p>
+    <div class="row">
+        <div class="col-md-4 mb-2">
+            <div class="pb-3" th:insert="fragments/admin/admin_createFlatmate :: body"></div>
+        </div>
 
+        <div class="col-md-8 border-left rounded pl-4"
+             th:insert="fragments/admin/admin_removeFlatmate :: body"></div>
+    </div>
 </div>
 
-<!--<div th:insert="fragments/footer :: footer"></div>-->
+<div th:insert="fragments/footer :: footer"></div>
 
-<!--Needed for animated header-->
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
@@ -37,4 +41,3 @@
 
 </body>
 </html>
-
