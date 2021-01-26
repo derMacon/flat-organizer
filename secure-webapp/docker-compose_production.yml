@@ -1,0 +1,34 @@
+version: '3'
+
+volumes:
+  postgresql-data:
+
+services:
+
+  postgreSQL:
+    image: postgres:13-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - DEBUG=false
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=workshop_app
+    volumes:
+      - postgresql-data:/var/lib/postgresql
+    restart: unless-stopped
+
+  myapp-main:
+    build: ./spring-project
+    restart: on-failure
+    depends_on:
+      - postgreSQL
+    ports:
+      - 8888:8080
+    environment:
+      - DATABASE_HOST=postgreSQL
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=workshop_app
+      - DATABASE_PORT=5432
+      - spring.profiles.active=prod
