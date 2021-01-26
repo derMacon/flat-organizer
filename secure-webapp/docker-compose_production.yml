@@ -13,7 +13,7 @@ services:
       - DEBUG=false
       - POSTGRES_USER=${DATABASE_USER}
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
-      - POSTGRES_DB=workshop_app
+      - POSTGRES_DB=flat_app
     volumes:
       - postgresql-data:/var/lib/postgresql
     restart: unless-stopped
@@ -24,11 +24,11 @@ services:
     depends_on:
       - postgreSQL
     ports:
-      - 8888:8080
+      - 8889:8080
     environment:
       - DATABASE_HOST=postgreSQL
       - DATABASE_USER=${DATABASE_USER}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-      - DATABASE_NAME=workshop_app
+      - DATABASE_NAME=flat_app
       - DATABASE_PORT=5432
       - spring.profiles.active=prod

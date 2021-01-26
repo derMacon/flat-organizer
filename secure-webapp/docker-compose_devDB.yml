@@ -13,7 +13,7 @@ services:
       - DEBUG=false
       - POSTGRES_USER=dev-user
       - POSTGRES_PASSWORD=dev-password
-      - POSTGRES_DB=workshop_app
+      - POSTGRES_DB=flat_app
     volumes:
       - postgresql-data:/var/lib/postgresql
     restart: unless-stopped
