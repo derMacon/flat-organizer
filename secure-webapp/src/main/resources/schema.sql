@@ -46,7 +46,7 @@ create table if not exists item
     item_name      varchar(500) not null,
     destination_id integer,
     foreign key (destination_id) references room (room_id),
-    status         bit
+    status         boolean
 );
 
 create table if not exists item_preset

@@ -24,7 +24,7 @@ public class AdminController {
     private ItemPresetRepository itemPresetRepository;
 
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String displayAdmin(Model model) {
         model.addAttribute("allFlatmates", flatmateService.getAllFlatmates());
         model.addAttribute("emptyLivingSpaces", flatmateService.findEmptyLivingSpaces());

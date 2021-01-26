@@ -41,9 +41,6 @@ public class Flatmate {
     @JoinColumn(name = "living_space_id")
     private LivingSpace livingSpace;
 
-    @ManyToMany (mappedBy = "responsibleFlatmates")
-    private Set<Task> tasks = new HashSet<>();
-
     public Flatmate() {}
 
     public Flatmate(AppUser user, String firstname, String surname, Date birthday,

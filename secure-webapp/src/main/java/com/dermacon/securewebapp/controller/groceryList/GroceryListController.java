@@ -47,9 +47,6 @@ public class GroceryListController {
     private LivingSpaceRepository livingSpaceRepository;
 
     @Autowired
-    private TaskRepository taskRepository;
-
-    @Autowired
     private ItemPresetRepository itemPresetRepository;
 
     @Autowired
