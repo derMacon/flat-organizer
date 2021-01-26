@@ -11,7 +11,7 @@
 	<groupId>com.dermacon</groupId>
 	<artifactId>workshop-organizer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>workshop-organizer</name>
+	<name>flat-organizer</name>
 	<description>Application to organize workshops</description>
 	<packaging>war</packaging>
 
@@ -79,7 +79,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<finalName>workshop-organizer</finalName>
+					<finalName>flat-organizer</finalName>
 				</configuration>
 			</plugin>
 		</plugins>
