@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Controller
 public class MyController {
 
-    @RequestMapping("/")
-    public String index() {
-        return "index";
-    }
+//    @RequestMapping("/")
+//    public String index() {
+//        return "index";
+//    }
 }

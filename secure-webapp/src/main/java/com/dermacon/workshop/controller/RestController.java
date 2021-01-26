@@ -10,15 +10,15 @@ import java.util.List;
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
 
-    @Autowired
-    private AppUserRepository appUserRepository;
-
-
-    @RequestMapping("/test")
-    public String test() {
-        List<String> result = new ArrayList<String>();
-        appUserRepository.findAll().forEach(e -> result.add(e.getUsername()));
-        return "test1: " + result;
-    }
+//    @Autowired
+//    private AppUserRepository appUserRepository;
+//
+//
+//    @RequestMapping("/test")
+//    public String test() {
+//        List<String> result = new ArrayList<String>();
+//        appUserRepository.findAll().forEach(e -> result.add(e.getUsername()));
+//        return "test1: " + result;
+//    }
 
 }
