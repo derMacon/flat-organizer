@@ -1,8 +1,7 @@
 package com.dermacon.securewebapp.controller;
 
-import com.dermacon.securewebapp.data.User;
-import com.dermacon.securewebapp.data.UserRepository;
-import com.dermacon.securewebapp.logger.LoggerSingleton;
+import com.dermacon.securewebapp.data.AppUser;
+import com.dermacon.securewebapp.data.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,25 +16,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-/**
- * Default controller handling all actions with no direct cohesion to the rest of the controller
- * components
- */
 @Controller
 public class DefaultController {
 
     @Autowired
-    UserRepository userRepository;
+    AppUserRepository userRepository;
 
     @RequestMapping("/")
     public String index() {
-        return "redirect:/groceryList";
+        return "redirect:/groceryList/";
     }
 
-    // todo is this really necessary
     @ModelAttribute
     public void addAttributes(Model model) {
-        List<User> users = (List<User>) userRepository.findAll();
+        List<AppUser> users = (List<AppUser>) userRepository.findAll();
 
         model.addAttribute("users", users);
     }

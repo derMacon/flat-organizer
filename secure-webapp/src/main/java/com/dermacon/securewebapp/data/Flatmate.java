@@ -4,7 +4,6 @@ import org.hibernate.annotations.Cascade;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +26,7 @@ public class Flatmate {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    private User user;
+    private AppUser user;
 
     private String firstname;
 
@@ -42,12 +41,10 @@ public class Flatmate {
     @JoinColumn(name = "living_space_id")
     private LivingSpace livingSpace;
 
-    @ManyToMany (mappedBy = "responsibleFlatmates")
-    private Set<Task> tasks = new HashSet<>();
-
     public Flatmate() {}
 
-    public Flatmate(User user, String firstname, String surname, Date birthday, LivingSpace livingSpace) {
+    public Flatmate(AppUser user, String firstname, String surname, Date birthday,
+                    LivingSpace livingSpace) {
         this.user = user;
         this.firstname = firstname;
         this.surname = surname;
@@ -63,11 +60,11 @@ public class Flatmate {
         this.flatmateId = flatmateId;
     }
 
-    public User getUser() {
+    public AppUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(AppUser user) {
         this.user = user;
     }
 

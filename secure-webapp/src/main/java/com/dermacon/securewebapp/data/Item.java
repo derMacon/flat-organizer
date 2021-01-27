@@ -2,16 +2,12 @@ package com.dermacon.securewebapp.data;
 
 import org.apache.commons.pool2.BaseObject;
 import org.hibernate.annotations.Cascade;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Iterator;
 
 @Entity
 public class Item extends BaseObject implements Comparable {
@@ -38,6 +34,13 @@ public class Item extends BaseObject implements Comparable {
 
     public Item(long itemId, int itemCount, String itemName, Room destination, Boolean status) {
         this.itemId = itemId;
+        this.itemCount = itemCount;
+        this.itemName = itemName;
+        this.destination = destination;
+        this.status = status;
+    }
+
+    public Item(int itemCount, String itemName, Room destination, Boolean status) {
         this.itemCount = itemCount;
         this.itemName = itemName;
         this.destination = destination;
@@ -97,7 +100,7 @@ public class Item extends BaseObject implements Comparable {
 
     public boolean isValid() {
         return this.getItemCount() > 0
-                && !this.itemName.isBlank()
+//                && !this.itemName.isBlank()
                 && !this.itemName.isEmpty();
     }
 

@@ -1,19 +1,15 @@
 package com.dermacon.securewebapp.data;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.util.Set;
 
 @Entity
-public class User {
+public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,13 +23,46 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    public User() {}
+    public static class Builder {
+        private String username;
+        private String password;
+        private UserRole role;
 
-    public User(String username, String password, UserRole role) {
+        public Builder username(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public Builder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder role(UserRole role) {
+            this.role = role;
+            return this;
+        }
+
+        public AppUser build() {
+            return new AppUser(this);
+        }
+
+    }
+
+    private AppUser(Builder b) {
+        this.username = b.username;
+        this.password = b.password;
+        this.role = b.role;
+    }
+
+    public AppUser() {}
+
+    public AppUser(String username, String password, UserRole role) {
         this.username = username;
         this.password = password;
         this.role = role;
     }
+
 
     public long getUserId() {
         return userId;
@@ -68,6 +97,25 @@ public class User {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AppUser user = (AppUser) o;
+
+        if (username != null ? !username.equals(user.username) : user.username != null)
+            return false;
+        return role == user.role;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = username != null ? username.hashCode() : 0;
+        result = 31 * result + (role != null ? role.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "User{" +
                 "userId=" + userId +
@@ -77,3 +125,4 @@ public class User {
                 '}';
     }
 }
+

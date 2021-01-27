@@ -54,13 +54,22 @@ hs_err_pid*
 *.log
 *.log.*
 data_set.sql # private information
-
-# git secret files must be ignored
-**/data.sql
-
-# dart 
-pubspec.lock
-.dart_tool/
-.packages
-
+*/*/target/
+*/om.xml.tag
+*/om.xml.releaseBackup
+*/om.xml.versionsBackup
+*/om.xml.next
+*/elease.properties
+*/ependency-reduced-pom.xml
+*/uildNumber.properties
+*/mvn/timing.properties
+*/ https://github.com/takari/maven-wrapper#usage-without-binary-jar
+*/mvn/wrapper/maven-wrapper.jar
+.idea/
+*/.idea/
+*.iml
+*/*.iml
 .gitsecret/keys/random_seed
+
+# git-secret: all encrypted files must be ignored by main repository
+#.env

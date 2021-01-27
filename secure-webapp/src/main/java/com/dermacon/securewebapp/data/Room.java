@@ -16,13 +16,15 @@ public class Room {
     private int level;
     private String roomDescription;
 
-    Room() {
-    }
 
     public Room(int roomNumber, int level, String roomDescription) {
         this.roomNumber = roomNumber;
         this.level = level;
         this.roomDescription = roomDescription;
+    }
+
+    public Room() {
+
     }
 
     public long getRoomId() {

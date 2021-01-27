@@ -1,20 +1,19 @@
 package com.dermacon.securewebapp.data;
 
-import com.dermacon.securewebapp.security.user.ApplicationUserPermission;
-import org.hibernate.annotations.Cascade;
-import org.thymeleaf.expression.Sets;
+import com.dermacon.securewebapp.security.ApplicationUserPermission;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.dermacon.securewebapp.security.user.ApplicationUserPermission.*;
+import static com.dermacon.securewebapp.security.ApplicationUserPermission.*;
+
 
 public enum UserRole {
-    ROLE_USER(ITEM_READ, ITEM_WRITE),
-    ROLE_ADMIN(ITEM_READ, ITEM_WRITE, FLATMATE_READ, FLATMATE_WRITE);
+    ROLE_ANONYMOUS(),
+    ROLE_USER(COURSE_READ),
+    ROLE_MANAGER(COURSE_READ, COURSE_WRITE),
+    ROLE_ADMIN(COURSE_READ, COURSE_WRITE, PERSON_READ, PERSON_WRITE);
 
     private final Set<ApplicationUserPermission> permissions;
 
@@ -26,3 +25,4 @@ public enum UserRole {
         return permissions;
     }
 }
+

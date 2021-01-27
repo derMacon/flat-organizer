@@ -32,7 +32,8 @@ public class WebSecurityConfig {
         protected void configure(HttpSecurity http) throws Exception {
             // todo permit /api/admin/ only for admin users
             http
-                    .antMatcher("/api/groceryList/*")
+                    .csrf().disable()
+                    .antMatcher("/api/**")
                         .authorizeRequests()
                         .anyRequest()
                         .hasAnyRole("USER", "ADMIN")
@@ -74,13 +75,20 @@ public class WebSecurityConfig {
         public void configure(HttpSecurity http) throws Exception {
             http
                     .authorizeRequests()
-                    .antMatchers("/noSecurity", "/css/*").permitAll()
-                    .antMatchers("/test").hasRole("ADMIN")
+                    .antMatchers("/help", "/registration/**", "/css/**").permitAll()
+                    .antMatchers("/courses/all").hasAnyRole("USER", "MANAGER", "ADMIN")
+                    .antMatchers("/courses/enrolled").hasAnyRole("USER", "MANAGER")
+                    .antMatchers("/courses/created").hasRole("MANAGER")
+                    .antMatchers("/manager/**").hasAnyRole("MANAGER", "ADMIN")
+                    .antMatchers("/admin/**").hasRole("ADMIN")
+                    .antMatchers("/css/**").permitAll()
                     .anyRequest()
                     .authenticated()
                     .and()
                     .formLogin()
                     .permitAll()
+                    .and()
+                    .exceptionHandling().accessDeniedPage("/accessDenied")
                     .and()
                     .rememberMe()
                     .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(100))

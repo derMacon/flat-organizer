@@ -10,19 +10,19 @@
 
 <form action="#" method="post"
       th:action="@{/groceryList/admin/createFlatmate}"
-      th:object="${inputFlatmate}"
+      th:object="${inputPerson}"
       th:placeholder="Person">
 
     <div class="form-group">
         <input class="form-control" th:field="*{firstname}"
-               th:value="${inputFlatmate.firstname}"
+               th:value="${inputPerson.firstname}"
                th:placeholder="Vorname"
                type="text"/>
     </div>
 
     <div class="form-group">
         <input class="form-control" th:field="*{surname}"
-               th:value="${inputFlatmate.surname}"
+               th:value="${inputPerson.surname}"
                th:placeholder="Nachname"
                type="text"/>
     </div>
@@ -30,7 +30,7 @@
     <div class="form-group">
         <label>Geburtstag:</label>
         <input class="form-control" th:field="*{birthday}"
-               th:value="${inputFlatmate.birthday}"
+               th:value="${inputPerson.birthday}"
                th:placeholder="birthday"
                type="date"/>
     </div>
@@ -38,7 +38,7 @@
     <div class="form-group">
         <label>Zimmer:</label>
         <select class="form-control selectableElement"
-                th:field="*{livingSpace.livingSpaceId}">
+                th:field="*{livingSpaceId}">
             <option th:each="currRoom : ${emptyLivingSpaces}"
                     th:value="${currRoom.livingSpaceId}"
                     th:text="${currRoom.bedroom.roomDescription} + ' (' + ${currRoom.bedroom.level} + '. OG)'"></option>

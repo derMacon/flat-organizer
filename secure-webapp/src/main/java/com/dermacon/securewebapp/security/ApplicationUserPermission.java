@@ -1,4 +1,4 @@
-package com.dermacon.securewebapp.security.user;
+package com.dermacon.securewebapp.security;
 
 public enum ApplicationUserPermission {
     COURSE_READ("course:read"),

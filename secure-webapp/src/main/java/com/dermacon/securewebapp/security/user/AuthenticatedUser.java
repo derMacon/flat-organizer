@@ -1,26 +1,20 @@
 package com.dermacon.securewebapp.security.user;
 
-import com.dermacon.securewebapp.data.User;
+import com.dermacon.securewebapp.data.AppUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Objects;
 
-public class AuthenticatedUser extends User implements UserDetails {
+public class AuthenticatedUser extends AppUser implements UserDetails {
 
-    protected AuthenticatedUser(User user) {
+    protected AuthenticatedUser(AppUser user) {
         super(user.getUsername(), user.getPassword(), user.getRole());
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        String[] values = this.userRole.stream().map(Objects::toString).toArray(String[]::new);
-//        return AuthorityUtils.createAuthorityList(values);
-
-//        return AuthorityUtils.createAuthorityList("ROLE_USER");
-
         return AuthorityUtils.createAuthorityList(this.getRole().name());
     }
 
