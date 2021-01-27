@@ -42,7 +42,7 @@ public class InputItem {
 
     public boolean isValid() {
         return this.getItemCount() > 0
-                && !this.itemName.isBlank()
+//                && !this.itemName.isBlank()
                 && !this.itemName.isEmpty();
     }
 }
