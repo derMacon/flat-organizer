@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -149,6 +150,7 @@ public class ItemService {
             alreadySavedItem.setItemCount(item.getItemCount() + alreadySavedItem.getItemCount());
             LoggerSingleton.getInstance().info("overwrites already saved item: " + item);
         } else {
+            randomizeID(item); // maybe this can still interfere with other db table entity ids???
             itemRepository.save(item);
             LoggerSingleton.getInstance().info("no existing item entity, persist new: " + item);
         }
@@ -164,13 +166,22 @@ public class ItemService {
         Item out = null;
 
         for (Item currItem : itemRepository.findAll()) {
-            if (currItem.equals(inputItem)
-                    && currItem.getItemId() != inputItem.getItemId()) {
+            if (currItem.equals(inputItem)) {
                 out = currItem;
             }
         }
 
         return out;
+    }
+
+    private void randomizeID(Item it) {
+        if (itemRepository.existsById(it.getItemId())) {
+            Random r = new Random();
+            do {
+                it.setItemId(r.nextInt(30000));
+            } while (itemRepository.existsById(it.getItemId()));
+
+        }
     }
 
 

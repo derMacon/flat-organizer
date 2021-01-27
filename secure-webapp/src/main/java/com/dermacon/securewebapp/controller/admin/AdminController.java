@@ -48,7 +48,7 @@ public class AdminController {
             // todo handling error
             System.out.println("todo handle error - AdminController, createNewFlatmate_post");
         }
-        return "redirect:/groceryList/admin/";
+        return "redirect:/groceryList/admin/main";
     }
 
 
