@@ -1,7 +1,4 @@
-version: '3'
-
-volumes:
-  postgresql-data:
+version: '3.1'
 
 services:
 
@@ -15,7 +12,7 @@ services:
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
       - POSTGRES_DB=flat_app
     volumes:
-      - postgresql-data:/var/lib/postgresql
+      - db-data:/var/lib/postgresql
     restart: unless-stopped
 
   myapp-main:
@@ -32,3 +29,8 @@ services:
       - DATABASE_NAME=flat_app
       - DATABASE_PORT=5432
       - spring.profiles.active=prod
+
+volumes:
+  db-data:
+    external: true
+

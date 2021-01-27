@@ -14,31 +14,12 @@ On the admin page it is possible to remove an user from the app and modify the i
 ![screenshot](images/screenshot_03.png)
 ![screenshot](images/screenshot_02.png)
 
-## Frameworks
+## Technologies
+* Docker
 * Spring Boot
 * Hibernate
 * Bootstrap 4
 * Thymeleaf
-
-## Roadmap
-* [x] Setup Apache Server
-* [x] Setup mySql Database Server
-* [x] Create database schema
-* [x] Create Spring dummy project
-   * deploy it on server
-* [x] Grocery list backend
-* [x] Secure form login (spring security starter)
-* [x] Thymeleaf template frontend
-* [x] Admin page back- / Frontend (Bootstrap)
-* [x] Present project to roomates (first official release)
-* [x] Create demo version for showcasing
-   * [ ] Update main page with bootstrap components
-* [x] Hash Passwords (BCrypt)
-* [x] Create secure endpoints
-* [ ] Create groceryList api
-* [ ] Create admin api
-* [x] Create Flutter demo app
-* [ ] Create Flutter mobile app
 
 ## Database Schema
 ![schema](database_schema/db_schema.png)
