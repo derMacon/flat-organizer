@@ -1,8 +1,5 @@
 version: '3'
 
-volumes:
-  postgresql-data:
-
 services:
 
   postgreSQL:
@@ -15,5 +12,9 @@ services:
       - POSTGRES_PASSWORD=dev-password
       - POSTGRES_DB=flat_app
     volumes:
-      - postgresql-data:/var/lib/postgresql/data
+      - dev-data:/var/lib/postgresql/data
     restart: unless-stopped
+
+volumes:
+  dev-data:
+

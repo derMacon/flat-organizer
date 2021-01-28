@@ -57,7 +57,7 @@ public class AdminController {
         // foreach flatmate first remove user and then the entity itself
         selectedFlatmateIds.getCheckedElements().stream()
                 .forEach(flatmateService::saveDeleteFlatmate);
-        return "redirect:/groceryList/admin/";
+        return "redirect:/groceryList/admin/main";
     }
 
 
