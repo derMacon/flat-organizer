@@ -1,7 +1,7 @@
 # flat-organizer
 Website used for coordination with roommates in larger flats.
 
-Feel free to test the following dummy project.
+Feel free to test the following dummy project. **(not deployed at the moment)**
 * Live Server (Dummy): http://168.119.120.2:8080/flat-organizer-demo/groceryList/
     * user: *user1*
     * password: *surname0101*
