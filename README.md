@@ -1,8 +1,8 @@
 # flat-organizer
 Website used for coordination with roommates in larger flats.
 
-Feel free to test the following dummy project. **(not deployed at the moment)**
-* Live Server (Dummy): http://168.119.120.2:8080/flat-organizer-demo/groceryList/
+Feel free to take a look at the following dummy project.
+* Live Server (Dummy): http://195.201.129.117:8890/flat-organizer/
     * user: *user1*
     * password: *surname0101*
 
@@ -15,11 +15,12 @@ On the admin page it is possible to remove an user from the app and modify the i
 ![screenshot](images/screenshot_02.png)
 
 ## Technologies
-* Docker
+* Docker (docker-compose)
 * Spring Boot
 * Hibernate
 * Bootstrap 4
 * Thymeleaf
+* git secret
 
 ## Database Schema
 ![schema](database_schema/db_schema.png)
