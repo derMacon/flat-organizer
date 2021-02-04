@@ -11,7 +11,7 @@ services:
       - DEBUG=false
       - POSTGRES_USER=${DATABASE_USER}
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
-      - POSTGRES_DB=flat_app
+      - POSTGRES_DB=flat_app_demo
     volumes:
       - db-data-demo:/var/lib/postgresql/data
     restart: unless-stopped
@@ -24,10 +24,10 @@ services:
     ports:
       - 8890:8080
     environment:
-      - DATABASE_HOST=postgreSQL
+      - DATABASE_HOST=postgreSQL-demo
       - DATABASE_USER=${DATABASE_USER}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-      - DATABASE_NAME=flat_app
+      - DATABASE_NAME=flat_app_demo
       - DATABASE_PORT=5556
       - spring.profiles.active=prod
 
