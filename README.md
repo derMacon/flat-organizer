@@ -28,3 +28,4 @@ On the admin page it is possible to remove an user from the app and modify the i
 ### ⚠️ Incomplete configuration
 * For privacy reasons the [data set](./secure-webapp/src/main/resources/data.sql) for the database may be incomplete in this public repository.
 * The [credentials](./secure-webapp/src/main/resources/application.properties) for the database must also be filled out before the application can start. 
+

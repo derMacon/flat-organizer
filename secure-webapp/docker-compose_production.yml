@@ -2,35 +2,35 @@ version: '3'
 
 services:
 
-  postgreSQL:
+  postgreSQL-demo:
     image: postgres:13-alpine
     ports:
-      - 5555:5555
-    command: -p 5555
+      - 5556:5556
+    command: -p 5556
     environment:
       - DEBUG=false
       - POSTGRES_USER=${DATABASE_USER}
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
-      - POSTGRES_DB=flat_app
+      - POSTGRES_DB=flat_app_demo
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - db-data-demo:/var/lib/postgresql/data
     restart: unless-stopped
 
-  myapp-main:
+  myapp-main-demo:
     build: .
     restart: on-failure
     depends_on:
-      - postgreSQL
+      - postgreSQL-demo
     ports:
-      - 8889:8080
+      - 8890:8080
     environment:
-      - DATABASE_HOST=postgreSQL
+      - DATABASE_HOST=postgreSQL-demo
       - DATABASE_USER=${DATABASE_USER}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-      - DATABASE_NAME=flat_app
-      - DATABASE_PORT=5555
+      - DATABASE_NAME=flat_app_demo
+      - DATABASE_PORT=5556
       - spring.profiles.active=prod
 
 volumes:
-  db-data: {}
+  db-data-demo: {}
 
